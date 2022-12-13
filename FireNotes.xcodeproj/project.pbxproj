@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		97F8F1D82948F3C100F3B9CB /* FireNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D72948F3C100F3B9CB /* FireNotesApp.swift */; };
-		97F8F1DA2948F3C100F3B9CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D92948F3C100F3B9CB /* ContentView.swift */; };
+		97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D72948F3C100F3B9CB /* Main.swift */; };
+		97F8F1DA2948F3C100F3B9CB /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D92948F3C100F3B9CB /* AppView.swift */; };
 		97F8F1DC2948F3C400F3B9CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */; };
 		97F8F1DF2948F3C400F3B9CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */; };
+		97F8F1E72948F48500F3B9CB /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 97F8F1E62948F48500F3B9CB /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		97F8F1D42948F3C100F3B9CB /* FireNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		97F8F1D72948F3C100F3B9CB /* FireNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireNotesApp.swift; sourceTree = "<group>"; };
-		97F8F1D92948F3C100F3B9CB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		97F8F1D72948F3C100F3B9CB /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		97F8F1D92948F3C100F3B9CB /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -26,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97F8F1E72948F48500F3B9CB /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,8 +53,8 @@
 		97F8F1D62948F3C100F3B9CB /* FireNotes */ = {
 			isa = PBXGroup;
 			children = (
-				97F8F1D72948F3C100F3B9CB /* FireNotesApp.swift */,
-				97F8F1D92948F3C100F3B9CB /* ContentView.swift */,
+				97F8F1D72948F3C100F3B9CB /* Main.swift */,
+				97F8F1D92948F3C100F3B9CB /* AppView.swift */,
 				97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */,
 				97F8F1DD2948F3C400F3B9CB /* Preview Content */,
 			);
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = FireNotes;
+			packageProductDependencies = (
+				97F8F1E62948F48500F3B9CB /* ComposableArchitecture */,
+			);
 			productName = FireNotes;
 			productReference = 97F8F1D42948F3C100F3B9CB /* FireNotes.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 97F8F1CB2948F3C100F3B9CB;
+			packageReferences = (
+				97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 97F8F1D52948F3C100F3B9CB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +145,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97F8F1DA2948F3C100F3B9CB /* ContentView.swift in Sources */,
-				97F8F1D82948F3C100F3B9CB /* FireNotesApp.swift in Sources */,
+				97F8F1DA2948F3C100F3B9CB /* AppView.swift in Sources */,
+				97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +347,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		97F8F1E62948F48500F3B9CB /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97F8F1CC2948F3C100F3B9CB /* Project object */;
 }
