@@ -4,7 +4,7 @@ import SwiftUI
 struct FireNotesApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView()
+          AppView()
         }
     }
 }

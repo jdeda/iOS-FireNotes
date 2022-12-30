@@ -7,17 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		977322BB295CB40C0059B309 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BA295CB40C0059B309 /* AppView.swift */; };
+		977322BD295CB4170059B309 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BC295CB4170059B309 /* NoteView.swift */; };
 		97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D72948F3C100F3B9CB /* Main.swift */; };
-		97F8F1DA2948F3C100F3B9CB /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D92948F3C100F3B9CB /* AppView.swift */; };
 		97F8F1DC2948F3C400F3B9CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */; };
 		97F8F1DF2948F3C400F3B9CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */; };
-		97F8F1E72948F48500F3B9CB /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 97F8F1E62948F48500F3B9CB /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		977322BA295CB40C0059B309 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		977322BC295CB4170059B309 /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		97F8F1D42948F3C100F3B9CB /* FireNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F8F1D72948F3C100F3B9CB /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
-		97F8F1D92948F3C100F3B9CB /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -27,7 +28,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97F8F1E72948F48500F3B9CB /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,7 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				97F8F1D72948F3C100F3B9CB /* Main.swift */,
-				97F8F1D92948F3C100F3B9CB /* AppView.swift */,
+				977322BA295CB40C0059B309 /* AppView.swift */,
+				977322BC295CB4170059B309 /* NoteView.swift */,
 				97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */,
 				97F8F1DD2948F3C400F3B9CB /* Preview Content */,
 			);
@@ -86,7 +87,6 @@
 			);
 			name = FireNotes;
 			packageProductDependencies = (
-				97F8F1E62948F48500F3B9CB /* ComposableArchitecture */,
 			);
 			productName = FireNotes;
 			productReference = 97F8F1D42948F3C100F3B9CB /* FireNotes.app */;
@@ -117,7 +117,6 @@
 			);
 			mainGroup = 97F8F1CB2948F3C100F3B9CB;
 			packageReferences = (
-				97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 97F8F1D52948F3C100F3B9CB /* Products */;
 			projectDirPath = "";
@@ -145,8 +144,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97F8F1DA2948F3C100F3B9CB /* AppView.swift in Sources */,
+				977322BB295CB40C0059B309 /* AppView.swift in Sources */,
 				97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */,
+				977322BD295CB4170059B309 /* NoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +203,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -257,7 +257,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -277,12 +277,14 @@
 				DEVELOPMENT_ASSET_PATHS = "\"FireNotes/Preview Content\"";
 				DEVELOPMENT_TEAM = ME637H7ZM9;
 				ENABLE_PREVIEWS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -292,7 +294,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -306,12 +308,14 @@
 				DEVELOPMENT_ASSET_PATHS = "\"FireNotes/Preview Content\"";
 				DEVELOPMENT_TEAM = ME637H7ZM9;
 				ENABLE_PREVIEWS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,7 +325,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -347,25 +351,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		97F8F1E62948F48500F3B9CB /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 97F8F1E52948F48500F3B9CB /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97F8F1CC2948F3C100F3B9CB /* Project object */;
 }
