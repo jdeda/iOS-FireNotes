@@ -1,15 +1,26 @@
-//
-//  AppView.swift
-//  FireNotes
-//
-//  Created by Jesse Deda on 12/28/22.
-//
-
 import SwiftUI
+
+//enum Destination {
+//  case Auth
+//  case Home
+//  case Folder
+//  case Note
+//}
+
+/**
+  NavigationPaths
+      Auth -------- Home ----| ---
+       |                                  | ------- Folder  ------- Note
+      Home -------------------|---
+ */
 
 struct AppView: View {
     var body: some View {
-      NoteView()
+      NavigationView {
+        NavigationLink.init("Nice") {
+          NoteView()
+        }
+      }
     }
 }
 

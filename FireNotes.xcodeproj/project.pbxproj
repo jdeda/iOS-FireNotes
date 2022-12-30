@@ -8,7 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		977322BB295CB40C0059B309 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BA295CB40C0059B309 /* AppView.swift */; };
-		977322BD295CB4170059B309 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BC295CB4170059B309 /* NoteView.swift */; };
+		97F27B0E295F4034008FB09B /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 97F27B0D295F4034008FB09B /* SwiftUINavigation */; };
+		97F27B10295F4034008FB09B /* _SwiftUINavigationState in Frameworks */ = {isa = PBXBuildFile; productRef = 97F27B0F295F4034008FB09B /* _SwiftUINavigationState */; };
+		97F27B14295F43BF008FB09B /* Folder+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B13295F43BF008FB09B /* Folder+View.swift */; };
+		97F27B16295F55C2008FB09B /* Searchbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B15295F55C2008FB09B /* Searchbar.swift */; };
+		97F27B18295F6FB7008FB09B /* Home+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B17295F6FB7008FB09B /* Home+View.swift */; };
+		97F27B1D295F7688008FB09B /* Note+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B1C295F7688008FB09B /* Note+View.swift */; };
+		97F27B1F295F7690008FB09B /* Note+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B1E295F7690008FB09B /* Note+Model.swift */; };
+		97F27B21295F76CA008FB09B /* Folder+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B20295F76CA008FB09B /* Folder+Model.swift */; };
+		97F27B23295F7771008FB09B /* Home+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B22295F7771008FB09B /* Home+Model.swift */; };
 		97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F8F1D72948F3C100F3B9CB /* Main.swift */; };
 		97F8F1DC2948F3C400F3B9CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */; };
 		97F8F1DF2948F3C400F3B9CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */; };
@@ -16,7 +24,13 @@
 
 /* Begin PBXFileReference section */
 		977322BA295CB40C0059B309 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
-		977322BC295CB4170059B309 /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
+		97F27B13295F43BF008FB09B /* Folder+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+View.swift"; sourceTree = "<group>"; };
+		97F27B15295F55C2008FB09B /* Searchbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchbar.swift; sourceTree = "<group>"; };
+		97F27B17295F6FB7008FB09B /* Home+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+View.swift"; sourceTree = "<group>"; };
+		97F27B1C295F7688008FB09B /* Note+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+View.swift"; sourceTree = "<group>"; };
+		97F27B1E295F7690008FB09B /* Note+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+Model.swift"; sourceTree = "<group>"; };
+		97F27B20295F76CA008FB09B /* Folder+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Model.swift"; sourceTree = "<group>"; };
+		97F27B22295F7771008FB09B /* Home+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+Model.swift"; sourceTree = "<group>"; };
 		97F8F1D42948F3C100F3B9CB /* FireNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F8F1D72948F3C100F3B9CB /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,12 +42,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97F27B10295F4034008FB09B /* _SwiftUINavigationState in Frameworks */,
+				97F27B0E295F4034008FB09B /* SwiftUINavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		97F27B19295F7633008FB09B /* NoteFeature */ = {
+			isa = PBXGroup;
+			children = (
+				97F27B1C295F7688008FB09B /* Note+View.swift */,
+				97F27B1E295F7690008FB09B /* Note+Model.swift */,
+			);
+			path = NoteFeature;
+			sourceTree = "<group>";
+		};
+		97F27B1A295F7641008FB09B /* FolderFeature */ = {
+			isa = PBXGroup;
+			children = (
+				97F27B13295F43BF008FB09B /* Folder+View.swift */,
+				97F27B20295F76CA008FB09B /* Folder+Model.swift */,
+			);
+			path = FolderFeature;
+			sourceTree = "<group>";
+		};
+		97F27B1B295F7662008FB09B /* HomeFeature */ = {
+			isa = PBXGroup;
+			children = (
+				97F27B17295F6FB7008FB09B /* Home+View.swift */,
+				97F27B22295F7771008FB09B /* Home+Model.swift */,
+			);
+			path = HomeFeature;
+			sourceTree = "<group>";
+		};
 		97F8F1CB2948F3C100F3B9CB = {
 			isa = PBXGroup;
 			children = (
@@ -55,7 +98,10 @@
 			children = (
 				97F8F1D72948F3C100F3B9CB /* Main.swift */,
 				977322BA295CB40C0059B309 /* AppView.swift */,
-				977322BC295CB4170059B309 /* NoteView.swift */,
+				97F27B1B295F7662008FB09B /* HomeFeature */,
+				97F27B1A295F7641008FB09B /* FolderFeature */,
+				97F27B19295F7633008FB09B /* NoteFeature */,
+				97F27B15295F55C2008FB09B /* Searchbar.swift */,
 				97F8F1DB2948F3C400F3B9CB /* Assets.xcassets */,
 				97F8F1DD2948F3C400F3B9CB /* Preview Content */,
 			);
@@ -87,6 +133,8 @@
 			);
 			name = FireNotes;
 			packageProductDependencies = (
+				97F27B0D295F4034008FB09B /* SwiftUINavigation */,
+				97F27B0F295F4034008FB09B /* _SwiftUINavigationState */,
 			);
 			productName = FireNotes;
 			productReference = 97F8F1D42948F3C100F3B9CB /* FireNotes.app */;
@@ -117,6 +165,7 @@
 			);
 			mainGroup = 97F8F1CB2948F3C100F3B9CB;
 			packageReferences = (
+				97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = 97F8F1D52948F3C100F3B9CB /* Products */;
 			projectDirPath = "";
@@ -146,7 +195,13 @@
 			files = (
 				977322BB295CB40C0059B309 /* AppView.swift in Sources */,
 				97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */,
-				977322BD295CB4170059B309 /* NoteView.swift in Sources */,
+				97F27B16295F55C2008FB09B /* Searchbar.swift in Sources */,
+				97F27B18295F6FB7008FB09B /* Home+View.swift in Sources */,
+				97F27B14295F43BF008FB09B /* Folder+View.swift in Sources */,
+				97F27B21295F76CA008FB09B /* Folder+Model.swift in Sources */,
+				97F27B1F295F7690008FB09B /* Note+Model.swift in Sources */,
+				97F27B23295F7771008FB09B /* Home+Model.swift in Sources */,
+				97F27B1D295F7688008FB09B /* Note+View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +406,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		97F27B0D295F4034008FB09B /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = SwiftUINavigation;
+		};
+		97F27B0F295F4034008FB09B /* _SwiftUINavigationState */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = _SwiftUINavigationState;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97F8F1CC2948F3C100F3B9CB /* Project object */;
 }
