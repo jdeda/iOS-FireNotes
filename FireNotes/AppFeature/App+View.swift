@@ -21,7 +21,7 @@ struct AppView: View {
   var body: some View {
     NavigationView {
       NavigationLink("Nice") {
-        NoteView()
+        FolderView()
       }
     }
   }

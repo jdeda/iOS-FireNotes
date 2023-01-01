@@ -43,12 +43,14 @@ struct Note: Identifiable {
   var lastEditDate: Date
   
   
+  // String representation of a date in "YY/MM/dd" format
   var formattedDate: String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YY/MM/dd"
     return dateFormatter.string(from: lastEditDate)
   }
   
+  // String representation of a date in "EEEE, MMM d, yyyy" format
   var formattedDateVerbose: String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "EEEE, MMM d, yyyy"

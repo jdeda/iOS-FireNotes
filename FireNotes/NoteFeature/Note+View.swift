@@ -46,7 +46,6 @@ struct NoteView: View {
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
         let shouldEditTitle = vm.note.title.trimmingCharacters(in: .whitespaces) == ""
         self.focus = shouldEditTitle ? .title : .body
-        print(shouldEditTitle)
       }
     }
     //    .bind(self.$vm.focus, to: self.$focus)

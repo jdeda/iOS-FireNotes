@@ -12,8 +12,10 @@ final class FolderViewModel: ObservableObject {
   
   @Published var search: String = "Search"
   
+  @Published var destination: Destination?
+  
   func addNoteButtonTappped() {
-
+    self.destination = .Note
   }
   
   func tappedUserOptionsButton() {
@@ -23,7 +25,8 @@ final class FolderViewModel: ObservableObject {
 
 extension FolderViewModel {
   enum Destination {
-    case Note(Note)
+    case Note
+//    case Note(Note)
     case Home
   }
 }

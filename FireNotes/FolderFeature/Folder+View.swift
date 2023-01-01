@@ -37,8 +37,8 @@ struct FolderView: View {
         UITableView.appearance().contentInset.top = -35
       }
       
-      
     }
+    
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
         Button {
