@@ -1,14 +1,38 @@
 import Foundation
+import SwiftUI
 
 final class NoteViewModel: ObservableObject {
-  @Published var note: Note = .init(id: UUID(), title: "New Untitled Note", body: "", lastEditDate: Date())
+  @Published var note: Note
+  @Published var destination: Destination?
+//  @Published var focus: Focus?
   
-  func tappedOptionsButton() {
-    
+  init(
+    note: Note = .init(id: UUID(), title: "New Untitled Note", body: "", lastEditDate: Date()),
+    destination: Destination? = nil
+//    focus: Focus? = .title
+  ) {
+    self.note = note
+    self.destination = destination
+//    self.focus = focus
+  }
+  
+  func tappedUserOptionsButton() {
+    self.destination = .UserOptionsSheet
   }
   
   func addNoteButtonTappped() {
     
+  }
+}
+
+extension NoteViewModel {
+  enum Destination {
+    case UserOptionsSheet
+  }
+  
+  enum Focus: Hashable {
+    case title
+    case body
   }
 }
 

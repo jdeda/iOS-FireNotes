@@ -32,7 +32,7 @@ struct HomeView: View {
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
         Button {
-          vm.tappedOptionsButton()
+          vm.tappedUserOptionsButton()
         } label: {
           Image(systemName: "ellipsis.circle")
         }

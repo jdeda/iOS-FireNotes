@@ -1,7 +1,7 @@
 import Foundation
 
 final class FolderViewModel: ObservableObject {
-  @Published var folder: Folder = .init(id: UUID(), name: "Foo", notes: (1...10).map {
+  @Published var folder: Folder = .init(id: UUID(), name: "Folder 1", notes: (1...10).map {
     .init(
       id: UUID(),
       title: "Note \($0)",
@@ -16,7 +16,7 @@ final class FolderViewModel: ObservableObject {
 
   }
   
-  func tappedOptionsButton() {
+  func tappedUserOptionsButton() {
     
   }
 }

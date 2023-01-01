@@ -21,7 +21,7 @@ final class HomeViewModel: ObservableObject {
     
   }
   
-  func tappedOptionsButton() {
+  func tappedUserOptionsButton() {
     
   }
 }
