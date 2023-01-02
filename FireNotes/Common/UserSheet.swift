@@ -30,7 +30,7 @@ struct UserSheet: View {
 
 struct UserSheet_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationView {
+    NavigationStack {
       UserSheet()
     }
   }

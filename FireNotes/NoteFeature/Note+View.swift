@@ -6,19 +6,26 @@ struct NoteView: View {
   @FocusState var focus: NoteViewModel.Focus?
   
   var body: some View {
-    VStack {
-      Text(vm.note.formattedDateVerbose)
-        .font(.caption)
-        .foregroundColor(.secondary)
-      
-      TextField(vm.note.title, text: $vm.note.title)
-        .font(.system(size: 34, weight: .bold))
-        .focused(self.$focus, equals: .title)
-      
-      TextEditor(text: $vm.note.body)
-        .focused(self.$focus, equals: .body)
+    ScrollView {
+      VStack(alignment: .leading) {
+        TextField("", text: $vm.note.title, axis: .vertical)
+          .font(.system(size: 34, weight: .bold))
+          .focused(self.$focus, equals: .title)
+          .scrollDisabled(true)
+        
+        Text(vm.note.formattedDateVerbose)
+          .font(.caption)
+          .foregroundColor(.secondary)
+          .scrollDisabled(true)
+        
+        TextField("", text: $vm.note.body, axis: .vertical)
+          .focused(self.$focus, equals: .body)
+          .scrollDisabled(true)
+        
+        Spacer()
+      }
+      .padding([.leading, .trailing], 14)
     }
-    .padding([.leading, .trailing], 18)
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
         Button {
@@ -42,20 +49,12 @@ struct NoteView: View {
     ) { $bindingCase in
       UserSheet()
     }
-    .onAppear {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        let shouldEditTitle = vm.note.title.trimmingCharacters(in: .whitespaces) == ""
-        self.focus = shouldEditTitle ? .title : .body
-      }
-    }
-    //    .bind(self.$vm.focus, to: self.$focus)
-    .navigationBarTitle("")
   }
 }
 
 struct NoteView_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationView {
+    NavigationStack {
       NoteView()
     }
   }

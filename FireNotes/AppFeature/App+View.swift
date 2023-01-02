@@ -19,9 +19,9 @@ struct AppView: View {
   @FocusState var focus: Bool
   @State var text: String = "Nice"
   var body: some View {
-    NavigationView {
+    NavigationStack {
       NavigationLink("Nice") {
-        FolderView()
+        NoteView()
       }
     }
   }

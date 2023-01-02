@@ -7,7 +7,7 @@ final class NoteViewModel: ObservableObject {
 //  @Published var focus: Focus?
   
   init(
-    note: Note = .init(id: UUID(), title: "New Untitled Note", body: "", lastEditDate: Date()),
+    note: Note = .init(id: UUID(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
     destination: Destination? = nil
 //    focus: Focus? = .title
   ) {
@@ -50,11 +50,11 @@ struct Note: Identifiable {
     return dateFormatter.string(from: lastEditDate)
   }
   
-  // String representation of a date in "EEEE, MMM d, yyyy" format
+  // String representation of a date in "EEEE MMM d, yyyy, h:mm a" format
   var formattedDateVerbose: String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "EEEE, MMM d, yyyy"
-    return dateFormatter.string(from: lastEditDate)
+    dateFormatter.dateFormat = "EEEE MMM d, yyyy, h:mm a"
+    return "Created \(dateFormatter.string(from: lastEditDate))"
   }
   
   // Gets the first few words of the body, or none.
