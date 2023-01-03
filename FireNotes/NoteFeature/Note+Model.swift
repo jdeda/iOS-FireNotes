@@ -4,16 +4,16 @@ import SwiftUI
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
   @Published var destination: Destination?
-//  @Published var focus: Focus?
+  @Published var focus: Focus?
   
   init(
     note: Note = .init(id: UUID(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
-    destination: Destination? = nil
-//    focus: Focus? = .title
+    destination: Destination? = nil,
+    focus: Focus? = .title
   ) {
     self.note = note
     self.destination = destination
-//    self.focus = focus
+    self.focus = focus
   }
   
   func tappedUserOptionsButton() {

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUINavigation
 
 struct HomeView: View {
   @ObservedObject var vm: HomeViewModel = .init()
@@ -8,8 +9,10 @@ struct HomeView: View {
       Text("Folders")
         .font(.system(size: 34, weight: .bold))
         .padding([.leading], 18)
+      
       Searchbar(searchText: $vm.search)
         .padding([.leading, .trailing], 18)
+      
       List {
         ForEach(vm.folders) { folder in
           HStack(alignment: .firstTextBaseline) {
@@ -21,13 +24,16 @@ struct HomeView: View {
               .foregroundColor(.secondary)
           }
         }
+        .onDelete(perform: vm.delete)
         .listRowBackground(Color(UIColor.systemGray6))
       }
-      .padding([.top], 0)
-      .onAppear {
-        UITableView.appearance().backgroundColor = UIColor.clear
-        UITableView.appearance().contentInset.top = -35
-      }
+      .scrollContentBackground(Visibility.hidden)
+    }
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /HomeViewModel.Destination.Folder
+    ) { $folderVM in
+      FolderView(vm: folderVM)
     }
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
@@ -44,7 +50,7 @@ struct HomeView: View {
           Image(systemName: "folder.badge.plus")
         }
         Spacer()
-        Text("\(vm.folders.count) folders")
+        Text("\(vm.folders.count) notes")
         Spacer()
         Button {
           vm.addNoteButtonTapped()

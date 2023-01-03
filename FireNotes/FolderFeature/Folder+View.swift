@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUINavigation
 
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel = .init()
@@ -21,7 +22,6 @@ struct FolderView: View {
               Text(note.formattedDate)
                 .font(.caption)
                 .foregroundColor(.secondary)
-                .frame(width: 50, alignment : .leading)
               
               Text(note.subTitle)
                 .font(.caption)
@@ -29,16 +29,17 @@ struct FolderView: View {
             }
           }
         }
+        .onDelete(perform: vm.delete)
         .listRowBackground(Color(UIColor.systemGray6))
       }
-      .padding([.top], 0)
-      .onAppear {
-        UITableView.appearance().backgroundColor = UIColor.clear
-        UITableView.appearance().contentInset.top = -35
-      }
-      
+      .scrollContentBackground(Visibility.hidden)
     }
-    
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.Note
+    ) { $noteVM in
+      NoteView(vm: noteVM)
+    }
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
         Button {

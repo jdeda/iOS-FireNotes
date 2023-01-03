@@ -46,9 +46,10 @@ struct NoteView: View {
     .sheet(
       unwrapping: $vm.destination,
       case: /NoteViewModel.Destination.UserOptionsSheet
-    ) { $bindingCase in
+    ) { _ in
       UserSheet()
     }
+    .bind(self.$vm.focus, to: self.$focus)
   }
 }
 
