@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftUINavigation
+import CasePaths
 
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel = .init()
@@ -13,11 +14,10 @@ struct FolderView: View {
       Searchbar(searchText: $vm.search)
         .padding([.leading, .trailing], 18)
       
-      List {
+      List(selection: $vm.select) {
         ForEach(vm.folder.notes) { note in
           VStack(alignment: .leading) {
             Text(note.title)
-            
             HStack {
               Text(note.formattedDate)
                 .font(.caption)
@@ -28,17 +28,25 @@ struct FolderView: View {
                 .foregroundColor(.secondary)
             }
           }
+          .tag(note.id)
         }
         .onDelete(perform: vm.delete)
+        .deleteDisabled(!vm.isEditing)
+//        .deleteDisabled(
+//          (/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil
+//        )
         .listRowBackground(Color(UIColor.systemGray6))
       }
       .scrollContentBackground(Visibility.hidden)
-    }
-    .navigationDestination(
-      unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.Note
-    ) { $noteVM in
-      NoteView(vm: noteVM)
+      .toolbar {
+        EditButton()
+//        Button {
+//          vm.editButtonTapped()
+//        } label: {
+//          let editing = (/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil
+//          Text(editing ? "Done" : "Edit")
+//        }
+      }
     }
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
@@ -59,7 +67,48 @@ struct FolderView: View {
           }
       }
     }
+    .environment(\.editMode, Binding(
+      get: {
+        ((/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil) ? .active : .inactive
+      },
+      set: { newValue in
+        if newValue == .inactive {
+          vm.destination = nil
+        }
+        else {
+          vm.destination = .Edit
+        }
+      }
+    ))
+//    .environment(\.editMode, Binding(
+//      get: {
+//        ((/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil) ? .active : .inactive
+//      },
+//      set: { _ in }
+//    ))
+//    .environment(\.editMode, Binding(
+//      get: {
+//        guard let editMode = (/FolderViewModel.Destination.Edit).extract(from: vm.destination)
+//        else { return .inactive }
+//        return editMode
+//      },
+//      set: { newValue in
+////        vm.destination = .Edit(newValue) // Naive.
+//        if newValue == .inactive {
+//          vm.destination = nil
+//        }
+//        else {
+//          vm.destination = .Edit(newValue)
+//        }
+//      }
+//    ))
     .navigationBarTitle("")
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.Note
+    ) { $noteVM in
+      NoteView(vm: noteVM)
+    }
   }
 }
 
@@ -70,3 +119,7 @@ struct FolderView_Previews: PreviewProvider {
     }
   }
 }
+
+
+
+

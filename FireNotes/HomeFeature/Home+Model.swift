@@ -14,7 +14,9 @@ let mockFolders: [Folder] = (1...20).map {
 final class HomeViewModel: ObservableObject {
   @Published var folders: [Folder]
   @Published var search: String
-  @Published var destination: Destination?
+  @Published var destination: Destination? {
+    didSet { self.bind() }
+  }
   
   init(
     folders: [Folder] = mockFolders,
@@ -24,6 +26,13 @@ final class HomeViewModel: ObservableObject {
     self.folders = folders
     self.search = search
     self.destination = destination
+  }
+  
+  func bind() {
+//    switch destination {
+//    case let .Folder(folderVM):
+//      break
+//    }
   }
   
   func addFolderButtonTappped() {

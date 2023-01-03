@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUINavigation
+import SwiftUI
 
 let mockFolder: Folder = .init(
   id: UUID(),
@@ -16,17 +17,31 @@ let mockFolder: Folder = .init(
 //MARK: - FolderViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
+  @Published var select: Set<UUID>
   @Published var search: String
   @Published var destination: Destination?
+  
+  var isEditing: Bool {
+    let yah = (/FolderViewModel.Destination.Edit).extract(from: destination) != nil
+    print(yah)
+    return yah
+  }
     
   init(
     folder: Folder = mockFolder,
+    select: Set<UUID> = [],
     search: String = "",
     destination: Destination? = nil
   ) {
     self.folder = folder
+    self.select = select
     self.search = search
     self.destination = destination
+  }
+  
+  func editButtonTapped() {
+    let editing = (/FolderViewModel.Destination.Edit).extract(from: destination) != nil
+    destination = editing ? nil : .Edit
   }
   
   func addNoteButtonTappped() {
@@ -51,6 +66,8 @@ final class FolderViewModel: ObservableObject {
 
 extension FolderViewModel {
   enum Destination {
+    case Edit
+//    case Edit(EditMode)
     case Note(NoteViewModel)
     case Home
   }
