@@ -35,6 +35,7 @@ struct FolderView: View {
           }
           .tag(note.id)
         }
+        .onMove(perform: vm.moveNote)
         .deleteDisabled(true)
         .listRowBackground(Color(UIColor.systemGray6))
       }
@@ -53,11 +54,11 @@ struct FolderView: View {
         Spacer()
         Text("\(vm.folder.notes.count) notes")
         Spacer()
-          Button {
-            vm.addNoteButtonTappped()
-          } label: {
-            Image(systemName: "square.and.pencil")
-          }
+        Button {
+          vm.addNoteButtonTappped()
+        } label: {
+          Image(systemName: "square.and.pencil")
+        }
       }
     }
     .navigationBarTitle("")

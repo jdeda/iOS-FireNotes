@@ -48,6 +48,10 @@ final class FolderViewModel: ObservableObject {
     
   }
   
+  func moveNote(from source: IndexSet, to destination: Int) {
+    folder.notes.move(fromOffsets: source, toOffset: destination)
+  }
+  
   func deleteNote(_ note: Note) {
     withAnimation {
       self.folder.notes.removeAll(where:  { $0.id == note.id })
