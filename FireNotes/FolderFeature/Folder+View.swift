@@ -28,25 +28,18 @@ struct FolderView: View {
                 .foregroundColor(.secondary)
             }
           }
+          .swipeActions(edge: .trailing) {
+            Button(role: .destructive, action: { vm.deleteNote(note) } ) {
+                  Label("Delete", systemImage: "trash")
+                }
+          }
           .tag(note.id)
         }
-        .onDelete(perform: vm.delete)
-        .deleteDisabled(!vm.isEditing)
-//        .deleteDisabled(
-//          (/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil
-//        )
+        .deleteDisabled(true)
         .listRowBackground(Color(UIColor.systemGray6))
       }
       .scrollContentBackground(Visibility.hidden)
-      .toolbar {
-        EditButton()
-//        Button {
-//          vm.editButtonTapped()
-//        } label: {
-//          let editing = (/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil
-//          Text(editing ? "Done" : "Edit")
-//        }
-      }
+      .toolbar { EditButton() }
     }
     .toolbar {
       ToolbarItemGroup(placement: .primaryAction) {
@@ -67,41 +60,6 @@ struct FolderView: View {
           }
       }
     }
-    .environment(\.editMode, Binding(
-      get: {
-        ((/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil) ? .active : .inactive
-      },
-      set: { newValue in
-        if newValue == .inactive {
-          vm.destination = nil
-        }
-        else {
-          vm.destination = .Edit
-        }
-      }
-    ))
-//    .environment(\.editMode, Binding(
-//      get: {
-//        ((/FolderViewModel.Destination.Edit).extract(from: vm.destination) != nil) ? .active : .inactive
-//      },
-//      set: { _ in }
-//    ))
-//    .environment(\.editMode, Binding(
-//      get: {
-//        guard let editMode = (/FolderViewModel.Destination.Edit).extract(from: vm.destination)
-//        else { return .inactive }
-//        return editMode
-//      },
-//      set: { newValue in
-////        vm.destination = .Edit(newValue) // Naive.
-//        if newValue == .inactive {
-//          vm.destination = nil
-//        }
-//        else {
-//          vm.destination = .Edit(newValue)
-//        }
-//      }
-//    ))
     .navigationBarTitle("")
     .navigationDestination(
       unwrapping: $vm.destination,

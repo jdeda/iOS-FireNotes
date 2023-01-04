@@ -20,12 +20,6 @@ final class FolderViewModel: ObservableObject {
   @Published var select: Set<UUID>
   @Published var search: String
   @Published var destination: Destination?
-  
-  var isEditing: Bool {
-    let yah = (/FolderViewModel.Destination.Edit).extract(from: destination) != nil
-    print(yah)
-    return yah
-  }
     
   init(
     folder: Folder = mockFolder,
@@ -37,11 +31,6 @@ final class FolderViewModel: ObservableObject {
     self.select = select
     self.search = search
     self.destination = destination
-  }
-  
-  func editButtonTapped() {
-    let editing = (/FolderViewModel.Destination.Edit).extract(from: destination) != nil
-    destination = editing ? nil : .Edit
   }
   
   func addNoteButtonTappped() {
@@ -59,15 +48,16 @@ final class FolderViewModel: ObservableObject {
     
   }
   
-  func delete(at offsets: IndexSet) {
-    self.folder.notes.remove(atOffsets: offsets)
+  func deleteNote(_ note: Note) {
+    withAnimation {
+      self.folder.notes.removeAll(where:  { $0.id == note.id })
+    }
   }
 }
 
 extension FolderViewModel {
   enum Destination {
     case Edit
-//    case Edit(EditMode)
     case Note(NoteViewModel)
     case Home
   }
