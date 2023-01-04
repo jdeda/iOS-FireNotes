@@ -16,16 +16,20 @@ struct FolderView: View {
       
       List(selection: $vm.select) {
         ForEach(vm.folder.notes) { note in
-          VStack(alignment: .leading) {
-            Text(note.title)
-            HStack {
-              Text(note.formattedDate)
-                .font(.caption)
-                .foregroundColor(.secondary)
-              
-              Text(note.subTitle)
-                .font(.caption)
-                .foregroundColor(.secondary)
+          Button {
+            vm.noteTapped(note)
+          } label: {
+            VStack(alignment: .leading) {
+              Text(note.title)
+              HStack {
+                Text(note.formattedDate)
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+                
+                Text(note.subTitle)
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
             }
           }
           .swipeActions(edge: .trailing) {

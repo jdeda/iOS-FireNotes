@@ -20,7 +20,7 @@ final class FolderViewModel: ObservableObject {
   @Published var select: Set<UUID>
   @Published var search: String
   @Published var destination: Destination?
-    
+  
   init(
     folder: Folder = mockFolder,
     select: Set<UUID> = [],
@@ -31,6 +31,10 @@ final class FolderViewModel: ObservableObject {
     self.select = select
     self.search = search
     self.destination = destination
+  }
+  
+  func noteTapped(_ note: Note) {
+    destination = .Note(NoteViewModel(note: note))
   }
   
   func addNoteButtonTappped() {

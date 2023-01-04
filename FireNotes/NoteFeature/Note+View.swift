@@ -18,7 +18,7 @@ struct NoteView: View {
           .foregroundColor(.secondary)
           .scrollDisabled(true)
         
-        TextField("", text: $vm.note.body, axis: .vertical)
+        TextEditor(text: $vm.note.body)
           .focused(self.$focus, equals: .body)
           .scrollDisabled(true)
         
