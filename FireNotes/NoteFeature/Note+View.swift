@@ -27,6 +27,17 @@ struct NoteView: View {
       .padding([.leading, .trailing], 14)
     }
     .toolbar {
+      
+      // TODO: This is not the ideal way of hiding a keyboard :(
+      ToolbarItemGroup(placement: .keyboard) {
+        Spacer()
+        Button {
+          vm.focus = nil
+        } label: {
+          Image(systemName: "xmark")
+        }
+        .buttonStyle(.plain)
+      }
       ToolbarItemGroup(placement: .primaryAction) {
         Button {
           vm.tappedUserOptionsButton()
