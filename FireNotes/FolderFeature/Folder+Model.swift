@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import IdentifiedCollections
 import SwiftUINavigation
 import SwiftUI
@@ -25,6 +26,9 @@ final class FolderViewModel: ObservableObject {
   @Published var destination: Destination? {
     didSet { bind() }
   }
+
+  private var destinationCancellable: AnyCancellable?
+  
   
   init(
     folder: Folder = mockFolder,
@@ -46,13 +50,28 @@ final class FolderViewModel: ObservableObject {
       break
     case .Edit:
       break
-    case .Note(_):
+    case let .Note(noteVM):
+      self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
+        guard let self else { return }
+        self.folder.notes[id: newNote.id] = newNote
+      }
       break
     }
   }
   
+  /**
+    Inacts navigation to the NoteView. Always go to that view
+    with a focus on the note's body.
+   
+    WARNING: There is a bug with TextEditor, where
+    focusing only works after a delay, of usually, about
+    0.5 seconds.
+   */
   func noteTapped(_ note: Note) {
-    destination = .Note(NoteViewModel(note: note))
+    destination = .Note(NoteViewModel(
+      note: note,
+      focus: .body
+    ))
   }
   
   func addNoteButtonTappped() {
