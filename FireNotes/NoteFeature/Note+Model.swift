@@ -8,7 +8,7 @@ final class NoteViewModel: ObservableObject {
   @Published var destination: Destination?
   @Published var focus: Focus?
   
-  private var newNoteButtonTapped: () -> Void = unimplemented()
+  var newNoteButtonTapped: () -> Void = unimplemented()
   
   init(
     note: Note = .init(id: .init(), title: "New Untitled Note", body: "What", lastEditDate: Date()),

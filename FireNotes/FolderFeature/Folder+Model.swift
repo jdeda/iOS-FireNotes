@@ -51,7 +51,7 @@ final class FolderViewModel: ObservableObject {
     case .Edit:
       break
     case let .Note(noteVM):
-      noteVM.newNoteButtonTapped = { [weak self, id = noteVM.note.id] in
+      noteVM.newNoteButtonTapped = { [weak self] in
         guard let self else { return }
         let newNote = Note(
           id: .init(),
@@ -59,6 +59,7 @@ final class FolderViewModel: ObservableObject {
           body: "",
           lastEditDate: Date()
         )
+        self.folder.notes.append(newNote)
         self.destination = .Note(.init(
           note: newNote,
           focus: .body
