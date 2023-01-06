@@ -12,6 +12,8 @@
 		977394E9295F842700A8311F /* Auth+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394E8295F842700A8311F /* Auth+Model.swift */; };
 		977394EB295F842E00A8311F /* Auth+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EA295F842E00A8311F /* Auth+View.swift */; };
 		977394EF295F874D00A8311F /* UserSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EE295F874D00A8311F /* UserSheet.swift */; };
+		97EB457D2965F4AA00018ADF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457C2965F4AA00018ADF /* IdentifiedCollections */; };
+		97EB45802966064200018ADF /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457F2966064200018ADF /* Tagged */; };
 		97F27B0E295F4034008FB09B /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 97F27B0D295F4034008FB09B /* SwiftUINavigation */; };
 		97F27B10295F4034008FB09B /* _SwiftUINavigationState in Frameworks */ = {isa = PBXBuildFile; productRef = 97F27B0F295F4034008FB09B /* _SwiftUINavigationState */; };
 		97F27B14295F43BF008FB09B /* Folder+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F27B13295F43BF008FB09B /* Folder+View.swift */; };
@@ -50,7 +52,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97EB457D2965F4AA00018ADF /* IdentifiedCollections in Frameworks */,
 				97F27B10295F4034008FB09B /* _SwiftUINavigationState in Frameworks */,
+				97EB45802966064200018ADF /* Tagged in Frameworks */,
 				97F27B0E295F4034008FB09B /* SwiftUINavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,6 +175,8 @@
 			packageProductDependencies = (
 				97F27B0D295F4034008FB09B /* SwiftUINavigation */,
 				97F27B0F295F4034008FB09B /* _SwiftUINavigationState */,
+				97EB457C2965F4AA00018ADF /* IdentifiedCollections */,
+				97EB457F2966064200018ADF /* Tagged */,
 			);
 			productName = FireNotes;
 			productReference = 97F8F1D42948F3C100F3B9CB /* FireNotes.app */;
@@ -202,6 +208,8 @@
 			mainGroup = 97F8F1CB2948F3C100F3B9CB;
 			packageReferences = (
 				97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
+				97EB457B2965F4AA00018ADF /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
+				97EB457E2966064200018ADF /* XCRemoteSwiftPackageReference "swift-tagged" */,
 			);
 			productRefGroup = 97F8F1D52948F3C100F3B9CB /* Products */;
 			projectDirPath = "";
@@ -448,6 +456,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		97EB457B2965F4AA00018ADF /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-identified-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+		97EB457E2966064200018ADF /* XCRemoteSwiftPackageReference "swift-tagged" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-tagged.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
 		97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
@@ -459,6 +483,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		97EB457C2965F4AA00018ADF /* IdentifiedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97EB457B2965F4AA00018ADF /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
+			productName = IdentifiedCollections;
+		};
+		97EB457F2966064200018ADF /* Tagged */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97EB457E2966064200018ADF /* XCRemoteSwiftPackageReference "swift-tagged" */;
+			productName = Tagged;
+		};
 		97F27B0D295F4034008FB09B /* SwiftUINavigation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 97F27B0C295F4034008FB09B /* XCRemoteSwiftPackageReference "swiftui-navigation" */;

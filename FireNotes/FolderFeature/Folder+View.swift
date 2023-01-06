@@ -35,7 +35,7 @@ struct FolderView: View {
           .swipeActions(edge: .trailing) {
             Button(role: .destructive, action: { vm.deleteNote(note) } ) {
                   Label("Delete", systemImage: "trash")
-                }
+            }
           }
           .tag(note.id)
         }

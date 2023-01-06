@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Tagged
 
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
@@ -7,7 +8,7 @@ final class NoteViewModel: ObservableObject {
   @Published var focus: Focus?
   
   init(
-    note: Note = .init(id: UUID(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
+    note: Note = .init(id: .init(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
     destination: Destination? = nil,
     focus: Focus? = .title
   ) {
@@ -36,12 +37,13 @@ extension NoteViewModel {
   }
 }
 
-struct Note: Identifiable {
-  let id: UUID
+struct Note: Identifiable, Codable {
+  typealias ID = Tagged<Self, UUID>
+
+  let id: ID
   var title: String
   var body: String
   var lastEditDate: Date
-  
   
   // String representation of a date in "YY/MM/dd" format
   var formattedDate: String {

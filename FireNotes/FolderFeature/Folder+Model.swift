@@ -1,29 +1,34 @@
 import Foundation
+import IdentifiedCollections
 import SwiftUINavigation
 import SwiftUI
+import Tagged
+
 
 let mockFolder: Folder = .init(
-  id: UUID(),
+  id: .init(),
   name: "Folder 1",
-  notes: (1...10).map {
-  .init(
-    id: UUID(),
-    title: "Note \($0)",
-    body: "I ate \($0)g of protein today blahblahblahblahblahblahblahblahblah",
-    lastEditDate: Date()
-  )
-})
+  notes: .init(uniqueElements: (1...10).map {
+    .init(
+      id: .init(),
+      title: "Note \($0)",
+      body: "I ate \($0)g of protein today blahblahblahblahblahblahblahblahblah",
+      lastEditDate: Date()
+    )
+  }))
 
 //MARK: - FolderViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
-  @Published var select: Set<UUID>
+  @Published var select: Set<Note.ID>
   @Published var search: String
-  @Published var destination: Destination?
+  @Published var destination: Destination? {
+    didSet { bind() }
+  }
   
   init(
     folder: Folder = mockFolder,
-    select: Set<UUID> = [],
+    select: Set<Note.ID> = [],
     search: String = "",
     destination: Destination? = nil
   ) {
@@ -33,13 +38,26 @@ final class FolderViewModel: ObservableObject {
     self.destination = destination
   }
   
+  func bind() {
+    switch destination {
+    case .none:
+      break
+    case .Home:
+      break
+    case .Edit:
+      break
+    case .Note(_):
+      break
+    }
+  }
+  
   func noteTapped(_ note: Note) {
     destination = .Note(NoteViewModel(note: note))
   }
   
   func addNoteButtonTappped() {
     let newNote = Note(
-      id: UUID(),
+      id: .init(),
       title: "New Note!",
       body: "",
       lastEditDate: Date()
@@ -52,13 +70,14 @@ final class FolderViewModel: ObservableObject {
     
   }
   
+  // Uh oh...
   func moveNote(from source: IndexSet, to destination: Int) {
     folder.notes.move(fromOffsets: source, toOffset: destination)
   }
   
   func deleteNote(_ note: Note) {
     withAnimation {
-      self.folder.notes.removeAll(where:  { $0.id == note.id })
+      self.folder.notes.remove(id: note.id)
     }
   }
 }
@@ -72,9 +91,12 @@ extension FolderViewModel {
 }
 
 //MARK: - Folder
-struct Folder: Identifiable {
-  let id: UUID
+struct Folder: Identifiable, Codable {
+  typealias ID = Tagged<Self, UUID>
+
+  let id: ID
   var name: String
-  var notes: [Note]
+  var notes: IdentifiedArrayOf<Note>
+  
 }
 

@@ -1,13 +1,14 @@
 import Foundation
+import IdentifiedCollections
 
 let mockFolders: [Folder] = (1...20).map {
   .init(
-    id: UUID(),
+    id: .init(),
     name: "Folder \($0)",
-    notes: (1...10).map {
-      .init(id: UUID(), title: "Note \($0)", body: "I ate \($0)g of protein today", lastEditDate: Date()
-      )
+    notes: .init(uniqueElements: (1...10).map {
+        .init(id: .init(), title: "Note \($0)", body: "I ate \($0)g of protein today", lastEditDate: Date())
     })
+  )
 }
 
 // MARK: - HomeViewModel
@@ -29,10 +30,10 @@ final class HomeViewModel: ObservableObject {
   }
   
   func bind() {
-//    switch destination {
-//    case let .Folder(folderVM):
-//      break
-//    }
+    //    switch destination {
+    //    case let .Folder(folderVM):
+    //      break
+    //    }
   }
   
   func addFolderButtonTappped() {
