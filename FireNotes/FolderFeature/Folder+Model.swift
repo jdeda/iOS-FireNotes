@@ -24,7 +24,7 @@ final class FolderViewModel: ObservableObject {
   @Published var select: Set<Note.ID>
   @Published var search: String
   @Published var destination: Destination? {
-    didSet { bind() }
+    didSet { destinationBind() }
   }
 
   private var destinationCancellable: AnyCancellable?
@@ -42,7 +42,7 @@ final class FolderViewModel: ObservableObject {
     self.destination = destination
   }
   
-  func bind() {
+  func destinationBind() {
     switch destination {
     case .none:
       break
@@ -51,6 +51,19 @@ final class FolderViewModel: ObservableObject {
     case .Edit:
       break
     case let .Note(noteVM):
+      noteVM.newNoteButtonTapped = { [weak self, id = noteVM.note.id] in
+        guard let self else { return }
+        let newNote = Note(
+          id: .init(),
+          title: "New Untitled Note",
+          body: "",
+          lastEditDate: Date()
+        )
+        self.destination = .Note(.init(
+          note: newNote,
+          focus: .body
+        ))
+      }
       self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
         guard let self else { return }
         self.folder.notes[id: newNote.id] = newNote

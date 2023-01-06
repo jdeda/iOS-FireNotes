@@ -1,11 +1,14 @@
 import Foundation
 import SwiftUI
 import Tagged
+import XCTestDynamicOverlay
 
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
   @Published var destination: Destination?
   @Published var focus: Focus?
+  
+  private var newNoteButtonTapped: () -> Void = unimplemented()
   
   init(
     note: Note = .init(id: .init(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
@@ -22,7 +25,7 @@ final class NoteViewModel: ObservableObject {
   }
   
   func addNoteButtonTappped() {
-    
+    newNoteButtonTapped()
   }
 }
 
