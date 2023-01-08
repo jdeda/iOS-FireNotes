@@ -60,27 +60,18 @@ final class FolderViewModel: ObservableObject {
           lastEditDate: Date()
         )
         self.folder.notes.append(newNote)
-        self.destination = .Note(.init(
-          note: newNote,
-          focus: .body
-        ))
+        self.destination = .Note(.init(note: newNote, focus: .body))
       }
       self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
         guard let self else { return }
         self.folder.notes[id: newNote.id] = newNote
       }
       break
+    case .UserOptionsSheet:
+      break
     }
   }
   
-  /**
-    Inacts navigation to the NoteView. Always go to that view
-    with a focus on the note's body.
-   
-    WARNING: There is a bug with TextEditor, where
-    focusing only works after a delay, of usually, about
-    0.5 seconds.
-   */
   func noteTapped(_ note: Note) {
     destination = .Note(NoteViewModel(
       note: note,
@@ -91,7 +82,7 @@ final class FolderViewModel: ObservableObject {
   func addNoteButtonTappped() {
     let newNote = Note(
       id: .init(),
-      title: "New Note!",
+      title: "New Untitled Note",
       body: "",
       lastEditDate: Date()
     )
@@ -100,7 +91,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func tappedUserOptionsButton() {
-    
+    destination = .UserOptionsSheet
   }
   
   // Uh oh...
@@ -109,7 +100,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func deleteNote(_ note: Note) {
-    withAnimation {
+    _ = withAnimation {
       self.folder.notes.remove(id: note.id)
     }
   }
@@ -120,6 +111,7 @@ extension FolderViewModel {
     case Edit
     case Note(NoteViewModel)
     case Home
+    case UserOptionsSheet
   }
 }
 

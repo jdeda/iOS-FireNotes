@@ -32,6 +32,7 @@ struct FolderView: View {
               }
             }
           }
+          .buttonStyle(.plain)
           .swipeActions(edge: .trailing) {
             Button(role: .destructive, action: { vm.deleteNote(note) } ) {
                   Label("Delete", systemImage: "trash")
@@ -71,6 +72,12 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.Note
     ) { $noteVM in
       NoteView(vm: noteVM)
+    }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.UserOptionsSheet
+    ) { _ in
+      UserSheet()
     }
   }
 }
