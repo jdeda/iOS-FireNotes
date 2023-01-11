@@ -40,9 +40,8 @@ struct FolderView: View {
   
   @ViewBuilder
   private func editingToolbar() -> some View {
-    // MARK: - EDIT MODE TOOLBAR
     Button {
-      //          vm.renameSelectedTapped()
+                vm.renameSelectedTapped()
     } label: {
       Text(vm.select.count == 0 ? "Rename all " : "Rename")
         .frame(alignment: .leading)
@@ -56,7 +55,7 @@ struct FolderView: View {
     }
     Spacer()
     Button {
-      //          vm.deleteSelectedTapped()
+      vm.deleteSelectedTapped()
     } label: {
       Text(vm.select.count == 0 ? "Delete all " : "Delete")
         .frame(alignment: .trailing)
@@ -75,7 +74,6 @@ struct FolderView: View {
       List(selection: $vm.select) {
         ForEach(vm.folder.notes) { note in
           NoteRow(note: note)
-            .border(.yellow)
             .swipeActions(edge: .trailing) {
               Button(role: .destructive, action: { vm.deleteNote(note) } ) {
                 Label("Delete", systemImage: "trash")

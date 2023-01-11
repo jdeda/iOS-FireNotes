@@ -24,6 +24,10 @@ final class FolderViewModel: ObservableObject {
   @Published var search: String
   @Published var editMode: EditMode?
   
+  var isEditing: Bool {
+    editMode != .inactive
+  }
+  
   @Published var destination: Destination? {
     didSet { destinationBind() }
   }
@@ -97,6 +101,28 @@ final class FolderViewModel: ObservableObject {
       self.folder.notes.remove(id: note.id)
     }
   }
+  
+  func renameSelectedTapped() {
+    
+  }
+  
+  /**
+   Deletes selected notes. If no notes are selected, delete all.
+   */
+  func deleteSelectedTapped() {
+    if select.count == 0 { self.folder.notes = [] }
+    else {
+      self.folder.notes = self.folder.notes.filter {
+        !select.contains($0.id)
+      }
+    }
+  }
+}
+
+extension FolderViewModel {
+  enum AlertAction {
+    case confirmRename
+  }
 }
 
 // TODO: camelCase
@@ -105,13 +131,14 @@ extension FolderViewModel {
     case Note(NoteViewModel)
     case Home
     case UserOptionsSheet
+//    case Alert(AlertState<AlertAction>)
   }
 }
 
 //MARK: - Folder
 struct Folder: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
-
+  
   let id: ID
   var name: String
   var notes: IdentifiedArrayOf<Note>
