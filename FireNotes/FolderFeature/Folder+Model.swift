@@ -50,9 +50,9 @@ final class FolderViewModel: ObservableObject {
     switch destination {
     case .none:
       break
-    case .Home:
+    case .home:
       break
-    case let .Note(noteVM):
+    case let .note(noteVM):
       noteVM.newNoteButtonTapped = { [weak self] in
         guard let self else { return }
         let newNote = Note(
@@ -62,20 +62,20 @@ final class FolderViewModel: ObservableObject {
           lastEditDate: Date()
         )
         self.folder.notes.append(newNote)
-        self.destination = .Note(.init(note: newNote, focus: .body))
+        self.destination = .note(.init(note: newNote, focus: .body))
       }
       self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
         guard let self else { return }
         self.folder.notes[id: newNote.id] = newNote
       }
       break
-    case .UserOptionsSheet:
+    case .userOptionsSheet:
       break
     }
   }
   
   func noteTapped(_ note: Note) {
-    destination = .Note(NoteViewModel(
+    destination = .note(NoteViewModel(
       note: note,
       focus: .body
     ))
@@ -89,11 +89,11 @@ final class FolderViewModel: ObservableObject {
       lastEditDate: Date()
     )
     self.folder.notes.append(newNote)
-    self.destination = .Note(.init(note: newNote))
+    self.destination = .note(.init(note: newNote))
   }
   
   func tappedUserOptionsButton() {
-    destination = .UserOptionsSheet
+    destination = .userOptionsSheet
   }
   
   func deleteNote(_ note: Note) {
@@ -128,9 +128,9 @@ extension FolderViewModel {
 // TODO: camelCase
 extension FolderViewModel {
   enum Destination {
-    case Note(NoteViewModel)
-    case Home
-    case UserOptionsSheet
+    case note(NoteViewModel)
+    case home
+    case userOptionsSheet
 //    case Alert(AlertState<AlertAction>)
   }
 }
@@ -142,6 +142,5 @@ struct Folder: Identifiable, Codable {
   let id: ID
   var name: String
   var notes: IdentifiedArrayOf<Note>
-  
 }
 

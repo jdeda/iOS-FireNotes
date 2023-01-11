@@ -120,13 +120,13 @@ struct FolderView: View {
     .navigationBarTitle("")
     .navigationDestination(
       unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.Note
+      case: /FolderViewModel.Destination.note
     ) { $noteVM in
       NoteView(vm: noteVM)
     }
     .sheet(
       unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.UserOptionsSheet
+      case: /FolderViewModel.Destination.userOptionsSheet
     ) { _ in
       UserSheet()
     }
