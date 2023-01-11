@@ -2,8 +2,66 @@ import SwiftUI
 import SwiftUINavigation
 import CasePaths
 
+// TODO: read
+// refactor, chunks in fileprivate views or ViewBuilder funcs
 struct FolderView: View {
-  @ObservedObject var vm: FolderViewModel = .init()
+  @ObservedObject var vm: FolderViewModel
+  @Environment(\.editMode) var editMode
+  
+  private struct NoteRow: View {
+    let note: Note
+    var body: some View {
+      VStack(alignment: .leading) {
+        Text(note.title)
+        HStack {
+          Text(note.formattedDate)
+            .font(.caption)
+            .foregroundColor(.secondary)
+          
+          Text(note.subTitle)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private func nonEditingToolbar() -> some View {
+    Spacer()
+    Text("\(vm.folder.notes.count) notes \(vm.editMode == .inactive ? "inactive" : "active" )")
+    Spacer()
+    Button {
+      vm.addNoteButtonTappped()
+    } label: {
+      Image(systemName: "square.and.pencil")
+    }
+  }
+  
+  @ViewBuilder
+  private func editingToolbar() -> some View {
+    // MARK: - EDIT MODE TOOLBAR
+    Button {
+      //          vm.renameSelectedTapped()
+    } label: {
+      Text(vm.select.count == 0 ? "Rename all " : "Rename")
+        .frame(alignment: .leading)
+    }
+    Spacer()
+    Button {
+      //          vm.moveSelectedTapped()
+    } label: {
+      Text(vm.select.count == 0 ? "Move all " : "Move")
+        .frame(alignment: .center)
+    }
+    Spacer()
+    Button {
+      //          vm.deleteSelectedTapped()
+    } label: {
+      Text(vm.select.count == 0 ? "Delete all " : "Delete")
+        .frame(alignment: .trailing)
+    }
+  }
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -16,35 +74,32 @@ struct FolderView: View {
       
       List(selection: $vm.select) {
         ForEach(vm.folder.notes) { note in
-          Button {
-            vm.noteTapped(note)
-          } label: {
-            VStack(alignment: .leading) {
-              Text(note.title)
-              HStack {
-                Text(note.formattedDate)
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-                
-                Text(note.subTitle)
-                  .font(.caption)
-                  .foregroundColor(.secondary)
+          NoteRow(note: note)
+            .border(.yellow)
+            .swipeActions(edge: .trailing) {
+              Button(role: .destructive, action: { vm.deleteNote(note) } ) {
+                Label("Delete", systemImage: "trash")
               }
             }
-          }
-          .buttonStyle(.plain)
-          .swipeActions(edge: .trailing) {
-            Button(role: .destructive, action: { vm.deleteNote(note) } ) {
-                  Label("Delete", systemImage: "trash")
+            .onTapGesture {
+              vm.noteTapped(note)
             }
-          }
-          .tag(note.id)
+            .tag(note.id)
         }
-        .onMove(perform: vm.moveNote)
         .deleteDisabled(true)
         .listRowBackground(Color(UIColor.systemGray6))
       }
       .scrollContentBackground(Visibility.hidden)
+      .bind($vm.editMode, to: Binding<EditMode?>(
+        get: {
+          guard let editMode = editMode
+          else { return .none }
+          return editMode.wrappedValue
+        },
+        set: { newValue  in
+          // TODO: we don't know how to write the value to the environment. Nice.
+        }
+      ))
       .toolbar { EditButton() }
     }
     .toolbar {
@@ -56,13 +111,11 @@ struct FolderView: View {
         }
       }
       ToolbarItemGroup(placement: .bottomBar) {
-        Spacer()
-        Text("\(vm.folder.notes.count) notes")
-        Spacer()
-        Button {
-          vm.addNoteButtonTappped()
-        } label: {
-          Image(systemName: "square.and.pencil")
+        if vm.editMode == .active || vm.editMode == .transient {
+          editingToolbar()
+        }
+        else {
+          nonEditingToolbar()
         }
       }
     }
@@ -85,11 +138,11 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      FolderView()
+      FolderView(vm: {
+        var rv = FolderViewModel()
+        //        rv.editMode = EditMode.active
+        return rv
+      }())
     }
   }
 }
-
-
-
-

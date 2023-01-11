@@ -1,12 +1,4 @@
 import SwiftUI
-//import SwiftUINavigation
-
-//enum Destination {
-//  case Auth
-//  case Home
-//  case Folder
-//  case Note
-//}
 
 /**
  NavigationPaths
@@ -21,7 +13,14 @@ struct AppView: View {
   var body: some View {
     NavigationStack {
       NavigationLink("Nice") {
-        FolderView()
+        FolderView(vm: .init())
+//        FolderView(vm: {
+//          // This will not work properly as we do
+//          // not have not properly binded the environment.
+//          let rv = FolderViewModel()
+//          rv.editMode = EditMode.active
+//          return rv
+//        }())
       }
     }
   }

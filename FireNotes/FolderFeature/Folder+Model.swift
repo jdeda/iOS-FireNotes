@@ -5,7 +5,6 @@ import SwiftUINavigation
 import SwiftUI
 import Tagged
 
-
 let mockFolder: Folder = .init(
   id: .init(),
   name: "Folder 1",
@@ -13,7 +12,7 @@ let mockFolder: Folder = .init(
     .init(
       id: .init(),
       title: "Note \($0)",
-      body: "I ate \($0)g of protein today blahblahblahblahblahblahblahblahblah",
+      body: "I ate \($0)g of protein today",
       lastEditDate: Date()
     )
   }))
@@ -23,12 +22,13 @@ final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
   @Published var select: Set<Note.ID>
   @Published var search: String
+  @Published var editMode: EditMode?
+  
   @Published var destination: Destination? {
     didSet { destinationBind() }
   }
-
-  private var destinationCancellable: AnyCancellable?
   
+  private var destinationCancellable: AnyCancellable?
   
   init(
     folder: Folder = mockFolder,
@@ -47,8 +47,6 @@ final class FolderViewModel: ObservableObject {
     case .none:
       break
     case .Home:
-      break
-    case .Edit:
       break
     case let .Note(noteVM):
       noteVM.newNoteButtonTapped = { [weak self] in
@@ -94,11 +92,6 @@ final class FolderViewModel: ObservableObject {
     destination = .UserOptionsSheet
   }
   
-  // Uh oh...
-  func moveNote(from source: IndexSet, to destination: Int) {
-    folder.notes.move(fromOffsets: source, toOffset: destination)
-  }
-  
   func deleteNote(_ note: Note) {
     _ = withAnimation {
       self.folder.notes.remove(id: note.id)
@@ -106,9 +99,9 @@ final class FolderViewModel: ObservableObject {
   }
 }
 
+// TODO: camelCase
 extension FolderViewModel {
   enum Destination {
-    case Edit
     case Note(NoteViewModel)
     case Home
     case UserOptionsSheet

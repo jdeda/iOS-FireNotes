@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		97103FDF2960E90E001ED964 /* App+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97103FDE2960E90E001ED964 /* App+Model.swift */; };
+		976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */; };
 		977322BB295CB40C0059B309 /* App+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BA295CB40C0059B309 /* App+View.swift */; };
 		977394E9295F842700A8311F /* Auth+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394E8295F842700A8311F /* Auth+Model.swift */; };
 		977394EB295F842E00A8311F /* Auth+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EA295F842E00A8311F /* Auth+View.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		97103FDE2960E90E001ED964 /* App+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+Model.swift"; sourceTree = "<group>"; };
+		976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Helpers.swift"; sourceTree = "<group>"; };
 		977322BA295CB40C0059B309 /* App+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+View.swift"; sourceTree = "<group>"; };
 		977394E8295F842700A8311F /* Auth+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Model.swift"; sourceTree = "<group>"; };
 		977394EA295F842E00A8311F /* Auth+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+View.swift"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				97F27B15295F55C2008FB09B /* Searchbar.swift */,
 				977394EE295F874D00A8311F /* UserSheet.swift */,
+				976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				97F27B1F295F7690008FB09B /* Note+Model.swift in Sources */,
 				97F27B23295F7771008FB09B /* Home+Model.swift in Sources */,
 				97F27B1D295F7688008FB09B /* Note+View.swift in Sources */,
+				976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */,
 				977394EF295F874D00A8311F /* UserSheet.swift in Sources */,
 				977394E9295F842700A8311F /* Auth+Model.swift in Sources */,
 			);
