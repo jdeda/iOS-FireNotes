@@ -71,6 +71,8 @@ final class FolderViewModel: ObservableObject {
       break
     case .userOptionsSheet:
       break
+    case .some(.edit(_)):
+      break
     }
   }
   
@@ -128,10 +130,17 @@ extension FolderViewModel {
 // TODO: camelCase
 extension FolderViewModel {
   enum Destination {
+    case edit(EditState)
     case note(NoteViewModel)
     case home
     case userOptionsSheet
 //    case Alert(AlertState<AlertAction>)
+  }
+  
+  enum EditState {
+    case rename(Int)
+    case delete
+    case move
   }
 }
 
