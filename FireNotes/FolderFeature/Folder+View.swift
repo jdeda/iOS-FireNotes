@@ -8,6 +8,91 @@ struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.editMode) var editMode
   
+  var body: some View {
+    VStack(alignment: .leading) {
+      TextField(vm.folder.name, text: $vm.folder.name)
+        .font(.system(size: 34, weight: .bold))
+        .padding([.leading], 18)
+      
+      Searchbar(searchText: $vm.search)
+        .padding([.leading, .trailing], 18)
+      
+      List(selection: $vm.select) {
+        ForEach(vm.folder.notes) { note in
+          NoteRow(note: note)
+            .swipeActions(edge: .trailing) {
+              Button(role: .destructive, action: { vm.deleteNote(note) } ) {
+                Label("Delete", systemImage: "trash")
+              }
+            }
+            .onTapGesture {
+              vm.noteTapped(note)
+            }
+            .tag(note.id)
+        }
+        .deleteDisabled(true)
+        .listRowBackground(Color(UIColor.systemGray6))
+      }
+      .scrollContentBackground(Visibility.hidden)
+      
+      /**
+       EditMode
+        - rename: alert with a textfield and confirm/cancel buttons
+        - delete: alert with confirm/cancel buttons
+        - move: popupSheet that displays an interactive list of folders
+       */
+      .bind($vm.editMode, to: Binding<EditMode?>(
+        get: {
+          guard let editMode = editMode
+          else { return .none }
+          return editMode.wrappedValue
+        },
+        set: { newValue  in
+          // TODO: we don't know how to write the value to the environment. Nice.
+        }
+      ))
+      .toolbar { EditButton() }
+    }
+    .toolbar {
+      ToolbarItemGroup(placement: .primaryAction) {
+        Button {
+          vm.tappedUserOptionsButton()
+        } label: {
+          Image(systemName: "ellipsis.circle")
+        }
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        if vm.editMode == .active || vm.editMode == .transient {
+          editingToolbar()
+        }
+        else {
+          nonEditingToolbar()
+        }
+      }
+    }
+    .navigationBarTitle("")
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.note
+    ) { $noteVM in
+      NoteView(vm: noteVM)
+    }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.userOptionsSheet
+    ) { _ in
+      UserSheet()
+    }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.edit
+    ) { $int in
+      Text("Move")
+    }
+  }
+}
+
+extension FolderView {
   private struct NoteRow: View {
     let note: Note
     var body: some View {
@@ -59,76 +144,6 @@ struct FolderView: View {
     } label: {
       Text(vm.select.count == 0 ? "Delete all " : "Delete")
         .frame(alignment: .trailing)
-    }
-  }
-  
-  var body: some View {
-    VStack(alignment: .leading) {
-      TextField(vm.folder.name, text: $vm.folder.name)
-        .font(.system(size: 34, weight: .bold))
-        .padding([.leading], 18)
-      
-      Searchbar(searchText: $vm.search)
-        .padding([.leading, .trailing], 18)
-      
-      List(selection: $vm.select) {
-        ForEach(vm.folder.notes) { note in
-          NoteRow(note: note)
-            .swipeActions(edge: .trailing) {
-              Button(role: .destructive, action: { vm.deleteNote(note) } ) {
-                Label("Delete", systemImage: "trash")
-              }
-            }
-            .onTapGesture {
-              vm.noteTapped(note)
-            }
-            .tag(note.id)
-        }
-        .deleteDisabled(true)
-        .listRowBackground(Color(UIColor.systemGray6))
-      }
-      .scrollContentBackground(Visibility.hidden)
-      .bind($vm.editMode, to: Binding<EditMode?>(
-        get: {
-          guard let editMode = editMode
-          else { return .none }
-          return editMode.wrappedValue
-        },
-        set: { newValue  in
-          // TODO: we don't know how to write the value to the environment. Nice.
-        }
-      ))
-      .toolbar { EditButton() }
-    }
-    .toolbar {
-      ToolbarItemGroup(placement: .primaryAction) {
-        Button {
-          vm.tappedUserOptionsButton()
-        } label: {
-          Image(systemName: "ellipsis.circle")
-        }
-      }
-      ToolbarItemGroup(placement: .bottomBar) {
-        if vm.editMode == .active || vm.editMode == .transient {
-          editingToolbar()
-        }
-        else {
-          nonEditingToolbar()
-        }
-      }
-    }
-    .navigationBarTitle("")
-    .navigationDestination(
-      unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.note
-    ) { $noteVM in
-      NoteView(vm: noteVM)
-    }
-    .sheet(
-      unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.userOptionsSheet
-    ) { _ in
-      UserSheet()
     }
   }
 }
