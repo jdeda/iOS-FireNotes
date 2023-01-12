@@ -9,10 +9,23 @@ struct FolderView: View {
   @Environment(\.editMode) var editMode
   
   var body: some View {
+    
+    // TODO: Might as well refactor to navigationTitle and searchable...
+    // You move renaming to the top right menu button...
+    // If you don't use the standard APIs you're just creating pain.
     VStack(alignment: .leading) {
-      TextField(vm.folder.name, text: $vm.folder.name)
-        .font(.system(size: 34, weight: .bold))
-        .padding([.leading], 18)
+      if vm.isEditing && vm.select.count > 0  {
+        Text("\(vm.select.count)")
+          .font(.system(size: 34, weight: .bold))
+          .frame(height: 40)
+          .padding([.leading], 18)
+      }
+      else {
+        TextField(vm.folder.name, text: $vm.folder.name)
+          .font(.system(size: 34, weight: .bold))
+          .frame(height: 40)
+          .padding([.leading], 18)
+      }
       
       Searchbar(searchText: $vm.search)
         .padding([.leading, .trailing], 18)
@@ -34,6 +47,8 @@ struct FolderView: View {
         .listRowBackground(Color(UIColor.systemGray6))
       }
       .scrollContentBackground(Visibility.hidden)
+      
+      // TODO: Bug where preview switches immediately back to non-edit mode when edit mode is activated
       .bind(Binding<EditMode>(
         get: { vm.isEditing ? .active : .inactive },
         set: { vm.isEditing = $0 == .active }
@@ -46,41 +61,29 @@ struct FolderView: View {
     .toolbar {
       if vm.isEditing {
         ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-          if !vm.hasSelectedAll {
-            Button {
-              vm.selectAllButtonTapped()
-            } label: {
-              Text("Select All")
-            }
-          }
-          else {
-            Button {
-              vm.deselectAllButtonTapped()
-            } label: {
-              Text("Deselect All")
-            }
+          Button {
+            vm.selectAllButtonTapped()
+          } label: {
+            Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
           }
         }
-      }
-      ToolbarItemGroup(placement: .primaryAction) {
-        if vm.isEditing {
+        ToolbarItemGroup(placement: .primaryAction) {
           Button {
-            vm.toggleEditMode()
+            vm.toggleEditButtonTapped()
           } label: {
             Text("Done")
           }
         }
-        else {
-          menu()
+        ToolbarItemGroup(placement: .bottomBar) {
+          editingBottomToolbar()
         }
       }
-      
-      ToolbarItemGroup(placement: .bottomBar) {
-        if vm.isEditing {
-          editingToolbar()
+      else {
+        ToolbarItemGroup(placement: .primaryAction) {
+          menu()
         }
-        else {
-          nonEditingToolbar()
+        ToolbarItemGroup(placement: .bottomBar) {
+          nonEditingBottomToolbar()
         }
       }
     }
@@ -134,43 +137,58 @@ extension FolderView {
   @ViewBuilder
   func menu() -> some View {
     Menu {
-      // Select Mode
+      // Select
       Button {
-        vm.toggleEditMode()
+        vm.toggleEditButtonTapped()
       } label: {
         HStack {
           Text("Select")
-          Image(systemName: "checkmark.circle.fill")
+          Image(systemName: "checkmark.circle")
         }
       }
       
-      // Sort by
+      // Sort
       Button {
-//        vm.toggleEditMode()
       } label: {
         HStack {
           Text("Sort")
-          Image(systemName: "checkmark.circle.fill")
+          Image(systemName: "arrow.up.arrow.down")
         }
       }
       
-      // Filter by
+      // Add
       Button {
-//            vm.toggleEditMode()
       } label: {
         HStack {
-          Text("Filter")
-          Image(systemName: "checkmark.circle.fill")
+          Text("Add Subfolder")
+          Image(systemName: "folder.badge.plus")
         }
       }
-
+      
+      // Move
+      Button {
+      } label: {
+        HStack {
+          Text("Move")
+          Image(systemName: "folder")
+        }
+      }
+      
+      // Rename
+      Button {
+      } label: {
+        HStack {
+          Text("Rename")
+          Image(systemName: "pencil")
+        }
+      }
     } label: {
       Image(systemName: "ellipsis.circle")
     }
   }
   
   @ViewBuilder
-  private func nonEditingToolbar() -> some View {
+  private func nonEditingBottomToolbar() -> some View {
     Spacer()
     Text("\(vm.folder.notes.count) notes")
     Spacer()
@@ -182,12 +200,12 @@ extension FolderView {
   }
   
   @ViewBuilder
-  private func editingToolbar() -> some View {
+  private func editingBottomToolbar() -> some View {
     Button {
       vm.renameSelectedTapped()
     } label: {
       Image(systemName: "rectangle.and.pencil.and.ellipsis")
-
+      
     }
     .disabled(vm.select.count == 0)
     Spacer()
@@ -195,7 +213,7 @@ extension FolderView {
       //          vm.moveSelectedTapped()
     } label: {
       Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
-
+      
     }
     .disabled(vm.select.count == 0)
     Spacer()
@@ -211,11 +229,7 @@ extension FolderView {
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      FolderView(vm: {
-        var rv = FolderViewModel()
-        //        rv.editMode = EditMode.active
-        return rv
-      }())
+      FolderView(vm: .init())
     }
   }
 }

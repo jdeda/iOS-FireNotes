@@ -83,15 +83,12 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
-  func toggleEditMode() {
+  func toggleEditButtonTapped() {
     isEditing.toggle()
   }
   
   func selectAllButtonTapped() {
-    select = .init(folder.notes.map(\.id))
-  }
-  func deselectAllButtonTapped() {
-    select = []
+    select = hasSelectedAll ? [] : .init(folder.notes.map(\.id))
   }
   
   func alertButtonTapped(_ action: AlertAction) {
