@@ -22,12 +22,8 @@ final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
   @Published var select: Set<Note.ID>
   @Published var search: String
-  @Published var editMode: EditMode?
   @Published var renameText: String
-  
-  var isEditing: Bool {
-    editMode != .inactive
-  }
+  @Published var isEditing: Bool
   
   @Published var destination: Destination? {
     didSet { destinationBind() }
@@ -35,18 +31,24 @@ final class FolderViewModel: ObservableObject {
   
   private var destinationCancellable: AnyCancellable?
   
+  var hasSelectedAll: Bool {
+    select.count == folder.notes.count
+  }
+  
   init(
     folder: Folder = mockFolder,
     select: Set<Note.ID> = [],
     search: String = "",
     destination: Destination? = nil,
-    renameText: String = ""
+    renameText: String = "",
+    isEditing: Bool = false
   ) {
     self.folder = folder
     self.select = select
     self.search = search
     self.destination = destination
     self.renameText = renameText
+    self.isEditing = isEditing
   }
   
   func destinationBind() {
@@ -79,6 +81,17 @@ final class FolderViewModel: ObservableObject {
     case .some(.moveSheet):
       break
     }
+  }
+  
+  func toggleEditMode() {
+    isEditing.toggle()
+  }
+  
+  func selectAllButtonTapped() {
+    select = .init(folder.notes.map(\.id))
+  }
+  func deselectAllButtonTapped() {
+    select = []
   }
   
   func alertButtonTapped(_ action: AlertAction) {
@@ -136,10 +149,12 @@ final class FolderViewModel: ObservableObject {
   }
   
   private func confirmDeleteSelected() {
-    if select.count == 0 { self.folder.notes = [] }
-    else {
-      self.folder.notes = self.folder.notes.filter {
-        !select.contains($0.id)
+    withAnimation {
+      if select.count == 0 { self.folder.notes = [] }
+      else {
+        self.folder.notes = self.folder.notes.filter {
+          !select.contains($0.id)
+        }
       }
     }
   }

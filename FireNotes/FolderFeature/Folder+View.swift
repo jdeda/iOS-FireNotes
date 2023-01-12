@@ -34,35 +34,49 @@ struct FolderView: View {
         .listRowBackground(Color(UIColor.systemGray6))
       }
       .scrollContentBackground(Visibility.hidden)
-      
-      /**
-       EditMode
-       - rename: alert with a textfield and confirm/cancel buttons
-       - delete: alert with confirm/cancel buttons
-       - move: popupSheet that displays an interactive list of folders
-       */
-      .bind($vm.editMode, to: Binding<EditMode?>(
-        get: {
-          guard let editMode = editMode
-          else { return .none }
-          return editMode.wrappedValue
-        },
-        set: { newValue  in
-          // TODO: we don't know how to write the value to the environment. Nice.
-        }
+      .bind(Binding<EditMode>(
+        get: { vm.isEditing ? .active : .inactive },
+        set: { vm.isEditing = $0 == .active }
+      ),to: Binding<EditMode>(
+        get: { editMode?.wrappedValue ?? .inactive },
+        set: { editMode?.animation().wrappedValue = $0 }
       ))
-      .toolbar { EditButton() }
     }
+    .navigationBarBackButtonHidden(vm.isEditing)
     .toolbar {
-      ToolbarItemGroup(placement: .primaryAction) {
-        Button {
-          vm.tappedUserOptionsButton()
-        } label: {
-          Image(systemName: "ellipsis.circle")
+      if vm.isEditing {
+        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+          if !vm.hasSelectedAll {
+            Button {
+              vm.selectAllButtonTapped()
+            } label: {
+              Text("Select All")
+            }
+          }
+          else {
+            Button {
+              vm.deselectAllButtonTapped()
+            } label: {
+              Text("Deselect All")
+            }
+          }
         }
       }
+      ToolbarItemGroup(placement: .primaryAction) {
+        if vm.isEditing {
+          Button {
+            vm.toggleEditMode()
+          } label: {
+            Text("Done")
+          }
+        }
+        else {
+          menu()
+        }
+      }
+      
       ToolbarItemGroup(placement: .bottomBar) {
-        if vm.editMode == .active || vm.editMode == .transient {
+        if vm.isEditing {
           editingToolbar()
         }
         else {
@@ -118,9 +132,47 @@ extension FolderView {
   }
   
   @ViewBuilder
+  func menu() -> some View {
+    Menu {
+      // Select Mode
+      Button {
+        vm.toggleEditMode()
+      } label: {
+        HStack {
+          Text("Select")
+          Image(systemName: "checkmark.circle.fill")
+        }
+      }
+      
+      // Sort by
+      Button {
+//        vm.toggleEditMode()
+      } label: {
+        HStack {
+          Text("Sort")
+          Image(systemName: "checkmark.circle.fill")
+        }
+      }
+      
+      // Filter by
+      Button {
+//            vm.toggleEditMode()
+      } label: {
+        HStack {
+          Text("Filter")
+          Image(systemName: "checkmark.circle.fill")
+        }
+      }
+
+    } label: {
+      Image(systemName: "ellipsis.circle")
+    }
+  }
+  
+  @ViewBuilder
   private func nonEditingToolbar() -> some View {
     Spacer()
-    Text("\(vm.folder.notes.count) notes \(vm.editMode == .inactive ? "inactive" : "active" )")
+    Text("\(vm.folder.notes.count) notes")
     Spacer()
     Button {
       vm.addNoteButtonTappped()
@@ -134,23 +186,25 @@ extension FolderView {
     Button {
       vm.renameSelectedTapped()
     } label: {
-      Text(vm.select.count == 0 ? "Rename all " : "Rename")
-        .frame(alignment: .leading)
+      Image(systemName: "rectangle.and.pencil.and.ellipsis")
+
     }
+    .disabled(vm.select.count == 0)
     Spacer()
     Button {
       //          vm.moveSelectedTapped()
     } label: {
-      Text(vm.select.count == 0 ? "Move all " : "Move")
-        .frame(alignment: .center)
+      Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
+
     }
+    .disabled(vm.select.count == 0)
     Spacer()
     Button {
       vm.deleteSelectedTapped()
     } label: {
-      Text(vm.select.count == 0 ? "Delete all " : "Delete")
-        .frame(alignment: .trailing)
+      Image(systemName: "trash")
     }
+    .disabled(vm.select.count == 0)
   }
 }
 
