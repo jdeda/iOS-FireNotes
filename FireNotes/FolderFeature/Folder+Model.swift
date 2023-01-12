@@ -23,6 +23,7 @@ final class FolderViewModel: ObservableObject {
   @Published var select: Set<Note.ID>
   @Published var search: String
   @Published var editMode: EditMode?
+  @Published var renameText: String
   
   var isEditing: Bool {
     editMode != .inactive
@@ -38,12 +39,14 @@ final class FolderViewModel: ObservableObject {
     folder: Folder = mockFolder,
     select: Set<Note.ID> = [],
     search: String = "",
-    destination: Destination? = nil
+    destination: Destination? = nil,
+    renameText: String = ""
   ) {
     self.folder = folder
     self.select = select
     self.search = search
     self.destination = destination
+    self.renameText = renameText
   }
   
   func destinationBind() {
@@ -71,7 +74,17 @@ final class FolderViewModel: ObservableObject {
       break
     case .userOptionsSheet:
       break
-    case .some(.edit(_)):
+    case .some(.alert(_)):
+      break
+    case .some(.moveSheet):
+      break
+    }
+  }
+  
+  func alertButtonTapped(_ action: AlertAction) {
+    switch action {
+    case .confirmDelete:
+      confirmDeleteSelected()
       break
     }
   }
@@ -112,6 +125,17 @@ final class FolderViewModel: ObservableObject {
    Deletes selected notes. If no notes are selected, delete all.
    */
   func deleteSelectedTapped() {
+    self.destination = .alert(.init(
+      title: TextState("Delete?"),
+      message: TextState("Are you sure you want to delete this folder?"),
+      buttons: [
+        .destructive(TextState("Yes"), action: .send(.confirmDelete)),
+        .cancel(TextState("Nevermind"))
+      ]
+    ))
+  }
+  
+  private func confirmDeleteSelected() {
     if select.count == 0 { self.folder.notes = [] }
     else {
       self.folder.notes = self.folder.notes.filter {
@@ -122,25 +146,16 @@ final class FolderViewModel: ObservableObject {
 }
 
 extension FolderViewModel {
-  enum AlertAction {
-    case confirmRename
-  }
-}
-
-// TODO: camelCase
-extension FolderViewModel {
   enum Destination {
-    case edit(EditState)
     case note(NoteViewModel)
     case home
     case userOptionsSheet
-//    case Alert(AlertState<AlertAction>)
+    case alert(AlertState<AlertAction>)
+    case moveSheet
   }
   
-  enum EditState {
-    case rename(Int)
-    case delete
-    case move
+  enum AlertAction {
+    case confirmDelete
   }
 }
 
@@ -152,4 +167,3 @@ struct Folder: Identifiable, Codable {
   var name: String
   var notes: IdentifiedArrayOf<Note>
 }
-

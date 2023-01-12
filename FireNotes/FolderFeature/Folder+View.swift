@@ -37,9 +37,9 @@ struct FolderView: View {
       
       /**
        EditMode
-        - rename: alert with a textfield and confirm/cancel buttons
-        - delete: alert with confirm/cancel buttons
-        - move: popupSheet that displays an interactive list of folders
+       - rename: alert with a textfield and confirm/cancel buttons
+       - delete: alert with confirm/cancel buttons
+       - move: popupSheet that displays an interactive list of folders
        */
       .bind($vm.editMode, to: Binding<EditMode?>(
         get: {
@@ -85,9 +85,15 @@ struct FolderView: View {
     }
     .sheet(
       unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.edit
-    ) { $int in
-      Text("Move")
+      case: /FolderViewModel.Destination.moveSheet
+    ) { _ in
+      Text("Move Sheet")
+    }
+    .alert(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.alert
+    ) { alertAction in
+      vm.alertButtonTapped(alertAction)
     }
   }
 }
@@ -126,7 +132,7 @@ extension FolderView {
   @ViewBuilder
   private func editingToolbar() -> some View {
     Button {
-                vm.renameSelectedTapped()
+      vm.renameSelectedTapped()
     } label: {
       Text(vm.select.count == 0 ? "Rename all " : "Rename")
         .frame(alignment: .leading)
