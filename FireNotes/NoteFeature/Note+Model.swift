@@ -11,7 +11,7 @@ final class NoteViewModel: ObservableObject {
   var newNoteButtonTapped: () -> Void = unimplemented()
   
   init(
-    note: Note = .init(id: .init(), title: "New Untitled Note", body: "What", lastEditDate: Date()),
+    note: Note = .init(id: .init(), title: "New Untitled Note", body: ""),
     destination: Destination? = nil,
     focus: Focus? = .title
   ) {
@@ -46,7 +46,24 @@ struct Note: Identifiable, Codable {
   let id: ID
   var title: String
   var body: String
+  let creationDate: Date
   var lastEditDate: Date
+  
+  init(
+    id: ID,
+    title: String,
+    body: String = "",
+    creationDate: Date = Date(),
+    lastEditDate: Date = Date()
+  ) {
+    self.id = id
+    self.title = title
+    self.body = body
+    self.creationDate = creationDate
+    self.lastEditDate = lastEditDate
+  }
+  
+
   
   // String representation of a date in "YY/MM/dd" format
   var formattedDate: String {

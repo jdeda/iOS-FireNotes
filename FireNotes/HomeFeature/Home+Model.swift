@@ -6,7 +6,11 @@ let mockFolders: [Folder] = (1...20).map {
     id: .init(),
     name: "Folder \($0)",
     notes: .init(uniqueElements: (1...20).map {
-      .init(id: .init(), title: "Note \($0)", body: "I ate \($0)g of protein today", lastEditDate: Date())
+      .init(
+        id: .init(),
+        title: "Note \($0)",
+        body: "I ate \($0)g of protein today"
+      )
     })
   )
 }

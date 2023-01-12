@@ -5,18 +5,6 @@ import SwiftUINavigation
 import SwiftUI
 import Tagged
 
-let mockFolder: Folder = .init(
-  id: .init(),
-  name: "Folder 1",
-  notes: .init(uniqueElements: (1...20).map {
-    .init(
-      id: .init(),
-      title: "Note \($0)",
-      body: "I ate \($0)g of protein today",
-      lastEditDate: Date()
-    )
-  }))
-
 //MARK: - FolderViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
@@ -24,6 +12,9 @@ final class FolderViewModel: ObservableObject {
   @Published var search: String
   @Published var renameText: String
   @Published var isEditing: Bool
+  @Published var sort: Sort {
+    didSet { performSort() }
+  }
   
   @Published var destination: Destination? {
     didSet { destinationBind() }
@@ -41,7 +32,8 @@ final class FolderViewModel: ObservableObject {
     search: String = "",
     destination: Destination? = nil,
     renameText: String = "",
-    isEditing: Bool = false
+    isEditing: Bool = false,
+    sort: Sort = .editDate
   ) {
     self.folder = folder
     self.select = select
@@ -49,6 +41,7 @@ final class FolderViewModel: ObservableObject {
     self.destination = destination
     self.renameText = renameText
     self.isEditing = isEditing
+    self.sort = sort
   }
   
   func destinationBind() {
@@ -83,6 +76,19 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
+  private func performSort() {
+    withAnimation {
+      switch sort {
+      case .editDate:
+        folder.notes.sort(using: KeyPathComparator(\.lastEditDate))
+      case .creationDate:
+        folder.notes.sort(using: KeyPathComparator(\.lastEditDate))
+      case .title:
+        folder.notes.sort(using: KeyPathComparator(\.title, comparator: .localizedStandard))
+      }
+    }
+  }
+  
   func toggleEditButtonTapped() {
     isEditing.toggle()
   }
@@ -111,6 +117,7 @@ final class FolderViewModel: ObservableObject {
       id: .init(),
       title: "New Untitled Note",
       body: "",
+      creationDate: Date(),
       lastEditDate: Date()
     )
     self.folder.notes.append(newNote)
@@ -169,6 +176,46 @@ extension FolderViewModel {
   enum AlertAction {
     case confirmDelete
   }
+}
+
+extension FolderViewModel {
+  enum Sort: CaseIterable {
+    case editDate
+    case creationDate
+    case title
+    
+    var string: String {
+      switch self {
+      case .editDate:
+        return "Date Edited"
+      case .creationDate:
+        return "Date Created"
+      case .title:
+        return "Title"
+      }
+    }
+  }
+  
+  //  enum Sort: CaseIterable {
+  //    static var allCases: [FolderViewModel.Sort] = [
+  //      .editDate(chronological: true), .creationDate(chronological: true), .title(alphabetical: true)
+  //    ]
+  //
+  //    case editDate(chronological: Bool)
+  //    case creationDate(chronological: Bool)
+  //    case title(alphabetical: Bool)
+  //
+  //    var string: String {
+  //      switch self {
+  //      case .editDate(_):
+  //        return "Date Edited"
+  //      case .creationDate(_):
+  //        return "Date Created"
+  //      case .title(_):
+  //        return "Title"
+  //      }
+  //    }
+  //  }
 }
 
 //MARK: - Folder
