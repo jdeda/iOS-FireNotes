@@ -21,8 +21,8 @@ struct HomeView: View {
     ) { $folderVM in
       FolderView(vm: folderVM)
     }
+    .searchable(text:$vm.search, placement: .navigationBarDrawer(displayMode: .always))
     .navigationTitle("Folders")
-    .searchable(text: $vm.search)
   }
 }
 

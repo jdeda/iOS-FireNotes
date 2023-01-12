@@ -5,8 +5,8 @@ let mockFolders: [Folder] = (1...20).map {
   .init(
     id: .init(),
     name: "Folder \($0)",
-    notes: .init(uniqueElements: (1...10).map {
-        .init(id: .init(), title: "Note \($0)", body: "I ate \($0)g of protein today", lastEditDate: Date())
+    notes: .init(uniqueElements: (1...20).map {
+      .init(id: .init(), title: "Note \($0)", body: "I ate \($0)g of protein today", lastEditDate: Date())
     })
   )
 }
@@ -30,12 +30,12 @@ final class HomeViewModel: ObservableObject {
   }
   
   func bind() {
-        switch destination {
-        case let .folder(folderVM):
-          break
-        case .none:
-          break
-        }
+    switch destination {
+    case let .folder(folderVM):
+      break
+    case .none:
+      break
+    }
   }
   
   func folderTapped(_ folder: Folder) {

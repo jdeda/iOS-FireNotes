@@ -8,7 +8,7 @@ import Tagged
 let mockFolder: Folder = .init(
   id: .init(),
   name: "Folder 1",
-  notes: .init(uniqueElements: (1...10).map {
+  notes: .init(uniqueElements: (1...20).map {
     .init(
       id: .init(),
       title: "Note \($0)",

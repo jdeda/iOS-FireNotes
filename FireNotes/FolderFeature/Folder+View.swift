@@ -35,7 +35,6 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-    .navigationBarBackButtonHidden(vm.isEditing)
     .toolbar {
       if vm.isEditing {
         ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
@@ -65,8 +64,9 @@ struct FolderView: View {
         }
       }
     }
-    .searchable(text: $vm.search)
+    .searchable(text:$vm.search, placement: .navigationBarDrawer(displayMode: .always))
     .navigationBarTitle(vm.folder.name)
+    .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.note
@@ -104,7 +104,6 @@ extension FolderView {
           Text(note.formattedDate)
             .font(.caption)
             .foregroundColor(.secondary)
-          
           Text(note.subTitle)
             .font(.caption)
             .foregroundColor(.secondary)
