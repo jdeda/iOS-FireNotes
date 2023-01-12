@@ -30,31 +30,21 @@ final class HomeViewModel: ObservableObject {
   }
   
   func bind() {
-    //    switch destination {
-    //    case let .Folder(folderVM):
-    //      break
-    //    }
+        switch destination {
+        case let .folder(folderVM):
+          break
+        case .none:
+          break
+        }
   }
   
-  func addFolderButtonTappped() {
-    
-  }
-  
-  func addNoteButtonTapped() {
-    
-  }
-  
-  func tappedUserOptionsButton() {
-    
-  }
-  
-  func delete(at offsets: IndexSet) {
-    self.folders.remove(atOffsets: offsets)
+  func folderTapped(_ folder: Folder) {
+    destination = .folder(.init(folder: folder))
   }
 }
 
 extension HomeViewModel {
   enum Destination {
-    case Folder(FolderViewModel)
+    case folder(FolderViewModel)
   }
 }

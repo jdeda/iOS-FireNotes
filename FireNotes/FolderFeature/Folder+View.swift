@@ -9,54 +9,32 @@ struct FolderView: View {
   @Environment(\.editMode) var editMode
   
   var body: some View {
-    
-    // TODO: Might as well refactor to navigationTitle and searchable...
-    // You move renaming to the top right menu button...
-    // If you don't use the standard APIs you're just creating pain.
-    VStack(alignment: .leading) {
-      if vm.isEditing && vm.select.count > 0  {
-        Text("\(vm.select.count)")
-          .font(.system(size: 34, weight: .bold))
-          .frame(height: 40)
-          .padding([.leading], 18)
-      }
-      else {
-        TextField(vm.folder.name, text: $vm.folder.name)
-          .font(.system(size: 34, weight: .bold))
-          .frame(height: 40)
-          .padding([.leading], 18)
-      }
-      
-      Searchbar(searchText: $vm.search)
-        .padding([.leading, .trailing], 18)
-      
-      List(selection: $vm.select) {
-        ForEach(vm.folder.notes) { note in
-          NoteRow(note: note)
-            .swipeActions(edge: .trailing) {
-              Button(role: .destructive, action: { vm.deleteNote(note) } ) {
-                Label("Delete", systemImage: "trash")
-              }
+    List(selection: $vm.select) {
+      ForEach(vm.folder.notes) { note in
+        NoteRow(note: note)
+          .swipeActions(edge: .trailing) {
+            Button(role: .destructive, action: { vm.deleteNote(note) } ) {
+              Label("Delete", systemImage: "trash")
             }
-            .onTapGesture {
-              vm.noteTapped(note)
-            }
-            .tag(note.id)
-        }
-        .deleteDisabled(true)
-        .listRowBackground(Color(UIColor.systemGray6))
+          }
+          .onTapGesture {
+            vm.noteTapped(note)
+          }
+          .tag(note.id)
       }
-      .scrollContentBackground(Visibility.hidden)
-      
-      // TODO: Bug where preview switches immediately back to non-edit mode when edit mode is activated
-      .bind(Binding<EditMode>(
-        get: { vm.isEditing ? .active : .inactive },
-        set: { vm.isEditing = $0 == .active }
-      ),to: Binding<EditMode>(
-        get: { editMode?.wrappedValue ?? .inactive },
-        set: { editMode?.animation().wrappedValue = $0 }
-      ))
+      .deleteDisabled(true)
+      .listRowBackground(Color(UIColor.systemGray6))
     }
+    .scrollContentBackground(Visibility.hidden)
+    
+    // TODO: Bug where preview switches immediately back to non-edit mode when edit mode is activated
+    .bind(Binding<EditMode>(
+      get: { vm.isEditing ? .active : .inactive },
+      set: { vm.isEditing = $0 == .active }
+    ),to: Binding<EditMode>(
+      get: { editMode?.wrappedValue ?? .inactive },
+      set: { editMode?.animation().wrappedValue = $0 }
+    ))
     .navigationBarBackButtonHidden(vm.isEditing)
     .toolbar {
       if vm.isEditing {
@@ -87,7 +65,8 @@ struct FolderView: View {
         }
       }
     }
-    .navigationBarTitle("")
+    .searchable(text: $vm.search)
+    .navigationBarTitle(vm.folder.name)
     .navigationDestination(
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.note

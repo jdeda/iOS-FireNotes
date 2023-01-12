@@ -21,13 +21,13 @@ struct NoteView: View {
         TextEditor(text: $vm.note.body)
           .focused(self.$focus, equals: .body)
           .scrollDisabled(true)
-        
         Spacer()
       }
       .padding([.leading, .trailing], 14)
     }
+    .navigationTitle("")
+    .navigationBarTitleDisplayMode(NavigationBarItem.TitleDisplayMode.inline)
     .toolbar {
-      
       // TODO: This is not the ideal way of hiding a keyboard :(
       ToolbarItemGroup(placement: .keyboard) {
         Spacer()

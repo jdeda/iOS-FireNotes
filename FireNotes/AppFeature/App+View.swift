@@ -12,16 +12,7 @@ struct AppView: View {
   @State var text: String = "Nice"
   var body: some View {
     NavigationStack {
-      NavigationLink("Nice") {
-        FolderView(vm: .init())
-//        FolderView(vm: {
-//          // This will not work properly as we do
-//          // not have not properly binded the environment.
-//          let rv = FolderViewModel()
-//          rv.editMode = EditMode.active
-//          return rv
-//        }())
-      }
+      HomeView()
     }
   }
 }

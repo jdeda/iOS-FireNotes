@@ -5,61 +5,40 @@ struct HomeView: View {
   @ObservedObject var vm: HomeViewModel = .init()
   
   var body: some View {
-    VStack(alignment: .leading) {
-      Text("Folders")
-        .font(.system(size: 34, weight: .bold))
-        .padding([.leading], 18)
-      
-      Searchbar(searchText: $vm.search)
-        .padding([.leading, .trailing], 18)
-      
-      List {
-        ForEach(vm.folders) { folder in
-          HStack(alignment: .firstTextBaseline) {
-            Image(systemName: "folder")
-              .foregroundColor(Color.accentColor)
-            Text(folder.name)
-            Spacer()
-            Text("\(folder.notes.count)")
-              .foregroundColor(.secondary)
+    List {
+      ForEach(vm.folders) { folder in
+        RowView(folder: folder)
+          .onTapGesture {
+            vm.folderTapped(folder)
           }
-        }
-        .onDelete(perform: vm.delete)
-        .listRowBackground(Color(UIColor.systemGray6))
       }
-      .scrollContentBackground(Visibility.hidden)
+      .listRowBackground(Color(UIColor.systemGray6))
     }
+    .scrollContentBackground(Visibility.hidden)
     .navigationDestination(
       unwrapping: $vm.destination,
-      case: /HomeViewModel.Destination.Folder
+      case: /HomeViewModel.Destination.folder
     ) { $folderVM in
       FolderView(vm: folderVM)
     }
-    .toolbar {
-      ToolbarItemGroup(placement: .primaryAction) {
-        Button {
-          vm.tappedUserOptionsButton()
-        } label: {
-          Image(systemName: "ellipsis.circle")
-        }
-      }
-      ToolbarItemGroup(placement: .bottomBar) {
-        Button {
-          vm.addFolderButtonTappped()
-        } label: {
-          Image(systemName: "folder.badge.plus")
-        }
+    .navigationTitle("Folders")
+    .searchable(text: $vm.search)
+  }
+}
+
+extension HomeView {
+  private struct RowView: View {
+    let folder: Folder
+    var body: some View {
+      HStack(alignment: .firstTextBaseline) {
+        Image(systemName: "folder")
+          .foregroundColor(Color.accentColor)
+        Text(folder.name)
         Spacer()
-        Text("\(vm.folders.count) notes")
-        Spacer()
-        Button {
-          vm.addNoteButtonTapped()
-        } label: {
-          Image(systemName: "square.and.pencil")
-        }
+        Text("\(folder.notes.count)")
+          .foregroundColor(.secondary)
       }
     }
-    .navigationBarTitle("")
   }
 }
 
