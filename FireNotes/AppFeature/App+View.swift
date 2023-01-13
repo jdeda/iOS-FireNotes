@@ -14,6 +14,7 @@ struct AppView: View {
     NavigationStack {
       HomeView()
     }
+    .accentColor(.yellow)
   }
 }
 

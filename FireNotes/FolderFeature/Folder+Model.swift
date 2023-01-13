@@ -87,6 +87,8 @@ final class FolderViewModel: ObservableObject {
       break
     case .some(.moveSheet):
       break
+    case .some(.editSheet):
+      break
     }
   }
   
@@ -103,12 +105,50 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
-  func toggleEditButtonTapped() {
-    isEditing.toggle()
+  
+  func toolbarDoneButtonTapped() {
+    isEditing = false
+    destination = nil
   }
   
   func selectAllButtonTapped() {
     select = hasSelectedAll ? [] : .init(folder.notes.map(\.id))
+  }
+  
+  func toolbarRenameSelectedButtonTapped() {
+    destination = nil
+  }
+  
+  func toolbarMoveSelectedButtonTapped() {
+    destination = nil
+  }
+  
+  func toolbarDeleteSelectedButtonTapped() {
+    destination = nil
+  }
+  
+  func editSheetDismissButtonTapped() {
+    destination = nil
+  }
+  
+  func editSheetAppearButtonTapped() {
+    destination = .editSheet
+  }
+  
+  func editSheetSelectButtonTapped() {
+    
+  }
+  func editSheetSortButtonTapped() {
+    
+  }
+  func editSheetAddSubfolderButtonTapped() {
+    
+  }
+  func editSheetMoveButtonTapped() {
+    
+  }
+  func editSheetRenameButtonTapped() {
+    
   }
   
   func alertButtonTapped(_ action: AlertAction) {
@@ -180,6 +220,7 @@ final class FolderViewModel: ObservableObject {
 
 extension FolderViewModel {
   enum Destination {
+    case editSheet
     case note(NoteViewModel)
     case home
     case userOptionsSheet

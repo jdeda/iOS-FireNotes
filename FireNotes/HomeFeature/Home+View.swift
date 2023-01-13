@@ -7,12 +7,12 @@ struct HomeView: View {
   var body: some View {
     List {
       ForEach(vm.folders) { folder in
-        RowView(folder: folder)
-          .onTapGesture {
-            vm.folderTapped(folder)
-          }
+        Button {
+          vm.folderTapped(folder)
+        } label: {
+          RowView(folder: folder)
+        }
       }
-      .listRowBackground(Color.white)
     }
     .navigationDestination(
       unwrapping: $vm.destination,
@@ -33,11 +33,12 @@ extension HomeView {
         Image(systemName: "folder")
           .foregroundColor(Color.yellow)
         Text(folder.name)
+          .foregroundColor(.black)
         Spacer()
         Text("\(folder.notes.count)")
-          .foregroundColor(.secondary)
+          .foregroundColor(Color(UIColor.systemGray))
         Image(systemName: "chevron.right")
-          .foregroundColor(Color(UIColor.systemGray4))
+          .foregroundColor(Color(UIColor.systemGray3))
           .fontWeight(.bold)
           .font(.caption)
           .frame(alignment: .top)

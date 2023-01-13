@@ -25,9 +25,7 @@ struct FolderView: View {
           .tag(note.id)
       }
       .deleteDisabled(true)
-      .listRowBackground(Color(UIColor.systemGray6))
     }
-    .scrollContentBackground(Visibility.hidden)
     
     // TODO: Bug where preview switches immediately back to non-edit mode when edit mode is activated
     .bind(Binding<EditMode>(
@@ -38,7 +36,9 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-//    .toolbar { FolderViewToolbar(vm: vm) }
+    .toolbar {
+      FolderViewToolbar(vm: vm)
+    }
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always))
     .navigationBarTitle(vm.folder.name)
     .navigationBarBackButtonHidden(vm.isEditing)
@@ -60,6 +60,33 @@ struct FolderView: View {
     ) { _ in
       Text("Move Sheet")
     }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.editSheet
+    ) { _ in
+      NavigationStack {
+        FolderEditSheet(vm: vm)
+          .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+              HStack {
+                Image(systemName: "folder.fill")
+                  .font(.title3)
+                  .foregroundColor(.yellow)
+                Text(vm.folder.name)
+              }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+              Button {
+                 vm.editSheetDismissButtonTapped()
+              } label: {
+                Image(systemName: "xmark.circle.fill")
+              }
+              .foregroundColor(Color(UIColor.systemGray2))
+            }
+          }
+      }
+      .presentationDetents([.fraction(0.5)])
+    }
     .alert(
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.alert
@@ -76,6 +103,7 @@ extension FolderView {
     var body: some View {
       VStack(alignment: .leading) {
         Text(note.title)
+          .fontWeight(.medium)
         HStack {
           Text(note.formattedDate)
             .font(.caption)
@@ -97,3 +125,4 @@ struct FolderView_Previews: PreviewProvider {
     }
   }
 }
+ 
