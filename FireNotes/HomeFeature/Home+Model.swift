@@ -1,20 +1,6 @@
 import Foundation
 import IdentifiedCollections
 
-let mockFolders: [Folder] = (1...20).map {
-  .init(
-    id: .init(),
-    name: "Folder \($0)",
-    notes: .init(uniqueElements: (1...20).map {
-      .init(
-        id: .init(),
-        title: "Note \($0)",
-        body: "I ate \($0)g of protein today"
-      )
-    })
-  )
-}
-
 // MARK: - HomeViewModel
 final class HomeViewModel: ObservableObject {
   @Published var folders: [Folder]

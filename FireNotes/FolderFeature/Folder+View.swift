@@ -85,7 +85,7 @@ struct FolderView: View {
             }
           }
       }
-      .presentationDetents([.fraction(0.5)])
+      .presentationDetents([.fraction(0.55)])
     }
     .alert(
       unwrapping: $vm.destination,

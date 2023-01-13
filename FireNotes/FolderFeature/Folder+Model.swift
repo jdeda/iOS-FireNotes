@@ -5,20 +5,6 @@ import SwiftUINavigation
 import SwiftUI
 import Tagged
 
-// TODO: Improve mock data to look more real...
-// use JSON file bup bup
-let mockFolder: Folder = .init(
-  id: .init(),
-  name: "Folder 1",
-  notes: .init(uniqueElements: (1...20).map {
-    .init(
-      id: .init(),
-      title: "Note \($0)",
-      body: "I ate \($0)g of protein today"
-    )
-  })
-)
-
 // TODO: Selection highlight not appearing
 // TODO: Row arrow not there
 // TODO: Rows too thick
@@ -45,7 +31,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   init(
-    folder: Folder = mockFolder,
+    folder: Folder = mockFolderA,
     select: Set<Note.ID> = [],
     search: String = "",
     destination: Destination? = nil,

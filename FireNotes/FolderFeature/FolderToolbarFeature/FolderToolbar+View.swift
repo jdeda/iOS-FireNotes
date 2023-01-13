@@ -69,7 +69,8 @@ extension FolderViewToolbar {
     }
     ToolbarItemGroup(placement: .bottomBar) {
       Spacer()
-      Text("\(vm.folder.notes.count) notes")
+      Text("\(vm.folder.notes.count) Notes")
+        .font(.caption)
       Spacer()
       Button {
         vm.addNoteButtonTappped()
