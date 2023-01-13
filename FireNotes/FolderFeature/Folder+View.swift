@@ -5,6 +5,7 @@ import CasePaths
 // TODO: Jesse Deda
 // Start a list of Swift things
 
+// MARK: - View
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.editMode) var editMode
@@ -32,12 +33,13 @@ struct FolderView: View {
     .bind(Binding<EditMode>(
       get: { vm.isEditing ? .active : .inactive },
       set: { vm.isEditing = $0 == .active }
-    ),to: Binding<EditMode>(
+    ),
+    to: Binding<EditMode>(
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-    .toolbar { ToolBar(vm: vm) }
-    .searchable(text:$vm.search, placement: .navigationBarDrawer(displayMode: .always))
+//    .toolbar { FolderViewToolbar(vm: vm) }
+    .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always))
     .navigationBarTitle(vm.folder.name)
     .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(
@@ -67,6 +69,27 @@ struct FolderView: View {
   }
 }
 
+// MARK: - Helper Views
+extension FolderView {
+  struct NoteRow: View {
+    let note: Note
+    var body: some View {
+      VStack(alignment: .leading) {
+        Text(note.title)
+        HStack {
+          Text(note.formattedDate)
+            .font(.caption)
+            .foregroundColor(.secondary)
+          Text(note.subTitle)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+      }
+    }
+  }
+}
+
+// MARK: - Preview
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {

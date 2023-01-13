@@ -12,9 +12,8 @@ struct HomeView: View {
             vm.folderTapped(folder)
           }
       }
-      .listRowBackground(Color(UIColor.systemGray6))
+      .listRowBackground(Color.white)
     }
-    .scrollContentBackground(Visibility.hidden)
     .navigationDestination(
       unwrapping: $vm.destination,
       case: /HomeViewModel.Destination.folder
@@ -30,13 +29,18 @@ extension HomeView {
   private struct RowView: View {
     let folder: Folder
     var body: some View {
-      HStack(alignment: .firstTextBaseline) {
+      HStack(alignment: .center) {
         Image(systemName: "folder")
-          .foregroundColor(Color.accentColor)
+          .foregroundColor(Color.yellow)
         Text(folder.name)
         Spacer()
         Text("\(folder.notes.count)")
           .foregroundColor(.secondary)
+        Image(systemName: "chevron.right")
+          .foregroundColor(Color(UIColor.systemGray4))
+          .fontWeight(.bold)
+          .font(.caption)
+          .frame(alignment: .top)
       }
     }
   }

@@ -5,6 +5,24 @@ import SwiftUINavigation
 import SwiftUI
 import Tagged
 
+// TODO: Improve mock data to look more real...
+// use JSON file bup bup
+let mockFolder: Folder = .init(
+  id: .init(),
+  name: "Folder 1",
+  notes: .init(uniqueElements: (1...20).map {
+    .init(
+      id: .init(),
+      title: "Note \($0)",
+      body: "I ate \($0)g of protein today"
+    )
+  })
+)
+
+// TODO: Selection highlight not appearing
+// TODO: Row arrow not there
+// TODO: Rows too thick
+
 //MARK: - FolderViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
@@ -42,6 +60,7 @@ final class FolderViewModel: ObservableObject {
     self.renameText = renameText
     self.isEditing = isEditing
     self.sort = sort
+    destinationBind()
   }
   
   func destinationBind() {
@@ -51,17 +70,12 @@ final class FolderViewModel: ObservableObject {
     case .home:
       break
     case let .note(noteVM):
-      noteVM.newNoteButtonTapped = { [weak self] in
+      noteVM.newNoteButtonTapped = { [weak self] newNote in
         guard let self else { return }
-        let newNote = Note(
-          id: .init(),
-          title: "New Untitled Note",
-          body: "",
-          lastEditDate: Date()
-        )
         self.folder.notes.append(newNote)
         self.destination = .note(.init(note: newNote, focus: .body))
       }
+      // when a note chanegs
       self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
         guard let self else { return }
         self.folder.notes[id: newNote.id] = newNote
@@ -186,12 +200,9 @@ extension FolderViewModel {
     
     var string: String {
       switch self {
-      case .editDate:
-        return "Date Edited"
-      case .creationDate:
-        return "Date Created"
-      case .title:
-        return "Title"
+      case .editDate: return "Date Edited"
+      case .creationDate: return "Date Created"
+      case .title: return "Title"
       }
     }
   }
