@@ -10,7 +10,7 @@ final class HomeViewModel: ObservableObject {
   }
   
   init(
-    folders: [Folder] = mockFolders,
+    folders: [Folder],
     search: String = "",
     destination: Destination? = nil
   ) {

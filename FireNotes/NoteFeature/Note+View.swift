@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUINavigation
 
 struct NoteView: View {
-  @ObservedObject var vm: NoteViewModel = .init()
+  @ObservedObject var vm: NoteViewModel
   @FocusState var focus: NoteViewModel.Focus?
   
   var body: some View {
@@ -67,7 +67,7 @@ struct NoteView: View {
 struct NoteView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      NoteView()
+      NoteView(vm: .init(note: mockNote))
     }
   }
 }

@@ -11,7 +11,7 @@ final class NoteViewModel: ObservableObject {
   var newNoteButtonTapped: (_ newNote: Note) -> Void = unimplemented()
   
   init(
-    note: Note = .init(id: .init(), title: "New Untitled Note", body: ""),
+    note: Note,
     destination: Destination? = nil,
     focus: Focus? = .title
   ) {

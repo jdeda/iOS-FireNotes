@@ -19,7 +19,7 @@ let mockNote: Note = .init(
   lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
 )
 
-let mockFolderA: Folder = .init(
+let mockFolder: Folder = .init(
   id: .init(),
   name: "Machine Learning",
   notes: [
@@ -61,7 +61,7 @@ let mockFolderA: Folder = .init(
   ]
 )
 
-let mockFolderB: Folder = .init(
+fileprivate let mockFolderB: Folder = .init(
   id: .init(),
   name: "Baking",
   notes: [
@@ -154,7 +154,7 @@ let mockFolderB: Folder = .init(
   ]
 )
 
-let mockFolderC: Folder = .init(
+fileprivate let mockFolderC: Folder = .init(
   id: .init(),
   name: "Meal Prep",
   notes: [
@@ -187,4 +187,4 @@ let mockFolderC: Folder = .init(
   ]
 )
 
-let mockFolders: [Folder] = [mockFolderA, mockFolderB, mockFolderC]
+let mockFolders: [Folder] = [mockFolder, mockFolderB, mockFolderC]

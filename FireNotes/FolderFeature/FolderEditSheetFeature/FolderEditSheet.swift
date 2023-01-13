@@ -86,6 +86,6 @@ struct FolderEditSheet: View {
 
 struct FolderMenuSheet_Previews: PreviewProvider {
   static var previews: some View {
-    FolderEditSheet(vm: .init())
+    FolderEditSheet(vm: .init(folder: mockFolder))
   }
 }

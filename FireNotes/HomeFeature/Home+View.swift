@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftUINavigation
 
 struct HomeView: View {
-  @ObservedObject var vm: HomeViewModel = .init()
+  @ObservedObject var vm: HomeViewModel
   
   var body: some View {
     List {
@@ -50,7 +50,7 @@ extension HomeView {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      HomeView()
+      HomeView(vm: .init(folders: mockFolders))
     }
   }
 }

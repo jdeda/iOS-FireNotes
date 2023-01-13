@@ -31,7 +31,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   init(
-    folder: Folder = mockFolderA,
+    folder: Folder,
     select: Set<Note.ID> = [],
     search: String = "",
     destination: Destination? = nil,

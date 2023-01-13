@@ -121,7 +121,7 @@ extension FolderView {
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      FolderView(vm: .init())
+      FolderView(vm: .init(folder: mockFolder))
     }
   }
 }

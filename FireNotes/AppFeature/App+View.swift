@@ -12,7 +12,7 @@ struct AppView: View {
   @State var text: String = "Nice"
   var body: some View {
     NavigationStack {
-      HomeView()
+      HomeView(vm: HomeViewModel(folders: mockFolders))
     }
     .accentColor(.yellow)
   }
