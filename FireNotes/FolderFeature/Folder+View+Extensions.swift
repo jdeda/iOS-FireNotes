@@ -16,68 +16,108 @@ let mockFolder: Folder = .init(
   })
 )
 
+final class ToolbarViewModel: ObservableObject {
+  
+}
+
 struct ToolBar: ToolbarContent {
   @ObservedObject var vm: FolderViewModel
   
-  //  @ViewBuilder
-  //  func menu() -> some View {
-  //    Menu {
-  //      // Select
-  //      Button {
-  //        vm.toggleEditButtonTapped()
-  //      } label: {
-  //        HStack {
-  //          Text("Select")
-  //          Image(systemName: "checkmark.circle")
-  //        }
-  //      }
-  //
-  //      // Sort
-  //      Menu {
-  //        Picker("Sort", selection: $vm.sort) {
-  //          ForEach(FolderViewModel.Sort.allCases, id: \.self) { sort in
-  //            Text(sort.string)
-  //          }
-  //        }
-  //      } label: {
-  //        Label("Sort", systemImage: "arrow.up.arrow.down")
-  //      }
-  //      .menuIndicator(.hidden)
-  //
-  //      // Add
-  //      Button {
-  //      } label: {
-  //        Label("Add Subfolder", systemImage: "folder.badge.plus")
-  //      }
-  //
-  //      // Move
-  //      Button {
-  //      } label: {
-  //        Label("Move", systemImage: "folder")
-  //      }
-  //
-  //      // Rename
-  //      Button {
-  //      } label: {
-  //        Label("Rename", systemImage: "pencil")
-  //      }
-  //    } label: {
-  //      Image(systemName: "ellipsis.circle")
-  //    }
-  //  }
-  //
-  //  @ViewBuilder
-  //  func nonEditingBottomToolbar() -> some View {
-  //    Spacer()
-  //    Text("\(vm.folder.notes.count) notes")
-  //    Spacer()
-  //    Button {
-  //      vm.addNoteButtonTappped()
-  //    } label: {
-  //      Image(systemName: "square.and.pencil")
-  //    }
-  //  }
-  //
+  var body: some ToolbarContent {
+    if vm.isEditing {
+      editingToolbar()
+    }
+    else {
+      nonEditingToolbar()
+    }
+  }
+}
+
+extension ToolBar {
+  
+  @ToolbarContentBuilder
+  func editingToolbar() -> some ToolbarContent {
+    ToolbarItemGroup(placement: .primaryAction) {
+      menu()
+    }
+    ToolbarItemGroup(placement: .bottomBar) {
+      nonEditingBottomToolbar()
+    }
+  }
+  
+  @ToolbarContentBuilder
+  func nonEditingToolbar() -> some ToolbarContent {
+    ToolbarItemGroup(placement: .primaryAction) {
+      Button {
+        vm.toggleEditButtonTapped()
+      } label: {
+        Text("Done")
+      }
+    }
+    ToolbarItemGroup(placement: .bottomBar) {
+      editingBottomToolbar()
+    }
+  }
+  
+  @ViewBuilder
+  func menu() -> some View {
+    Menu {
+      // Select
+      Button {
+        vm.toggleEditButtonTapped()
+      } label: {
+        HStack {
+          Text("Select")
+          Image(systemName: "checkmark.circle")
+        }
+      }
+      
+      // Sort
+      Menu {
+        Picker("Sort", selection: $vm.sort) {
+          ForEach(FolderViewModel.Sort.allCases, id: \.self) { sort in
+            Text(sort.string)
+          }
+        }
+      } label: {
+        Label("Sort", systemImage: "arrow.up.arrow.down")
+      }
+      .menuIndicator(.hidden)
+      
+      // Add
+      Button {
+      } label: {
+        Label("Add Subfolder", systemImage: "folder.badge.plus")
+      }
+      
+      // Move
+      Button {
+      } label: {
+        Label("Move", systemImage: "folder")
+      }
+      
+      // Rename
+      Button {
+      } label: {
+        Label("Rename", systemImage: "pencil")
+      }
+    } label: {
+      Image(systemName: "ellipsis.circle")
+    }
+  }
+  
+  @ViewBuilder
+  func nonEditingBottomToolbar() -> some View {
+    Spacer()
+    Text("\(vm.folder.notes.count) notes")
+    Spacer()
+    Button {
+      vm.addNoteButtonTappped()
+    } label: {
+      Image(systemName: "square.and.pencil")
+    }
+  }
+  
   @ViewBuilder
   func editingBottomToolbar() -> some View {
     Button {
@@ -102,35 +142,6 @@ struct ToolBar: ToolbarContent {
       Image(systemName: "trash")
     }
     .disabled(vm.select.count == 0)
-  }
-  
-  var body: some ToolbarContent {
-    ToolbarItemGroup {
-      Button {
-        vm.selectAllButtonTapped()
-      } label: {
-        Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
-      }
-      
-      if vm.isEditing {
-        Button {
-          vm.toggleEditButtonTapped()
-        } label: {
-          Text("Done")
-        }
-        editingBottomToolbar()
-      }
-      else {
-      }
-      //      else {
-      ////        ToolbarItemGroup(placement: .primaryAction) {
-      ////          menu()
-      ////        }
-      ////        ToolbarItemGroup(placement: .bottomBar) {
-      ////          nonEditingBottomToolbar()
-      ////        }
-      //      }
-    }
   }
 }
 

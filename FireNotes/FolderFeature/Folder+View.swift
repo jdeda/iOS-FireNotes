@@ -36,9 +36,7 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-    .toolbar {
-      ToolBar(vm: vm)
-    }
+    .toolbar { ToolBar(vm: vm) }
     .searchable(text:$vm.search, placement: .navigationBarDrawer(displayMode: .always))
     .navigationBarTitle(vm.folder.name)
     .navigationBarBackButtonHidden(vm.isEditing)
@@ -68,8 +66,6 @@ struct FolderView: View {
     }
   }
 }
-
-
 
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
