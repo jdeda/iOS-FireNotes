@@ -15,6 +15,7 @@ struct FolderViewToolbar: ToolbarContent {
     }
   }
 }
+
 // MARK: - Helper Views
 extension FolderViewToolbar {
   

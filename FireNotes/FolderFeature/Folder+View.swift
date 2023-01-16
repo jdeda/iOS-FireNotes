@@ -2,9 +2,6 @@ import SwiftUI
 import SwiftUINavigation
 import CasePaths
 
-// TODO: Jesse Deda
-// Start a list of Swift things
-
 // MARK: - View
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
@@ -28,7 +25,6 @@ struct FolderView: View {
       .deleteDisabled(true)
     }
     
-    // TODO: Bug where preview switches immediately back to non-edit mode when edit mode is activated
     .bind(Binding<EditMode>(
       get: { vm.isEditing ? .active : .inactive },
       set: { vm.isEditing = $0 == .active }
@@ -41,8 +37,15 @@ struct FolderView: View {
       FolderViewToolbar(vm: vm)
     }
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-      Text("nice")
+//      Form {
+//        ForEach(vm.note) { note in
+//          Text(note.title)
+//        }
+      Search(vm: SearchViewModel.init(notes: vm.searchedNotes))
+//      }
     }
+    .onSubmit(of: .search, { vm.performSearch() })
+    .onChange(of: vm.search, perform: { _ in vm.performSearch() })
     .navigationBarTitle(vm.folder.name)
     .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(

@@ -1,14 +1,33 @@
 import SwiftUI
 import IdentifiedCollections
+import XCTestDynamicOverlay
 
+/**
+ Question on parent-child relationships
+  should a parent listen to state changes in a child or use a callback?
+ */
 final class SearchViewModel: ObservableObject {
   @Published var notes: IdentifiedArrayOf<Note>
+  
+  @Published var destination: Destination?
   var topHits: IdentifiedArrayOf<Note> {
     .init(notes.prefix(2))
   }
   
-  init(notes: IdentifiedArrayOf<Note>) {
+  var noteTapped: (Note) -> Void = unimplemented("SearchViewModel.noteTapped")
+  
+  init(
+    notes: IdentifiedArrayOf<Note>,
+    destination: Destination? = nil
+  ) {
     self.notes = notes
+    self.destination = destination
+  }
+}
+
+extension SearchViewModel {
+  enum Destination {
+    case note(Note)
   }
 }
 
@@ -16,7 +35,7 @@ struct Search: View {
   @ObservedObject var vm: SearchViewModel
   
   var body: some View {
-    Form {
+//    Form {
       Section {
         ForEach(vm.topHits) { note in
           Row(note: note)
@@ -54,7 +73,7 @@ struct Search: View {
             . textCase(nil)
           
         }
-      }
+//      }
     }
   }
 }

@@ -30,6 +30,8 @@ final class FolderViewModel: ObservableObject {
     select.count == folder.notes.count
   }
   
+  @Published var searchedNotes: IdentifiedArrayOf<Note> = []
+  
   init(
     folder: Folder,
     select: Set<Note.ID> = [],
@@ -89,6 +91,12 @@ final class FolderViewModel: ObservableObject {
         folder.notes.sort(using: KeyPathComparator(\.title, comparator: .localizedStandard))
       }
     }
+  }
+  
+  func performSearch() {
+    searchedNotes = .init(uniqueElements: folder.notes.filter {
+      $0.title.contains(search) || $0.body.contains(search)
+    })
   }
   
   

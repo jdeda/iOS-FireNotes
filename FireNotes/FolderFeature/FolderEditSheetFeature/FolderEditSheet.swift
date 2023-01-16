@@ -51,7 +51,7 @@ struct FolderEditSheet: View {
           vm.editSheetAddSubfolderButtonTapped()
         } label: {
           HStack {
-            Text("Select Subfolder")
+            Text("Add Subfolder")
             Spacer()
             Image(systemName: "folder.badge.plus")
           }
