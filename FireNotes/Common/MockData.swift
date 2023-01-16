@@ -9,12 +9,17 @@ fileprivate let dateFormatter: DateFormatter = {
 let mockNote: Note = .init(
   id: .init(),
   title: "Sushi Combo",
-  body: """
-    And My favorite class is the spy. \n
-    And My favorite class is the spy. \n
-    And My favorite class is the spy. \n
-    Hmmmm, good question.
-  """,
+  body: "And My favorite class is the spy.And My favorite class is the spy.And My favorite class is the spy.\n",
+//  body: """
+//  And My favorite class is the spy.And My favorite class is the spy.And My favorite class is the spy.
+//
+//  """,
+//  body: """
+//    And My favorite class is the spy. \n
+//    And My favorite class is the spy. \n
+//    And My favorite class is the spy. \n
+//    Hmmmm, good question.
+//  """,
   creationDate: dateFormatter.date(from: "1/1/2018 6:59AM")!,
   lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
 )
@@ -26,7 +31,9 @@ let mockFolder: Folder = .init(
     .init(
       id: .init(),
       title: "Logistic Regression",
-      body: "A wonderful introduction to neural networks. These models are incredibly simple and layout groundwork for understanding more complex model architecture.",
+      body: """
+      A wonderful introduction to neural networks. These models are incredibly simple and layout groundwork for understanding more complex model architecture.
+      """,
       creationDate: dateFormatter.date(from: "1/1/2020 6:59AM")!,
       lastEditDate: dateFormatter.date(from: "1/2/2020 6:59AM")!
     ),

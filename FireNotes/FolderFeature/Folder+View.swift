@@ -14,6 +14,7 @@ struct FolderView: View {
     List(selection: $vm.select) {
       ForEach(vm.folder.notes) { note in
         NoteRow(note: note)
+          .padding(1)
           .swipeActions(edge: .trailing) {
             Button(role: .destructive, action: { vm.deleteNote(note) } ) {
               Label("Delete", systemImage: "trash")
@@ -39,7 +40,9 @@ struct FolderView: View {
     .toolbar {
       FolderViewToolbar(vm: vm)
     }
-    .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always))
+    .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
+      Text("nice")
+    }
     .navigationBarTitle(vm.folder.name)
     .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(
@@ -98,7 +101,7 @@ struct FolderView: View {
 
 // MARK: - Helper Views
 extension FolderView {
-  struct NoteRow: View {
+  private struct NoteRow: View {
     let note: Note
     var body: some View {
       VStack(alignment: .leading) {
