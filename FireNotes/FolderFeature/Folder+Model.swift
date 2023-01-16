@@ -30,6 +30,10 @@ final class FolderViewModel: ObservableObject {
     select.count == folder.notes.count
   }
   
+  var isSearching: Bool {
+    (/Destination.search).extract(from: destination) != nil
+  }
+  
   @Published var searchedNotes: IdentifiedArrayOf<Note> = []
   
   init(
@@ -77,6 +81,8 @@ final class FolderViewModel: ObservableObject {
       break
     case .some(.editSheet):
       break
+    case .some(.search):
+      break
     }
   }
   
@@ -95,7 +101,10 @@ final class FolderViewModel: ObservableObject {
   
   func performSearch() {
     searchedNotes = .init(uniqueElements: folder.notes.filter {
-      $0.title.contains(search) || $0.body.contains(search)
+      let t = $0.title.lowercased()
+      let b = $0.body.lowercased()
+      let s = search.lowercased()
+      return t.contains(s) || b.contains(s)
     })
   }
   
@@ -220,6 +229,7 @@ extension FolderViewModel {
     case userOptionsSheet
     case alert(AlertState<AlertAction>)
     case moveSheet
+    case search
   }
   
   enum AlertAction {
@@ -241,27 +251,6 @@ extension FolderViewModel {
       }
     }
   }
-  
-  //  enum Sort: CaseIterable {
-  //    static var allCases: [FolderViewModel.Sort] = [
-  //      .editDate(chronological: true), .creationDate(chronological: true), .title(alphabetical: true)
-  //    ]
-  //
-  //    case editDate(chronological: Bool)
-  //    case creationDate(chronological: Bool)
-  //    case title(alphabetical: Bool)
-  //
-  //    var string: String {
-  //      switch self {
-  //      case .editDate(_):
-  //        return "Date Edited"
-  //      case .creationDate(_):
-  //        return "Date Created"
-  //      case .title(_):
-  //        return "Title"
-  //      }
-  //    }
-  //  }
 }
 
 //MARK: - Folder

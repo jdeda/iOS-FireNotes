@@ -6,6 +6,7 @@ import CasePaths
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.editMode) var editMode
+  @Environment(\.isSearching) var isSearching
   
   var body: some View {
     List(selection: $vm.select) {
@@ -33,16 +34,21 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
+    .bind(Binding<Bool>(
+      get: { vm.isSearching },
+      set: { _ in vm.destination = nil }
+    ),
+    to: Binding<Bool>(
+      get: { isSearching },
+      set: { _ in } // View will set value here! This is bad...
+    ))
     .toolbar {
       FolderViewToolbar(vm: vm)
     }
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-//      Form {
-//        ForEach(vm.note) { note in
-//          Text(note.title)
-//        }
-      Search(vm: SearchViewModel.init(notes: vm.searchedNotes))
-//      }
+      if isSearching {
+        Search(vm: .init(notes: vm.searchedNotes))
+      }
     }
     .onSubmit(of: .search, { vm.performSearch() })
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
@@ -127,7 +133,7 @@ extension FolderView {
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      FolderView(vm: .init(folder: mockFolder))
+      FolderView(vm: .init(folder: mockFolderA))
     }
   }
 }

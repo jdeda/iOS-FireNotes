@@ -35,7 +35,6 @@ struct Search: View {
   @ObservedObject var vm: SearchViewModel
   
   var body: some View {
-//    Form {
       Section {
         ForEach(vm.topHits) { note in
           Row(note: note)
@@ -47,7 +46,7 @@ struct Search: View {
             .fontWeight(.medium)
             .foregroundColor(.black)
             . textCase(nil)
-          
+
           Spacer()
           Text("\(vm.topHits.count) Found")
             .font(.body)
@@ -71,9 +70,7 @@ struct Search: View {
             .font(.body)
             .foregroundColor(.secondary)
             . textCase(nil)
-          
         }
-//      }
     }
   }
 }
