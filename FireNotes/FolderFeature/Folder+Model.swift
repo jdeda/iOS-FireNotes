@@ -30,7 +30,7 @@ final class FolderViewModel: ObservableObject {
     select.count == folder.notes.count
   }
   
-  @Published var searchedNotes: IdentifiedArrayOf<Note> = []
+  @Published var searchedNotes: IdentifiedArrayOf<Note>
   
   init(
     folder: Folder,
@@ -48,6 +48,7 @@ final class FolderViewModel: ObservableObject {
     self.renameText = renameText
     self.isEditing = isEditing
     self.sort = sort
+    self.searchedNotes = []
     destinationBind()
   }
   
@@ -95,8 +96,13 @@ final class FolderViewModel: ObservableObject {
   
   func performSearch() {
     searchedNotes = .init(uniqueElements: folder.notes.filter {
-      $0.title.contains(search) || $0.body.contains(search)
+      $0.title.lowercased().contains(search.lowercased()) ||
+      $0.body.lowercased().contains(search.lowercased())
     })
+  }
+  
+  func clearSearchedNotes() {
+    self.searchedNotes = []
   }
   
   
@@ -241,27 +247,6 @@ extension FolderViewModel {
       }
     }
   }
-  
-  //  enum Sort: CaseIterable {
-  //    static var allCases: [FolderViewModel.Sort] = [
-  //      .editDate(chronological: true), .creationDate(chronological: true), .title(alphabetical: true)
-  //    ]
-  //
-  //    case editDate(chronological: Bool)
-  //    case creationDate(chronological: Bool)
-  //    case title(alphabetical: Bool)
-  //
-  //    var string: String {
-  //      switch self {
-  //      case .editDate(_):
-  //        return "Date Edited"
-  //      case .creationDate(_):
-  //        return "Date Created"
-  //      case .title(_):
-  //        return "Title"
-  //      }
-  //    }
-  //  }
 }
 
 //MARK: - Folder

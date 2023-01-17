@@ -6,6 +6,7 @@ import CasePaths
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.editMode) var editMode
+  @Environment(\.isSearching) var isSearching
   
   var body: some View {
     List(selection: $vm.select) {
@@ -36,13 +37,20 @@ struct FolderView: View {
     .toolbar {
       FolderViewToolbar(vm: vm)
     }
+    .onChange(of: isSearching, perform: { newValue in
+      if newValue { vm.clearSearchedNotes() }
+    })
+    /**
+      Destinations collide...
+      if i am in search...and i click a row...then my destination swaps to that note...which means the logic displaying the search,
+      depends on the destination for the search, which means when u back out the search will be dismissed...
+      so...you'd have to build logic so that doesnt happen
+     also what happens if this is a global search...?and maybe u dont want that bottom toolbar button...i would though,
+      but there'd be a side effect where adding a new note would have to be put into the global notes folder
+     
+     */
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-//      Form {
-//        ForEach(vm.note) { note in
-//          Text(note.title)
-//        }
-      Search(vm: SearchViewModel.init(notes: vm.searchedNotes))
-//      }
+      Search(vm: SearchViewModel(notes: vm.searchedNotes))
     }
     .onSubmit(of: .search, { vm.performSearch() })
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
@@ -127,7 +135,7 @@ extension FolderView {
 struct FolderView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      FolderView(vm: .init(folder: mockFolder))
+      FolderView(vm: .init(folder: mockFolderA))
     }
   }
 }
