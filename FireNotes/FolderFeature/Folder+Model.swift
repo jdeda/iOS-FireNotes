@@ -172,7 +172,6 @@ final class FolderViewModel: ObservableObject {
     destination = nil
   }
   
-  
   func editSheetDismissButtonTapped() {
     destination = nil
   }
@@ -182,6 +181,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func editSheetGridButtonTapped() {
+    
   }
   
   func editSheetSelectButtonTapped() {
@@ -192,10 +192,6 @@ final class FolderViewModel: ObservableObject {
   func editSheetSortPickerOptionTapped(_ newSort: Sort) -> Void {
     sort = newSort
     performSort()
-  }
-  
-  func editSheetSortButtonTapped() {
-    
   }
   
   func editSheetAddSubfolderButtonTapped() {
@@ -241,7 +237,9 @@ final class FolderViewModel: ObservableObject {
       creationDate: Date(),
       lastEditDate: Date()
     )
-    self.folder.notes.append(newNote)
+    _ = withAnimation {
+      self.folder.notes.append(newNote)
+    }
     self.destination = .note(.init(note: newNote))
   }
   

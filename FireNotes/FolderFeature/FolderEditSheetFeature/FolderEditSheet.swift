@@ -30,21 +30,23 @@ struct FolderEditSheet: View {
   @ObservedObject var vm: FolderEditSheetViewModel
   
   var body: some View {
-    Form {
-      Section {
-        gridButton()
+    NavigationStack {
+      Form {
+        Section {
+          gridButton()
+        }
+        Section {
+          selectButton()
+          sortPicker()
+          addButton()
+          moveButton()
+          renameButton()
+        }
       }
-      Section {
-        selectButton()
-        sortPicker()
-        addButton()
-        moveButton()
-        renameButton()
+      .foregroundColor(.black)
+      .toolbar {
+        toolbar()
       }
-    }
-    .foregroundColor(.black)
-    .toolbar {
-      toolbar()
     }
   }
 }
@@ -59,7 +61,6 @@ extension FolderEditSheet {
     }
   }
   
-  
   func selectButton() -> some View {
     Button {
       vm.selectButtonTapped()
@@ -69,7 +70,6 @@ extension FolderEditSheet {
   }
   
   func sortPicker() -> some View {
-    // TODO: Perform logic when a choice is selected executed...
     Menu {
       Picker("Sort", selection: $vm.sort) {
         ForEach(FolderViewModel.Sort.allCases, id: \.self) { sort in
@@ -97,6 +97,7 @@ extension FolderEditSheet {
       CustomLabel("Move", systemImage: "folder")
     }
   }
+  
   func renameButton() -> some View {
     Button {
       vm.renameButtonTapped()

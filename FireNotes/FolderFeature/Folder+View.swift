@@ -84,10 +84,8 @@ struct FolderView: View {
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.renameAlert,
       actions: { _ in
-        RenameAlert(
-          name: vm.folder.name,
-          submitName: vm.renameAlertConfirmButtonTapped
-        )
+        RenameAlert(name: vm.folder.name, submitName: vm.renameAlertConfirmButtonTapped)
+        .onAppear { UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(.yellow) }
       },
       message: { _ in }
     )
