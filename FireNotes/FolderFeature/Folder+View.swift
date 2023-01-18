@@ -7,7 +7,7 @@ struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.editMode) var editMode
   @Environment(\.isSearching) var isSearching
-  
+
   var body: some View {
     List(selection: $vm.select) {
       ForEach(vm.folder.notes) { note in
@@ -25,7 +25,6 @@ struct FolderView: View {
       }
       .deleteDisabled(true)
     }
-    
     .bind(Binding<EditMode>(
       get: { vm.isEditing ? .active : .inactive },
       set: { vm.isEditing = $0 == .active }
@@ -47,14 +46,13 @@ struct FolderView: View {
       so...you'd have to build logic so that doesnt happen
      also what happens if this is a global search...?and maybe u dont want that bottom toolbar button...i would though,
       but there'd be a side effect where adding a new note would have to be put into the global notes folder
-     
      */
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
       Search(vm: SearchViewModel(notes: vm.searchedNotes))
     }
     .onSubmit(of: .search, { vm.performSearch() })
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
-    .navigationBarTitle(vm.folder.name)
+    .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(
       unwrapping: $vm.destination,
@@ -77,36 +75,22 @@ struct FolderView: View {
     .sheet(
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.editSheet
-    ) { _ in
-      NavigationStack {
-        FolderEditSheet(vm: vm)
-          .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-              HStack {
-                Image(systemName: "folder.fill")
-                  .font(.title3)
-                  .foregroundColor(.yellow)
-                Text(vm.folder.name)
-              }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-              Button {
-                 vm.editSheetDismissButtonTapped()
-              } label: {
-                Image(systemName: "xmark.circle.fill")
-              }
-              .foregroundColor(Color(UIColor.systemGray2))
-            }
-          }
-      }
+    ) { $sheetVM in
+      FolderEditSheet(vm: sheetVM)
       .presentationDetents([.fraction(0.55)])
     }
     .alert(
+      title: { Text("Rename Folder") },
       unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.alert
-    ) { alertAction in
-      vm.alertButtonTapped(alertAction)
-    }
+      case: /FolderViewModel.Destination.renameAlert,
+      actions: { _ in
+        RenameAlert(
+          name: vm.folder.name,
+          submitName: vm.renameAlertConfirmButtonTapped
+        )
+      },
+      message: { _ in }
+    )
   }
 }
 
@@ -139,4 +123,3 @@ struct FolderView_Previews: PreviewProvider {
     }
   }
 }
- 

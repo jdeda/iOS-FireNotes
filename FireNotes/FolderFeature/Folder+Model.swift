@@ -4,30 +4,38 @@ import IdentifiedCollections
 import SwiftUINavigation
 import SwiftUI
 import Tagged
+import XCTestDynamicOverlay
 
 // TODO: Selection highlight not appearing
-// TODO: Row arrow not there
-// TODO: Rows too thick
 
-//MARK: - FolderViewModel
+//MARK: - ViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
   @Published var select: Set<Note.ID>
   @Published var search: String
   @Published var renameText: String
   @Published var isEditing: Bool
-  @Published var sort: Sort {
-    didSet { performSort() }
-  }
+  @Published var sort: Sort
   
   @Published var destination: Destination? {
-    didSet { destinationBind() }
+    didSet {
+      NSLog("FolderViewModel.destination: \(String(describing: self.destination))")
+      destinationBind() }
   }
   
   private var destinationCancellable: AnyCancellable?
   
   var hasSelectedAll: Bool {
     select.count == folder.notes.count
+  }
+  
+  var navigationBarTitle: String {
+    if isEditing && select.count > 0 {
+      return "\(select.count) Selected"
+    }
+    else {
+      return folder.name
+    }
   }
   
   @Published var searchedNotes: IdentifiedArrayOf<Note>
@@ -76,21 +84,58 @@ final class FolderViewModel: ObservableObject {
       break
     case .some(.moveSheet):
       break
-    case .some(.editSheet):
+    case .some(.renameAlert):
+      break
+    case let .editSheet(editSheetVM):
+//      editSheetVM.gridButtonTapped = { [weak self] in
+//        guard let self else { return }
+//        // TODO:
+//        self.editSheetGridButtonTapped()
+//      }
+      editSheetVM.selectButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.editSheetSelectButtonTapped()
+      }
+      editSheetVM.sortPickerOptionTapped = { [weak self] newSort in
+        guard let self else { return }
+        self.editSheetSortPickerOptionTapped(newSort)
+      }
+//      editSheetVM.addSubfolderButtonTapped = { [weak self] in
+//        guard let self else { return }
+//        self.editSheetAddSubfolderButtonTapped()
+//      }
+//      editSheetVM.moveButtonTapped = { [weak self] in
+//        guard let self else { return }
+//        self.editSheetMoveButtonTapped()
+//      }
+      editSheetVM.renameButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.editSheetRenameButtonTapped()
+        
+      }
+      editSheetVM.dismissButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.editSheetDismissButtonTapped()
+      }
       break
     }
   }
   
   private func performSort() {
-    withAnimation {
+    let newNotes: [Note] = {
+      let notes = folder.notes.elements
       switch sort {
       case .editDate:
-        folder.notes.sort(using: KeyPathComparator(\.lastEditDate))
+        return notes.sorted(using: KeyPathComparator(\.lastEditDate))
       case .creationDate:
-        folder.notes.sort(using: KeyPathComparator(\.lastEditDate))
+        return notes.sorted(using: KeyPathComparator(\.lastEditDate))
       case .title:
-        folder.notes.sort(using: KeyPathComparator(\.title, comparator: .localizedStandard))
+        return notes.sorted(using: KeyPathComparator(\.title, comparator: .localizedStandard))
       }
+    }()
+    destination = nil
+    withAnimation {
+      folder.notes = .init(uniqueElements: newNotes)
     }
   }
   
@@ -127,28 +172,46 @@ final class FolderViewModel: ObservableObject {
     destination = nil
   }
   
+  
   func editSheetDismissButtonTapped() {
     destination = nil
   }
   
   func editSheetAppearButtonTapped() {
-    destination = .editSheet
+    destination = .editSheet(.init(folderName: folder.name))
+  }
+  
+  func editSheetGridButtonTapped() {
   }
   
   func editSheetSelectButtonTapped() {
-    
+    isEditing = true
+    destination = nil
   }
+  
+  func editSheetSortPickerOptionTapped(_ newSort: Sort) -> Void {
+    sort = newSort
+    performSort()
+  }
+  
   func editSheetSortButtonTapped() {
     
   }
+  
   func editSheetAddSubfolderButtonTapped() {
     
   }
+  
   func editSheetMoveButtonTapped() {
     
   }
+  
+  // TODO: Need to dismiss the sheet, wait, then show the popup.
   func editSheetRenameButtonTapped() {
-    
+    self.destination = nil
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.destination = .renameAlert
+    }
   }
   
   func alertButtonTapped(_ action: AlertAction) {
@@ -157,6 +220,10 @@ final class FolderViewModel: ObservableObject {
       confirmDeleteSelected()
       break
     }
+  }
+  
+  func renameAlertConfirmButtonTapped(_ newName: String) {
+    folder.name = newName
   }
   
   func noteTapped(_ note: Note) {
@@ -220,11 +287,12 @@ final class FolderViewModel: ObservableObject {
 
 extension FolderViewModel {
   enum Destination {
-    case editSheet
+    case editSheet(FolderEditSheetViewModel)
     case note(NoteViewModel)
     case home
     case userOptionsSheet
     case alert(AlertState<AlertAction>)
+    case renameAlert
     case moveSheet
   }
   

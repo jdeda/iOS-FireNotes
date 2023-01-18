@@ -21,6 +21,14 @@ extension FolderViewToolbar {
   
   @ToolbarContentBuilder
   func editingToolbar() -> some ToolbarContent {
+    ToolbarItemGroup(placement: .navigationBarLeading) {
+      Button {
+        vm.selectAllButtonTapped()
+      } label: {
+        Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
+      }
+      .foregroundColor(.yellow)
+    }
     ToolbarItemGroup(placement: .primaryAction) {
       Button {
         vm.toolbarDoneButtonTapped()
