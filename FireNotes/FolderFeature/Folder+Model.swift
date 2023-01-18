@@ -20,7 +20,8 @@ final class FolderViewModel: ObservableObject {
   @Published var destination: Destination? {
     didSet {
       NSLog("FolderViewModel.destination: \(String(describing: self.destination))")
-      destinationBind() }
+      destinationBind()
+    }
   }
   
   private var destinationCancellable: AnyCancellable?
