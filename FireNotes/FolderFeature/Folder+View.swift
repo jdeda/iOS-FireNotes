@@ -39,14 +39,6 @@ struct FolderView: View {
     .onChange(of: isSearching, perform: { newValue in
       if newValue { vm.clearSearchedNotes() }
     })
-    /**
-      Destinations collide...
-      if i am in search...and i click a row...then my destination swaps to that note...which means the logic displaying the search,
-      depends on the destination for the search, which means when u back out the search will be dismissed...
-      so...you'd have to build logic so that doesnt happen
-     also what happens if this is a global search...?and maybe u dont want that bottom toolbar button...i would though,
-      but there'd be a side effect where adding a new note would have to be put into the global notes folder
-     */
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
       Search(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
     }
@@ -80,12 +72,17 @@ struct FolderView: View {
       .presentationDetents([.fraction(0.55)])
     }
     .alert(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.alert
+    ) { action in
+      vm.alertButtonTapped(action)
+    }
+    .alert(
       title: { Text("Rename Folder") },
       unwrapping: $vm.destination,
       case: /FolderViewModel.Destination.renameAlert,
       actions: { _ in
         RenameAlert(name: vm.folder.name, submitName: vm.renameAlertConfirmButtonTapped)
-        .onAppear { UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(.yellow) }
       },
       message: { _ in }
     )

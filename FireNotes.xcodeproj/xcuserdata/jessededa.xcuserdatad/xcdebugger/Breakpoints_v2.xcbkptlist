@@ -14,8 +14,8 @@
             filePath = "FireNotes/FolderFeature/Folder+Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -134,8 +134,8 @@
             filePath = "FireNotes/Search/Search+StringBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -150,8 +150,8 @@
             filePath = "FireNotes/Search/Search+StringBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -166,8 +166,8 @@
             filePath = "FireNotes/Search/Search+StringBuilder.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
             <Locations>

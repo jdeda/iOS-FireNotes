@@ -80,11 +80,6 @@ final class FolderViewModel: ObservableObject {
     case .some(.renameAlert):
       break
     case let .editSheet(editSheetVM):
-//      editSheetVM.gridButtonTapped = { [weak self] in
-//        guard let self else { return }
-//        // TODO:
-//        self.editSheetGridButtonTapped()
-//      }
       editSheetVM.selectButtonTapped = { [weak self] in
         guard let self else { return }
         self.editSheetSelectButtonTapped()
@@ -109,6 +104,8 @@ final class FolderViewModel: ObservableObject {
         guard let self else { return }
         self.editSheetDismissButtonTapped()
       }
+      break
+    case .some(.deleteSelectedAlert):
       break
     }
   }
@@ -161,7 +158,14 @@ final class FolderViewModel: ObservableObject {
   }
   
   func toolbarDeleteSelectedButtonTapped() {
-    destination = nil
+    destination = .alert(.init(
+      title: TextState("Delete Selected"),
+      message: TextState("Are you sure you want to delete the selected notes?"),
+      buttons: [
+        .default(TextState("Nevermind")),
+        .default(TextState("Yes"), action: .send(.confirmDelete)),
+      ]
+    ))
   }
   
   func editSheetDismissButtonTapped() {
@@ -170,10 +174,6 @@ final class FolderViewModel: ObservableObject {
   
   func editSheetAppearButtonTapped() {
     destination = .editSheet(.init(folderName: folder.name))
-  }
-  
-  func editSheetGridButtonTapped() {
-    
   }
   
   func editSheetSelectButtonTapped() {
@@ -249,28 +249,11 @@ final class FolderViewModel: ObservableObject {
     
   }
   
-  /**
-   Deletes selected notes. If no notes are selected, delete all.
-   */
-  func deleteSelectedTapped() {
-    self.destination = .alert(.init(
-      title: TextState("Delete?"),
-      message: TextState("Are you sure you want to delete this folder?"),
-      buttons: [
-        .destructive(TextState("Yes"), action: .send(.confirmDelete)),
-        .cancel(TextState("Nevermind"))
-      ]
-    ))
-  }
-  
   private func confirmDeleteSelected() {
     withAnimation {
-      if select.count == 0 { self.folder.notes = [] }
-      else {
-        self.folder.notes = self.folder.notes.filter {
-          !select.contains($0.id)
-        }
-      }
+      folder.notes = folder.notes.filter { !select.contains($0.id) }
+      destination = nil
+      isEditing = false
     }
   }
 }
@@ -283,6 +266,7 @@ extension FolderViewModel {
     case userOptionsSheet
     case alert(AlertState<AlertAction>)
     case renameAlert
+    case deleteSelectedAlert
     case moveSheet
   }
   

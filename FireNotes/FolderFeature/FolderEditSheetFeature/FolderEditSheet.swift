@@ -15,7 +15,6 @@ final class FolderEditSheetViewModel: ObservableObject {
     self.sort = sort
   }
   
-  var gridButtonTapped: () -> Void = unimplemented("FolderEditSheetViewModel.gridButtonTapped")
   var selectButtonTapped: () -> Void = unimplemented("FolderEditSheetViewModel.selectButtonTapped")
   var sortPickerOptionTapped: (_ sort: FolderViewModel.Sort) -> Void = unimplemented("FolderEditSheetViewModel.sortPickerOptionTapped")
   var addSubfolderButtonTapped: () -> Void = unimplemented("FolderEditSheetViewModel.addSubfolderButtonTapped")
@@ -32,16 +31,11 @@ struct FolderEditSheet: View {
   var body: some View {
     NavigationStack {
       Form {
-        Section {
-          gridButton()
-        }
-        Section {
           selectButton()
           sortPicker()
           addButton()
           moveButton()
           renameButton()
-        }
       }
       .foregroundColor(.black)
       .toolbar {
@@ -53,13 +47,6 @@ struct FolderEditSheet: View {
 
 // MARK: - Helpers
 extension FolderEditSheet {
-  func gridButton() -> some View {
-    Button {
-      vm.gridButtonTapped()
-    } label: {
-      CustomLabel("View as Gallery", systemImage: "square.grid.2x2")
-    }
-  }
   
   func selectButton() -> some View {
     Button {
