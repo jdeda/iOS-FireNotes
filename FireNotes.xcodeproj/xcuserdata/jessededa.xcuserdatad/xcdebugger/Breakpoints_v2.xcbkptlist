@@ -136,7 +136,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
             endingLineNumber = "29"
-            landmarkName = "stringResult(source:query:length:caseInsensitive:)"
+            landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -152,7 +152,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
             endingLineNumber = "25"
-            landmarkName = "stringResult(source:query:length:caseInsensitive:)"
+            landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -168,7 +168,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
             endingLineNumber = "44"
-            landmarkName = "stringResult(source:query:length:caseInsensitive:)"
+            landmarkName = "stringSearchResult(source:query:length:caseInsensitive:)"
             landmarkType = "9">
             <Locations>
                <Location

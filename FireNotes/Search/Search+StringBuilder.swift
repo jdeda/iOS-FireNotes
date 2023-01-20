@@ -61,6 +61,7 @@ func stringSearchResult(
     let finalStr = String(source[x...y])
     return String(finalStr)
   }
+  .map { $0.trimmingCharacters(in: .whitespacesAndNewlines)}
   
   var finalResult = ""
   for word in foundWords {

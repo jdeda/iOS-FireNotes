@@ -78,6 +78,7 @@ extension Search {
         length: length
       )
       else { return note.subTitle }
+      if result.isEmpty  { return note.subTitle}
       return result
     }
     
