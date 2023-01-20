@@ -18,6 +18,8 @@
 		977394E9295F842700A8311F /* Auth+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394E8295F842700A8311F /* Auth+Model.swift */; };
 		977394EB295F842E00A8311F /* Auth+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EA295F842E00A8311F /* Auth+View.swift */; };
 		977394EF295F874D00A8311F /* UserSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EE295F874D00A8311F /* UserSheet.swift */; };
+		9776E62C297B036C006C4439 /* RenameSelectedSheet+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776E62B297B036C006C4439 /* RenameSelectedSheet+Model.swift */; };
+		9776E62F297B2521006C4439 /* RenameSelectSheet+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776E62E297B2521006C4439 /* RenameSelectSheet+View.swift */; };
 		97775084297855120072EB0D /* RenameAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97775083297855120072EB0D /* RenameAlert.swift */; };
 		97EB457D2965F4AA00018ADF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457C2965F4AA00018ADF /* IdentifiedCollections */; };
 		97EB45802966064200018ADF /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457F2966064200018ADF /* Tagged */; };
@@ -47,6 +49,8 @@
 		977394E8295F842700A8311F /* Auth+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Model.swift"; sourceTree = "<group>"; };
 		977394EA295F842E00A8311F /* Auth+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+View.swift"; sourceTree = "<group>"; };
 		977394EE295F874D00A8311F /* UserSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSheet.swift; sourceTree = "<group>"; };
+		9776E62B297B036C006C4439 /* RenameSelectedSheet+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenameSelectedSheet+Model.swift"; sourceTree = "<group>"; };
+		9776E62E297B2521006C4439 /* RenameSelectSheet+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenameSelectSheet+View.swift"; sourceTree = "<group>"; };
 		97775083297855120072EB0D /* RenameAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameAlert.swift; sourceTree = "<group>"; };
 		97F089792971EDF90032501F /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		97F27B13295F43BF008FB09B /* Folder+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+View.swift"; sourceTree = "<group>"; };
@@ -121,6 +125,15 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		9776E62D297B250B006C4439 /* RenameSelectedSheet */ = {
+			isa = PBXGroup;
+			children = (
+				9776E62B297B036C006C4439 /* RenameSelectedSheet+Model.swift */,
+				9776E62E297B2521006C4439 /* RenameSelectSheet+View.swift */,
+			);
+			path = RenameSelectedSheet;
+			sourceTree = "<group>";
+		};
 		97F0897B29746CAC0032501F /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +158,7 @@
 				97F27B13295F43BF008FB09B /* Folder+View.swift */,
 				97F27B20295F76CA008FB09B /* Folder+Model.swift */,
 				97775083297855120072EB0D /* RenameAlert.swift */,
+				9776E62D297B250B006C4439 /* RenameSelectedSheet */,
 				9730C3612971C32B00BEFF0E /* FolderEditSheetFeature */,
 				9730C35C29719D8D00BEFF0E /* FolderToolbarFeature */,
 			);
@@ -300,7 +314,9 @@
 				976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */,
 				9752E1A42976DFE60031EE4E /* Search.swift in Sources */,
 				9730C35E29719E3100BEFF0E /* FolderToolbar+Model.swift in Sources */,
+				9776E62C297B036C006C4439 /* RenameSelectedSheet+Model.swift in Sources */,
 				977394EF295F874D00A8311F /* UserSheet.swift in Sources */,
+				9776E62F297B2521006C4439 /* RenameSelectSheet+View.swift in Sources */,
 				977394E9295F842700A8311F /* Auth+Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
