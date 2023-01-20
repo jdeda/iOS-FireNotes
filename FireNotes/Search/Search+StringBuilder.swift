@@ -1,5 +1,39 @@
 import Foundation
 
+/// Returns a string containing as many words containing the query in the source, up to a given length,
+/// case insensitively or not.
+///
+/// Words are represented as a sequence of characters, separated by any whitespace.
+/// Resulting string does not have partial words, so entire words will be cut off.
+///
+/// i.e.
+///
+///  let result = stringSearchResult(
+///   source: "molly sold seashells at the seashore",
+///   query: "sea",
+///   length: "50"
+///   caseInsensitive: true
+///  )
+///
+///  print(result) <-- "sold seashells seashore"
+///
+///  let result = stringSearchResult(
+///   source: "molly sold seashells at the seashore",
+///   query: "sea",
+///   length: "20"
+///   caseInsensitive: true
+///  )
+///
+///  print(result) <-- "sold seashells"
+///
+///
+/// - Parameters:
+///   - source: The string to check
+///   - query: The string representing what the source should contain
+///   - length: The maximum length of the resuult
+///   - caseInsensitive: boolean representing if search should be case insensitive
+///
+///
 func stringSearchResult(
   source sourceRaw: String,
   query queryRaw: String,
@@ -21,7 +55,7 @@ func stringSearchResult(
     return try? Regex(reg.pattern)
   }()
   else { return nil }
-
+  
   let ranges = source.ranges(of: regex)
   let foundWords: [String] = ranges.compactMap { range -> String? in
     // Go back till you find a space, this will be the new range start index
