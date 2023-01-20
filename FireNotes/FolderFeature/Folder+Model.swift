@@ -13,15 +13,11 @@ final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
   @Published var select: Set<Note.ID>
   @Published var search: String
-  @Published var renameText: String
   @Published var isEditing: Bool
   @Published var sort: Sort
-  
+  @Published var searchedNotes: IdentifiedArrayOf<Note>
   @Published var destination: Destination? {
-    didSet {
-      NSLog("FolderViewModel.destination: \(String(describing: self.destination))")
-      destinationBind()
-    }
+    didSet { destinationBind() }
   }
   
   private var destinationCancellable: AnyCancellable?
@@ -39,14 +35,11 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
-  @Published var searchedNotes: IdentifiedArrayOf<Note>
-  
   init(
     folder: Folder,
     select: Set<Note.ID> = [],
     search: String = "",
     destination: Destination? = nil,
-    renameText: String = "",
     isEditing: Bool = false,
     sort: Sort = .editDate
   ) {
@@ -54,7 +47,6 @@ final class FolderViewModel: ObservableObject {
     self.select = select
     self.search = search
     self.destination = destination
-    self.renameText = renameText
     self.isEditing = isEditing
     self.sort = sort
     self.searchedNotes = []
@@ -112,7 +104,6 @@ final class FolderViewModel: ObservableObject {
       editSheetVM.renameButtonTapped = { [weak self] in
         guard let self else { return }
         self.editSheetRenameButtonTapped()
-        
       }
       editSheetVM.dismissButtonTapped = { [weak self] in
         guard let self else { return }

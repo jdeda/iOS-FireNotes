@@ -3,7 +3,6 @@ import SwiftUINavigation
 import IdentifiedCollections
 import XCTestDynamicOverlay
 
-
 final class SearchViewModel: ObservableObject {
   @Published var notes: IdentifiedArrayOf<Note>
   
@@ -20,11 +19,12 @@ final class SearchViewModel: ObservableObject {
 
 struct Search: View {
   @ObservedObject var vm: SearchViewModel
+  let query: String
   
   var body: some View {
     Section {
       ForEach(vm.topHits) { note in
-        Row(note: note)
+        Row(note: note, query: query)
           .onTapGesture {
             vm.noteTapped(note)
           }
@@ -46,7 +46,7 @@ struct Search: View {
     }
     Section {
       ForEach(vm.notes) { note in
-        Row(note: note)
+        Row(note: note, query: query)
       }
     } header: {
       HStack {
@@ -59,7 +59,7 @@ struct Search: View {
         Text("\(vm.notes.count) Found")
           .font(.body)
           .foregroundColor(.secondary)
-          . textCase(nil)
+          .textCase(nil)
         
       }
     }
@@ -69,21 +69,36 @@ struct Search: View {
 extension Search {
   struct Row: View {
     let note: Note
+    let query: String
+    let length = 50
+    
+    var noteBodyQueryDescription: String {
+      guard let result = stringResult3(source: note.body, query: query, length: length)
+      else {
+        return note.subTitle
+        
+      }
+      return result
+    }
+    
+    
     var body: some View {
       VStack(alignment: .leading) {
-        Text(note.title)
+        HighlightedText(note.title, matching: query, caseInsensitive: true)
+//        Text(note.title)
           .fontWeight(.medium)
         HStack {
           Text(note.formattedDate)
             .font(.caption)
             .foregroundColor(.secondary)
-          Text(note.subTitle)
+          HighlightedText(noteBodyQueryDescription, matching: query, caseInsensitive: true)
+//          Text(note.subTitle)
             .font(.caption)
             .foregroundColor(.secondary)
         }
         HStack(alignment: .center) {
           Image(systemName: "folder")
-            .foregroundColor(Color.yellow)
+            .foregroundColor(.secondary)
           Text("folder")
             .foregroundColor(.black)
           Spacer()
@@ -95,6 +110,47 @@ extension Search {
 
 struct SearchPreviews: PreviewProvider {
   static var previews: some View {
-    Search(vm: .init(notes: mockFolder.notes))
+    Search(vm: .init(notes: mockFolder.notes), query: "")
   }
+}
+
+// MARK: - I have no idea how this works. Nice!
+struct HighlightedText: View {
+    let text: String
+    let matching: String
+    let caseInsensitive: Bool
+
+    init(_ text: String, matching: String, caseInsensitive: Bool = false) {
+        self.text = text
+        self.matching = matching
+        self.caseInsensitive = caseInsensitive
+    }
+
+    var body: some View {
+        guard let regex = try? NSRegularExpression(
+          pattern: NSRegularExpression.escapedPattern(for: matching)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(
+              options: .regularExpression,
+              locale: .current
+            )
+          ,
+          options: caseInsensitive ? .caseInsensitive : .init()
+        ) else {
+            return Text(text)
+        }
+
+        let range = NSRange(location: 0, length: text.count)
+        let matches = regex.matches(in: text, options: .withTransparentBounds, range: range)
+      
+        return text.enumerated()
+        .map { (char) -> Text in
+            guard matches.filter({$0.range.contains(char.offset)}).count == 0
+            else { return Text(String(char.element)).foregroundColor(.yellow) }
+            return Text(String(char.element))
+        }
+        .reduce(Text("")) { (a, b) -> Text in
+            return a + b
+        }
+    }
 }

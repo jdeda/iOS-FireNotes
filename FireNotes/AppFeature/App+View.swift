@@ -1,12 +1,5 @@
 import SwiftUI
 
-/**
- NavigationPaths
- Auth -------- Home ----| ---
- |                                  | ------- Folder  ------- Note
- Home -------------------|---
- */
-
 struct AppView: View {
   @FocusState var focus: Bool
   @State var text: String = "Nice"
@@ -16,10 +9,10 @@ struct AppView: View {
         folders: mockFolders,
         destination: HomeViewModel.Destination.folder(
           FolderViewModel(
-            folder: mockFolders.first!, // MARK: This can lead to invalid states! linking looks weird now...
-            destination: FolderViewModel.Destination.editSheet(
-              FolderEditSheetViewModel(folderName: mockFolders.first!.name)
-            )
+            folder: mockFolders.first! // MARK: This can lead to invalid states! linking looks weird now...
+//            destination: FolderViewModel.Destination.editSheet(
+//              FolderEditSheetViewModel(folderName: mockFolders.first!.name)
+//            )
           )
         )
       ))
