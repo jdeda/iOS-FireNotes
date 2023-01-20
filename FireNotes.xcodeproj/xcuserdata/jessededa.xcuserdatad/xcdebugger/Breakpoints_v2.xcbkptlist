@@ -172,34 +172,82 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "9D7D5E32-25A6-472E-8607-E10D7E358F04 - eaa7215b84790667"
+                  uuid = "9D7D5E32-25A6-472E-8607-E10D7E358F04 - 781f0f8d5c76cb2f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #3 (Swift.Range&lt;Swift.String.Index&gt;) -&gt; Swift.Optional&lt;Swift.String&gt; in FireNotes.stringResult(source: Swift.String, query: Swift.String, length: Swift.Int, caseInsensitive: Swift.Bool) -&gt; Swift.Optional&lt;Swift.String&gt;"
+                  symbolName = "closure #4 (Swift.Range&lt;Swift.String.Index&gt;) -&gt; Swift.Optional&lt;Swift.String&gt; in FireNotes.stringSearchResult(source: Swift.String, query: Swift.String, length: Swift.Int, caseInsensitive: Swift.Bool) -&gt; Swift.Optional&lt;Swift.String&gt;"
                   moduleName = "FireNotes"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jessededa/Developement/Swift/02_Apps/FireNotes/FireNotes/Search/Search+StringBuilder.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "393">
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "327">
                </Location>
                <Location
-                  uuid = "9D7D5E32-25A6-472E-8607-E10D7E358F04 - 1f75e22be47112a0"
+                  uuid = "9D7D5E32-25A6-472E-8607-E10D7E358F04 - b1e9299704873fda"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; Swift.Optional&lt;Swift.Int&gt; in closure #3 (Swift.Range&lt;Swift.String.Index&gt;) -&gt; Swift.Optional&lt;Swift.String&gt; in FireNotes.stringResult(source: Swift.String, query: Swift.String, length: Swift.Int, caseInsensitive: Swift.Bool) -&gt; Swift.Optional&lt;Swift.String&gt;"
+                  symbolName = "closure #2 () -&gt; Swift.Optional&lt;Swift.Int&gt; in closure #4 (Swift.Range&lt;Swift.String.Index&gt;) -&gt; Swift.Optional&lt;Swift.String&gt; in FireNotes.stringSearchResult(source: Swift.String, query: Swift.String, length: Swift.Int, caseInsensitive: Swift.Bool) -&gt; Swift.Optional&lt;Swift.String&gt;"
                   moduleName = "FireNotes"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jessededa/Developement/Swift/02_Apps/FireNotes/FireNotes/Search/Search+StringBuilder.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
-                  offsetFromSymbolStart = "296">
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "244">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "008C135C-CE99-472E-96BB-7AB47F2563DA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FireNotes/FolderFeature/Folder+Model.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "destinationBind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "008C135C-CE99-472E-96BB-7AB47F2563DA - eeb60d9887bdffdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #7 (FireNotes.RenameValues) -&gt; () in FireNotes.FolderViewModel.destinationBind() -&gt; ()"
+                  moduleName = "FireNotes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jessededa/Developement/Swift/02_Apps/FireNotes/FireNotes/FolderFeature/Folder+Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "008C135C-CE99-472E-96BB-7AB47F2563DA - 931c9d824463ed73"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (FireNotes.Note) -&gt; Swift.Bool in closure #7 (FireNotes.RenameValues) -&gt; () in FireNotes.FolderViewModel.destinationBind() -&gt; ()"
+                  moduleName = "FireNotes"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jessededa/Developement/Swift/02_Apps/FireNotes/FireNotes/FolderFeature/Folder+Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "94">
                </Location>
             </Locations>
          </BreakpointContent>

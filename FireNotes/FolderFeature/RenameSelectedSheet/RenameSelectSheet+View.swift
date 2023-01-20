@@ -1,8 +1,8 @@
 import SwiftUI
 import XCTestDynamicOverlay
 
-struct RenameSelectedAlert: View {
-  @ObservedObject var vm: RenameSelectedAlertViewModel
+struct RenameSelectedSheet: View {
+  @ObservedObject var vm: RenameSelectedSheetViewModel
   var body: some View {
     NavigationStack  {
       Form {
@@ -19,20 +19,34 @@ struct RenameSelectedAlert: View {
           formatHeader()
         }
       }
+      .toolbar {
+        toolbar()
+      }
       .navigationTitle("Rename Selected")
     }
   }
 }
 
-extension RenameSelectedAlert {
+extension RenameSelectedSheet {
   func prefixRenameField() -> some View {
     HStack {
       Text("Prefix")
         .frame(width: 75, alignment: .leading)
       Spacer()
-           TextField("Prefix", text: $vm.values.prefixValue)
+      TextField("Prefix", text: $vm.values.prefixValue)
         .foregroundColor(.secondary)
         .multilineTextAlignment(.trailing)
+      Menu {
+      Picker(selection: $vm.values.prefixAnnote, label: EmptyView()) {
+          ForEach(RenameValues.Annotate.allCases, id: \.self) { annote in
+            Label(annote.name, systemImage: annote.imageName)
+              .tag(annote.self)
+          }
+        }
+      } label: {
+        Image(systemName: vm.values.prefixAnnote.imageName)
+          .foregroundColor(.secondary)
+      }
     }
   }
   func suffixRenameField() -> some View {
@@ -40,9 +54,20 @@ extension RenameSelectedAlert {
       Text("Suffix")
         .frame(width: 75, alignment: .leading)
       Spacer()
-           TextField("Suffix", text: $vm.values.suffixValue)
+      TextField("Suffix", text: $vm.values.suffixValue)
         .foregroundColor(.secondary)
         .multilineTextAlignment(.trailing)
+      Menu {
+      Picker(selection: $vm.values.suffixAnnote, label: EmptyView()) {
+          ForEach(RenameValues.Annotate.allCases, id: \.self) { annote in
+            Label(annote.name, systemImage: annote.imageName)
+              .tag(annote.self)
+          }
+        }
+      } label: {
+        Image(systemName: vm.values.suffixAnnote.imageName)
+          .foregroundColor(.secondary)
+      }
     }
   }
   func allRenameField() -> some View {
@@ -50,7 +75,7 @@ extension RenameSelectedAlert {
       Text("All")
         .frame(width: 75, alignment: .leading)
       Spacer()
-           TextField("All", text: $vm.values.allValue)
+      TextField("All", text: $vm.values.allValue)
         .foregroundColor(.secondary)
         .multilineTextAlignment(.trailing)
     }
@@ -67,10 +92,30 @@ extension RenameSelectedAlert {
       }
     }
   }
+  @ToolbarContentBuilder
+  func toolbar() -> some ToolbarContent {
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button {
+        vm.submitButtonTapped(vm.values)
+      } label: {
+        Text("Submit")
+//        Image(systemName: "xmark.circle.fill")
+      }
+    }
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button {
+        vm.cancelButtonTapped()
+      } label: {
+        Text("Cancel")
+//        Image(systemName: "xmark.circle.fill")
+      }
+      .foregroundColor(Color(UIColor.systemGray2))
+    }
+  }
 }
 
-struct RenameSelectedAlert_Previews: PreviewProvider {
+struct RenameSelectedSheet_Previews: PreviewProvider {
   static var previews: some View {
-    RenameSelectedAlert(vm: .init())
+    RenameSelectedSheet(vm: .init())
   }
 }

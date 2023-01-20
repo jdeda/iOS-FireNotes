@@ -66,9 +66,16 @@ struct FolderView: View {
     }
     .sheet(
       unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.editSheet
+      case: /FolderViewModel.Destination.editFolderSheet
     ) { $sheetVM in
       FolderEditSheet(vm: sheetVM)
+      .presentationDetents([.fraction(0.55)])
+    }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.renameSelectedSheet
+    ) { $sheetVM in
+      RenameSelectedSheet(vm: sheetVM)
       .presentationDetents([.fraction(0.55)])
     }
     .alert(

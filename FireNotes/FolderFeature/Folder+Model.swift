@@ -79,7 +79,7 @@ final class FolderViewModel: ObservableObject {
       break
     case .some(.renameAlert):
       break
-    case let .editSheet(editSheetVM):
+    case let .editFolderSheet(editSheetVM):
       editSheetVM.selectButtonTapped = { [weak self] in
         guard let self else { return }
         self.editSheetSelectButtonTapped()
@@ -106,6 +106,34 @@ final class FolderViewModel: ObservableObject {
       }
       break
     case .some(.deleteSelectedAlert):
+      break
+    case let .renameSelectedSheet(renameSheetVM):
+      renameSheetVM.submitButtonTapped = { [weak self] renameValues in
+        guard let self else { return }
+      
+        let orderedSelectedNotes = self.folder.notes.filter { self.select.contains($0.id) }.elements
+        let updatedNames = renameValues.rename(orderedSelectedNotes.map(\.title))
+        let zipped = zip(orderedSelectedNotes, updatedNames)
+        let updatedOrderedSelectedNotes = zipped.map { (note, newName) -> Note in
+          var newNote = note
+          newNote.title = newName
+          return newNote
+        }
+        withAnimation {
+          self.folder.notes.map { note in
+            let found = updatedOrderedSelectedNotes.first { updatedNote in
+              updatedNote.id == note.id
+            }
+            return found ?? note
+          }
+          self.destination = nil
+          self.isEditing = false
+        }
+      }
+      renameSheetVM.cancelButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.destination = nil
+      }
       break
     }
   }
@@ -150,7 +178,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func toolbarRenameSelectedButtonTapped() {
-    destination = nil
+    destination = .renameSelectedSheet(.init())
   }
   
   func toolbarMoveSelectedButtonTapped() {
@@ -173,7 +201,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func editSheetAppearButtonTapped() {
-    destination = .editSheet(.init(folderName: folder.name))
+    destination = .editFolderSheet(.init(folderName: folder.name))
   }
   
   func editSheetSelectButtonTapped() {
@@ -260,7 +288,8 @@ final class FolderViewModel: ObservableObject {
 
 extension FolderViewModel {
   enum Destination {
-    case editSheet(FolderEditSheetViewModel)
+    case editFolderSheet(FolderEditSheetViewModel)
+    case renameSelectedSheet(RenameSelectedSheetViewModel)
     case note(NoteViewModel)
     case home
     case userOptionsSheet
