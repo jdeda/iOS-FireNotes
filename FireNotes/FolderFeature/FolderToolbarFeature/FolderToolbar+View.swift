@@ -29,6 +29,7 @@ extension FolderToolbar {
       }
       .foregroundColor(.yellow)
     }
+    
     ToolbarItemGroup(placement: .primaryAction) {
       Button {
         vm.toolbarDoneButtonTapped()
@@ -44,7 +45,7 @@ extension FolderToolbar {
       } label: {
         Image(systemName: "rectangle.and.pencil.and.ellipsis")
       }
-      .disabled(vm.select.count == 0)
+      .disabled(vm.selectedNotes.count == 0)
       
       Spacer()
       
@@ -53,7 +54,7 @@ extension FolderToolbar {
       } label: {
         Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
       }
-      .disabled(vm.select.count == 0)
+      .disabled(vm.selectedNotes.count == 0)
       
       Spacer()
       
@@ -62,10 +63,10 @@ extension FolderToolbar {
       } label: {
         Image(systemName: "trash")
       }
-      .disabled(vm.select.count == 0)
+      .disabled(vm.selectedNotes.count == 0)
     }
   }
-  
+
   @ToolbarContentBuilder
   func nonEditingToolbar() -> some ToolbarContent {
     ToolbarItemGroup(placement: .primaryAction) {

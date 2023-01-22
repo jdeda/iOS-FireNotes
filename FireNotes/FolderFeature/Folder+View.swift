@@ -9,7 +9,7 @@ struct FolderView: View {
   @Environment(\.isSearching) var isSearching
 
   var body: some View {
-    List(selection: $vm.select) {
+    List(selection: $vm.selectedNotes) {
       ForEach(vm.folder.notes) { note in
         NoteRow(note: note)
           .padding(1)
@@ -18,13 +18,12 @@ struct FolderView: View {
               Label("Delete", systemImage: "trash")
             }
           }
-          .onTapGesture {
-            vm.noteTapped(note)
-          }
+          .onTapGesture { vm.noteTapped(note) }
           .tag(note.id)
       }
       .deleteDisabled(true)
     }
+    .toolbar { FolderToolbar(vm: vm) }
     .bind(Binding<EditMode>(
       get: { vm.isEditing ? .active : .inactive },
       set: { vm.isEditing = $0 == .active }
@@ -33,9 +32,6 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-    .toolbar {
-      FolderToolbar(vm: vm)
-    }
     .onChange(of: isSearching, perform: { newValue in
       if newValue { vm.clearSearchedNotes() }
     })
@@ -76,7 +72,6 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.renameSelectedSheet
     ) { $sheetVM in
       RenameSelectedSheet(vm: sheetVM)
-//      .presentationDetents([.fraction(0.55)])
     }
     .alert(
       unwrapping: $vm.destination,
