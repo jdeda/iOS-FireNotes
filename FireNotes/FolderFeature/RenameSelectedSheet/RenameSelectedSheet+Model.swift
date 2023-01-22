@@ -6,7 +6,7 @@ final class RenameSelectedSheetViewModel: ObservableObject {
   @Published var values: RenameValues
   @Published var start: Int = 0
   
-  var example: String {
+  var preview: String {
     values
       .rename(["Morning Routine", "Office Setup", "Meal Prep", "Gym Log"])
       .joined(separator: "\n")

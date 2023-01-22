@@ -22,7 +22,6 @@ struct Search: View {
   let query: String
   
   var body: some View {
-    Form {
     Section {
       ForEach(vm.topHits) { note in
         Row(note: note, query: query)
@@ -64,7 +63,6 @@ struct Search: View {
       }
     }
     }
-  }
 }
 
 extension Search {

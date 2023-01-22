@@ -7,9 +7,9 @@ struct RenameSelectedSheet: View {
     NavigationStack  {
       Form {
         Section {
-          Text(vm.example)
+          Text(vm.preview)
         } header: {
-          Text("Example")
+          Text("Preview")
         }
         Section {
           prefixRenameField()
