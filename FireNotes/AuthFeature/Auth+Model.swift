@@ -1,6 +1,5 @@
 import Foundation
 
-
 struct User {
   let email: String
   let iconURL: URL
