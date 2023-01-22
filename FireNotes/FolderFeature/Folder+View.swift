@@ -76,7 +76,7 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.renameSelectedSheet
     ) { $sheetVM in
       RenameSelectedSheet(vm: sheetVM)
-      .presentationDetents([.fraction(0.55)])
+//      .presentationDetents([.fraction(0.55)])
     }
     .alert(
       unwrapping: $vm.destination,

@@ -16,8 +16,13 @@ final class RenameSelectedSheetViewModel: ObservableObject {
     "RenameSelectedAlertViewModel.renamePositionsSubmitted"
   )
   
-  var submitButtonTapped: (_ values: RenameValues) -> Void = unimplemented("RenameSelectedSheetViewModel.submitButtonTapped")
-  var cancelButtonTapped: () -> Void = unimplemented("RenameSelectedSheetViewModel.cancelButtonTapped")
+  var submitButtonTapped: (_ values: RenameValues) -> Void = unimplemented(
+    "RenameSelectedSheetViewModel.submitButtonTapped"
+  )
+  
+  var cancelButtonTapped: () -> Void = unimplemented(
+    "RenameSelectedSheetViewModel.cancelButtonTapped"
+  )
   
   init(values: RenameValues = .init()) {
     self.values = values
@@ -46,9 +51,9 @@ extension RenameValues {
     
     var name: String {
       switch self {
-      case .list: return "list"
-      case .underscore: return "underscore"
-      case .none: return "none"
+      case .list: return "List"
+      case .underscore: return "Underscore"
+      case .none: return "None"
       }
     }
     
@@ -70,7 +75,7 @@ extension RenameValues {
     if !allValue.isEmpty {
       renamed = renamed.map { _ in allValue }
     }
-    
+
     // Prefix next.
     switch prefixAnnote {
     case .list:
@@ -80,7 +85,7 @@ extension RenameValues {
       }
       break
     case .underscore:
-      let renamedCountDigits: Int = Array<Character>(String(renamed.count)).count
+      let renamedCountDigits: Int = Array<Character>(String(renamed.count)).count + 1
       renamed = renamed.enumerated().map { (index, name) in
         let indexDigits = Array<Character>(String(index)).count
         let zeroPrefixString = String(Array<Character>.init(repeating: "0", count: renamedCountDigits - indexDigits))
@@ -100,7 +105,6 @@ extension RenameValues {
     case .list:
       break
     case .underscore:
-      break
       let renamedCountDigits: Int = Array<Character>(String(renamed.count)).count + 1
       renamed = renamed.enumerated().map { (index, name) in
         let indexDigits = Array<Character>(String(index)).count
@@ -111,7 +115,7 @@ extension RenameValues {
       break
     case .none:
       if !suffixValue.isEmpty {
-        renamed = renamed.map { $0 + prefixValue }
+        renamed = renamed.map { $0 + suffixValue }
       }
     }
     return renamed

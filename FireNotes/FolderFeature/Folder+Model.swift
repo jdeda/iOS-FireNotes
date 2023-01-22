@@ -120,12 +120,14 @@ final class FolderViewModel: ObservableObject {
           return newNote
         }
         withAnimation {
-          self.folder.notes.map { note in
-            let found = updatedOrderedSelectedNotes.first { updatedNote in
+          let new = self.folder.notes.map { note in
+            guard let found = updatedOrderedSelectedNotes.first(where: { updatedNote in
               updatedNote.id == note.id
-            }
-            return found ?? note
+            })
+            else { return note}
+            return found
           }
+          self.folder.notes = .init(uniqueElements: new)
           self.destination = nil
           self.isEditing = false
         }

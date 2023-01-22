@@ -59,7 +59,7 @@ extension RenameSelectedSheet {
         .multilineTextAlignment(.trailing)
       Menu {
       Picker(selection: $vm.values.suffixAnnote, label: EmptyView()) {
-          ForEach(RenameValues.Annotate.allCases, id: \.self) { annote in
+        ForEach([RenameValues.Annotate.underscore, RenameValues.Annotate.none], id: \.self) { annote in
             Label(annote.name, systemImage: annote.imageName)
               .tag(annote.self)
           }
@@ -94,22 +94,21 @@ extension RenameSelectedSheet {
   }
   @ToolbarContentBuilder
   func toolbar() -> some ToolbarContent {
-    ToolbarItem(placement: .navigationBarTrailing) {
+    ToolbarItem(placement: .cancellationAction) {
       Button {
         vm.submitButtonTapped(vm.values)
       } label: {
         Text("Submit")
-//        Image(systemName: "xmark.circle.fill")
+          .foregroundColor(.yellow)
       }
     }
-    ToolbarItem(placement: .navigationBarTrailing) {
+    ToolbarItem(placement: .confirmationAction) {
       Button {
         vm.cancelButtonTapped()
       } label: {
         Text("Cancel")
-//        Image(systemName: "xmark.circle.fill")
       }
-      .foregroundColor(Color(UIColor.systemGray2))
+      .foregroundColor(.yellow)
     }
   }
 }
