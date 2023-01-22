@@ -3,20 +3,7 @@ import SwiftUINavigation
 import IdentifiedCollections
 import XCTestDynamicOverlay
 
-final class SearchViewModel: ObservableObject {
-  @Published var notes: IdentifiedArrayOf<Note>
-  
-  var topHits: IdentifiedArrayOf<Note> {
-    .init(notes.prefix(2))
-  }
-  
-  var noteTapped: (Note) -> Void = unimplemented("SearchViewModel.noteTapped")
-  
-  init(notes: IdentifiedArrayOf<Note>) {
-    self.notes = notes
-  }
-}
-
+// MARK: - View
 struct Search: View {
   @ObservedObject var vm: SearchViewModel
   let query: String
@@ -62,9 +49,10 @@ struct Search: View {
           .textCase(nil)
       }
     }
-    }
+  }
 }
 
+// MARK: - Helper Views
 extension Search {
   struct Row: View {
     let note: Note
@@ -72,13 +60,9 @@ extension Search {
     let length = 25
     
     var noteBodyQueryDescription: String {
-      guard let result = stringSearchResult(
-        source: note.body,
-        query: query,
-        length: length
-      )
+      guard let result = stringSearchResult(source: note.body, query: query, length: length)
       else { return note.subTitle }
-      if result.isEmpty  { return note.subTitle}
+      if result.isEmpty { return note.subTitle}
       return result
     }
     
@@ -106,13 +90,15 @@ extension Search {
   }
 }
 
+// MARK: - Previews
 struct SearchPreviews: PreviewProvider {
   static var previews: some View {
     Search(vm: .init(notes: mockFolder.notes), query: "")
   }
 }
 
-// MARK: - I have no idea how this works. Nice!
+
+// MARK: - HighlightedText View
 struct HighlightedText: View {
   let text: String
   let matching: String

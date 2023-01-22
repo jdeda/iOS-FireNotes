@@ -3,7 +3,7 @@ import SwiftUINavigation
 import CasePaths
 
 // MARK: - View
-struct FolderViewToolbar: ToolbarContent {
+struct FolderToolbar: ToolbarContent {
   @ObservedObject var vm: FolderViewModel
   
   var body: some ToolbarContent {
@@ -17,7 +17,7 @@ struct FolderViewToolbar: ToolbarContent {
 }
 
 // MARK: - Helper Views
-extension FolderViewToolbar {
+extension FolderToolbar {
   
   @ToolbarContentBuilder
   func editingToolbar() -> some ToolbarContent {

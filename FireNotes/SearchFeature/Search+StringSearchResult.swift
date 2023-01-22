@@ -33,7 +33,6 @@ import Foundation
 ///   - length: The maximum length of the resuult
 ///   - caseInsensitive: boolean representing if search should be case insensitive
 ///
-///
 func stringSearchResult(
   source sourceRaw: String,
   query queryRaw: String,
@@ -41,13 +40,8 @@ func stringSearchResult(
   caseInsensitive: Bool = true
 ) -> String? {
   
-  let source: String = {
-    caseInsensitive ? sourceRaw.lowercased() : sourceRaw
-  }()
-  
-  let query: String = {
-    caseInsensitive ? queryRaw.lowercased() : queryRaw
-  }()
+  let source: String = { caseInsensitive ? sourceRaw.lowercased() : sourceRaw }()
+  let query: String = { caseInsensitive ? queryRaw.lowercased() : queryRaw }()
   
   guard let regex: Regex<AnyRegexOutput> = {
     guard let reg = nsRegex(query: query, caseInsensitive: caseInsensitive)
@@ -58,6 +52,7 @@ func stringSearchResult(
   
   let ranges = source.ranges(of: regex)
   let foundWords: [String] = ranges.compactMap { range -> String? in
+    
     // Go back till you find a space, this will be the new range start index
     guard let newStartIdx: Int = {
       let leftSide = source[source.startIndex...range.lowerBound]
@@ -90,6 +85,7 @@ func stringSearchResult(
     }()
     else { return nil }
     
+    // Return the extracted string.
     let x = source.index(source.startIndex, offsetBy: newStartIdx)
     let y = source.index(source.startIndex, offsetBy: newEndIdx)
     let finalStr = String(source[x...y])

@@ -34,7 +34,7 @@ struct FolderView: View {
       set: { editMode?.animation().wrappedValue = $0 }
     ))
     .toolbar {
-      FolderViewToolbar(vm: vm)
+      FolderToolbar(vm: vm)
     }
     .onChange(of: isSearching, perform: { newValue in
       if newValue { vm.clearSearchedNotes() }

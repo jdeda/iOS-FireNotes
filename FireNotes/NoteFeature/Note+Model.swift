@@ -8,7 +8,7 @@ final class NoteViewModel: ObservableObject {
   @Published var destination: Destination?
   @Published var focus: Focus?
   
-  var newNoteButtonTapped: (_ newNote: Note) -> Void = unimplemented()
+  var newNoteButtonTapped: (_ newNote: Note) -> Void = unimplemented("NoteViewModel.newNoteButtonTapped")
   
   init(
     note: Note,
@@ -68,8 +68,6 @@ struct Note: Identifiable, Codable {
     self.creationDate = creationDate
     self.lastEditDate = lastEditDate
   }
-  
-
   
   // String representation of a date in "YY/MM/dd" format
   var formattedDate: String {
