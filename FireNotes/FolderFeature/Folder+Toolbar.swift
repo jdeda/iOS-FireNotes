@@ -1,12 +1,10 @@
 import SwiftUI
-import SwiftUINavigation
-import CasePaths
 
 // MARK: - View
-struct FolderToolbar: ToolbarContent {
-  @ObservedObject var vm: FolderViewModel
-  
-  var body: some ToolbarContent {
+
+extension FolderView {
+  @ToolbarContentBuilder
+  func toolbar()  -> some ToolbarContent {
     if vm.isEditing {
       editingToolbar()
     }
@@ -17,10 +15,10 @@ struct FolderToolbar: ToolbarContent {
 }
 
 // MARK: - Helper Views
-extension FolderToolbar {
+extension FolderView {
   
   @ToolbarContentBuilder
-  func editingToolbar() -> some ToolbarContent {
+  private func editingToolbar() -> some ToolbarContent {
     ToolbarItemGroup(placement: .navigationBarLeading) {
       Button {
         vm.selectAllButtonTapped()
@@ -68,7 +66,7 @@ extension FolderToolbar {
   }
 
   @ToolbarContentBuilder
-  func nonEditingToolbar() -> some ToolbarContent {
+  private func nonEditingToolbar() -> some ToolbarContent {
     ToolbarItemGroup(placement: .primaryAction) {
       Button {
         vm.editSheetAppearButtonTapped()
@@ -90,3 +88,4 @@ extension FolderToolbar {
     }
   }
 }
+

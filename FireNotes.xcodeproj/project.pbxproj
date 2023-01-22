@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		97103FDF2960E90E001ED964 /* App+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97103FDE2960E90E001ED964 /* App+Model.swift */; };
 		9716086A29759F7900E4A704 /* Search+StringSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9716086929759F7900E4A704 /* Search+StringSearchResult.swift */; };
-		9730C35B29719D8900BEFF0E /* FolderToolbar+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9730C35A29719D8900BEFF0E /* FolderToolbar+View.swift */; };
-		9730C35E29719E3100BEFF0E /* FolderToolbar+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9730C35D29719E3100BEFF0E /* FolderToolbar+Model.swift */; };
 		9730C3632971C33900BEFF0E /* FolderEditSheet+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9730C3622971C33900BEFF0E /* FolderEditSheet+View.swift */; };
 		9752E1A42976DFE60031EE4E /* Search+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9752E1A32976DFE60031EE4E /* Search+Model.swift */; };
 		976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */; };
@@ -37,13 +35,12 @@
 		97F8F1DF2948F3C400F3B9CB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */; };
 		97FA60CC297DAA5F0027ED3B /* FolderEditSheet+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FA60CB297DAA5F0027ED3B /* FolderEditSheet+Model.swift */; };
 		97FA60CE297DAB5A0027ED3B /* Search+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FA60CD297DAB5A0027ED3B /* Search+View.swift */; };
+		97FA60D1297DB6410027ED3B /* Folder+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FA60D0297DB6410027ED3B /* Folder+Toolbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		97103FDE2960E90E001ED964 /* App+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+Model.swift"; sourceTree = "<group>"; };
 		9716086929759F7900E4A704 /* Search+StringSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Search+StringSearchResult.swift"; sourceTree = "<group>"; };
-		9730C35A29719D8900BEFF0E /* FolderToolbar+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderToolbar+View.swift"; sourceTree = "<group>"; };
-		9730C35D29719E3100BEFF0E /* FolderToolbar+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderToolbar+Model.swift"; sourceTree = "<group>"; };
 		9730C3622971C33900BEFF0E /* FolderEditSheet+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderEditSheet+View.swift"; sourceTree = "<group>"; };
 		9752E1A32976DFE60031EE4E /* Search+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Search+Model.swift"; sourceTree = "<group>"; };
 		976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Helpers.swift"; sourceTree = "<group>"; };
@@ -67,6 +64,7 @@
 		97F8F1DE2948F3C400F3B9CB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		97FA60CB297DAA5F0027ED3B /* FolderEditSheet+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FolderEditSheet+Model.swift"; sourceTree = "<group>"; };
 		97FA60CD297DAB5A0027ED3B /* Search+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Search+View.swift"; sourceTree = "<group>"; };
+		97FA60D0297DB6410027ED3B /* Folder+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+Toolbar.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,15 +89,6 @@
 				97103FDE2960E90E001ED964 /* App+Model.swift */,
 			);
 			path = AppFeature;
-			sourceTree = "<group>";
-		};
-		9730C35C29719D8D00BEFF0E /* FolderToolbarFeature */ = {
-			isa = PBXGroup;
-			children = (
-				9730C35A29719D8900BEFF0E /* FolderToolbar+View.swift */,
-				9730C35D29719E3100BEFF0E /* FolderToolbar+Model.swift */,
-			);
-			path = FolderToolbarFeature;
 			sourceTree = "<group>";
 		};
 		9730C3612971C32B00BEFF0E /* FolderEditSheetFeature */ = {
@@ -163,10 +152,10 @@
 			children = (
 				97F27B13295F43BF008FB09B /* Folder+View.swift */,
 				97F27B20295F76CA008FB09B /* Folder+Model.swift */,
+				97FA60D0297DB6410027ED3B /* Folder+Toolbar.swift */,
 				97FA60CF297DADE20027ED3B /* Alerts */,
 				9776E62D297B250B006C4439 /* RenameSelectedSheetFeature */,
 				9730C3612971C32B00BEFF0E /* FolderEditSheetFeature */,
-				9730C35C29719D8D00BEFF0E /* FolderToolbarFeature */,
 			);
 			path = FolderFeature;
 			sourceTree = "<group>";
@@ -316,10 +305,10 @@
 				97F8F1D82948F3C100F3B9CB /* Main.swift in Sources */,
 				9716086A29759F7900E4A704 /* Search+StringSearchResult.swift in Sources */,
 				97775084297855120072EB0D /* RenameAlert.swift in Sources */,
+				97FA60D1297DB6410027ED3B /* Folder+Toolbar.swift in Sources */,
 				97F0897A2971EDF90032501F /* MockData.swift in Sources */,
 				97F27B18295F6FB7008FB09B /* Home+View.swift in Sources */,
 				97F27B14295F43BF008FB09B /* Folder+View.swift in Sources */,
-				9730C35B29719D8900BEFF0E /* FolderToolbar+View.swift in Sources */,
 				977394EB295F842E00A8311F /* Auth+View.swift in Sources */,
 				97F27B21295F76CA008FB09B /* Folder+Model.swift in Sources */,
 				97F27B1F295F7690008FB09B /* Note+Model.swift in Sources */,
@@ -328,7 +317,6 @@
 				9730C3632971C33900BEFF0E /* FolderEditSheet+View.swift in Sources */,
 				976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */,
 				9752E1A42976DFE60031EE4E /* Search+Model.swift in Sources */,
-				9730C35E29719E3100BEFF0E /* FolderToolbar+Model.swift in Sources */,
 				9776E62C297B036C006C4439 /* RenameSelectedSheet+Model.swift in Sources */,
 				97FA60CC297DAA5F0027ED3B /* FolderEditSheet+Model.swift in Sources */,
 				977394EF295F874D00A8311F /* UserSheet.swift in Sources */,

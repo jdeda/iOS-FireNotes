@@ -23,7 +23,7 @@ struct FolderView: View {
       }
       .deleteDisabled(true)
     }
-    .toolbar { FolderToolbar(vm: vm) }
+    .toolbar { toolbar() } 
     .bind(Binding<EditMode>(
       get: { vm.isEditing ? .active : .inactive },
       set: { vm.isEditing = $0 == .active }
