@@ -5,23 +5,24 @@ import XCTestDynamicOverlay
 
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
-  @Published var destination: Destination?
   @Published var focus: Focus?
   
   var newNoteButtonTapped: (_ newNote: Note) -> Void = unimplemented("NoteViewModel.newNoteButtonTapped")
   
   init(
     note: Note,
-    destination: Destination? = nil,
     focus: Focus? = .title
   ) {
     self.note = note
-    self.destination = destination
     self.focus = focus
   }
   
-  func tappedUserOptionsButton() {
-    self.destination = .UserOptionsSheet
+  func titleSubmitKeyTapped() {
+    focus = .body
+  }
+  
+  func keyboardDismissButtonTapped() {
+    focus = nil
   }
   
   func addNoteButtonTappped() {
@@ -36,10 +37,6 @@ final class NoteViewModel: ObservableObject {
 }
 
 extension NoteViewModel {
-  enum Destination {
-    case UserOptionsSheet
-  }
-  
   enum Focus: Hashable {
     case title
     case body

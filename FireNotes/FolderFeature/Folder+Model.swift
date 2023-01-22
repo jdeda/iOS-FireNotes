@@ -11,7 +11,7 @@ import XCTestDynamicOverlay
 //MARK: - ViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
-  @Published var sort: Sort
+  @Published var sort: Sort // TODO: Move?
   @Published var isEditing: Bool
   @Published var selectedNotes: Set<Note.ID>
   @Published var searchedNotes: IdentifiedArrayOf<Note>
@@ -20,7 +20,7 @@ final class FolderViewModel: ObservableObject {
     didSet { destinationBind() }
   }
   
-  private var destinationCancellable: AnyCancellable?
+  @Published var destinationCancellable: AnyCancellable?
   
   var hasSelectedAll: Bool {
     selectedNotes.count == folder.notes.count
@@ -52,8 +52,6 @@ final class FolderViewModel: ObservableObject {
     switch destination {
     case .none:
       break
-    case .home:
-      break
     case let .note(noteVM):
       noteVM.newNoteButtonTapped = { [weak self] newNote in
         guard let self else { return }
@@ -64,8 +62,6 @@ final class FolderViewModel: ObservableObject {
         guard let self else { return }
         self.folder.notes[id: newNote.id] = newNote
       }
-      break
-    case .userOptionsSheet:
       break
     case .some(.alert(_)):
       break
@@ -117,33 +113,6 @@ final class FolderViewModel: ObservableObject {
   private func newNoteButtonTapped(newNote: Note) {
     self.folder.notes.append(newNote)
     self.destination = .note(.init(note: newNote, focus: .body))
-  }
-  
-  private func renameSelectedSheetConfirmButtonTapped(renameValues: RenameValues) {
-    let orderedSelectedNotes = self.folder.notes.filter { self.selectedNotes.contains($0.id) }.elements
-    let updatedNames = renameValues.rename(orderedSelectedNotes.map(\.title))
-    let zipped = zip(orderedSelectedNotes, updatedNames)
-    let updatedOrderedSelectedNotes = zipped.map { (note, newName) -> Note in
-      var newNote = note
-      newNote.title = newName
-      return newNote
-    }
-    withAnimation {
-      let new = self.folder.notes.map { note in
-        guard let found = updatedOrderedSelectedNotes.first(where: { updatedNote in
-          updatedNote.id == note.id
-        })
-        else { return note}
-        return found
-      }
-      self.folder.notes = .init(uniqueElements: new)
-      self.destination = nil
-      self.isEditing = false
-    }
-  }
-  
-  private func renameSelectedSheetCancelButtonTapped()  {
-    destination = nil
   }
   
   private func performSort() {
@@ -203,12 +172,22 @@ final class FolderViewModel: ObservableObject {
     ))
   }
   
-  func editSheetDismissButtonTapped() {
-    destination = nil
+  func toolbarAppearEditSheetButtonTapped() {
+    destination = .editFolderSheet(.init(folderName: folder.name))
   }
   
-  func editSheetAppearButtonTapped() {
-    destination = .editFolderSheet(.init(folderName: folder.name))
+  func toolbarAddNoteButtonTappped() {
+    let newNote = Note(
+      id: .init(),
+      title: "New Untitled Note",
+      body: "",
+      creationDate: Date(),
+      lastEditDate: Date()
+    )
+    _ = withAnimation {
+      self.folder.notes.append(newNote)
+    }
+    self.destination = .note(.init(note: newNote))
   }
   
   private func editSheetSelectButtonTapped() {
@@ -236,6 +215,32 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
+  private func renameSelectedSheetConfirmButtonTapped(renameValues: RenameValues) {
+    let orderedSelectedNotes = folder.notes.filter { selectedNotes.contains($0.id) }.elements
+    let updatedNames = renameValues.rename(orderedSelectedNotes.map(\.title))
+    let zipped = zip(orderedSelectedNotes, updatedNames)
+    let updatedOrderedSelectedNotes = zipped.map { (note, newName) -> Note in
+      var newNote = note
+      newNote.title = newName
+      return newNote
+    }
+    withAnimation {
+      folder.notes = .init(uniqueElements: folder.notes.map { note in
+        updatedOrderedSelectedNotes.first(where: { $0.id == note.id }) ?? note
+      })
+      destination = nil
+      isEditing = false
+    }
+  }
+  
+  private func renameSelectedSheetCancelButtonTapped()  {
+    destination = nil
+  }
+  
+  private func editSheetDismissButtonTapped() {
+    destination = nil
+  }
+  
   func alertButtonTapped(_ action: AlertAction) {
     switch action {
     case .confirmDelete:
@@ -248,39 +253,17 @@ final class FolderViewModel: ObservableObject {
     folder.name = newName
   }
   
-  func noteTapped(_ note: Note) {
+  func noteRowTapped(_ note: Note) {
     destination = .note(NoteViewModel(
       note: note,
       focus: .body
     ))
   }
   
-  func addNoteButtonTappped() {
-    let newNote = Note(
-      id: .init(),
-      title: "New Untitled Note",
-      body: "",
-      creationDate: Date(),
-      lastEditDate: Date()
-    )
-    _ = withAnimation {
-      self.folder.notes.append(newNote)
-    }
-    self.destination = .note(.init(note: newNote))
-  }
-  
-  func tappedUserOptionsButton() {
-    destination = .userOptionsSheet
-  }
-  
-  func deleteNote(_ note: Note) {
+  func deleteNoteButtonTapped(_ note: Note) {
     _ = withAnimation {
       self.folder.notes.remove(id: note.id)
     }
-  }
-  
-  func renameSelectedTapped() {
-    
   }
   
   private func confirmDeleteSelected() {
@@ -297,8 +280,6 @@ extension FolderViewModel {
     case editFolderSheet(FolderEditSheetViewModel)
     case renameSelectedSheet(RenameSelectedSheetViewModel)
     case note(NoteViewModel)
-    case home
-    case userOptionsSheet
     case alert(AlertState<AlertAction>)
     case renameAlert
     case deleteSelectedAlert

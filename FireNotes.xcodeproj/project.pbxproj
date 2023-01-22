@@ -13,9 +13,6 @@
 		9752E1A42976DFE60031EE4E /* Search+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9752E1A32976DFE60031EE4E /* Search+Model.swift */; };
 		976D696C296E0BC3001879CA /* SwiftUI+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */; };
 		977322BB295CB40C0059B309 /* App+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977322BA295CB40C0059B309 /* App+View.swift */; };
-		977394E9295F842700A8311F /* Auth+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394E8295F842700A8311F /* Auth+Model.swift */; };
-		977394EB295F842E00A8311F /* Auth+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EA295F842E00A8311F /* Auth+View.swift */; };
-		977394EF295F874D00A8311F /* UserSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977394EE295F874D00A8311F /* UserSheet.swift */; };
 		9776E62C297B036C006C4439 /* RenameSelectedSheet+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776E62B297B036C006C4439 /* RenameSelectedSheet+Model.swift */; };
 		9776E62F297B2521006C4439 /* RenameSelectSheet+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776E62E297B2521006C4439 /* RenameSelectSheet+View.swift */; };
 		97775084297855120072EB0D /* RenameAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97775083297855120072EB0D /* RenameAlert.swift */; };
@@ -45,9 +42,6 @@
 		9752E1A32976DFE60031EE4E /* Search+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Search+Model.swift"; sourceTree = "<group>"; };
 		976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Helpers.swift"; sourceTree = "<group>"; };
 		977322BA295CB40C0059B309 /* App+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+View.swift"; sourceTree = "<group>"; };
-		977394E8295F842700A8311F /* Auth+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+Model.swift"; sourceTree = "<group>"; };
-		977394EA295F842E00A8311F /* Auth+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Auth+View.swift"; sourceTree = "<group>"; };
-		977394EE295F874D00A8311F /* UserSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSheet.swift; sourceTree = "<group>"; };
 		9776E62B297B036C006C4439 /* RenameSelectedSheet+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenameSelectedSheet+Model.swift"; sourceTree = "<group>"; };
 		9776E62E297B2521006C4439 /* RenameSelectSheet+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenameSelectSheet+View.swift"; sourceTree = "<group>"; };
 		97775083297855120072EB0D /* RenameAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameAlert.swift; sourceTree = "<group>"; };
@@ -100,19 +94,9 @@
 			path = FolderEditSheetFeature;
 			sourceTree = "<group>";
 		};
-		977394E7295F841C00A8311F /* AuthFeature */ = {
-			isa = PBXGroup;
-			children = (
-				977394EA295F842E00A8311F /* Auth+View.swift */,
-				977394E8295F842700A8311F /* Auth+Model.swift */,
-			);
-			path = AuthFeature;
-			sourceTree = "<group>";
-		};
 		977394F0295F875900A8311F /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				977394EE295F874D00A8311F /* UserSheet.swift */,
 				976D696B296E0BC3001879CA /* SwiftUI+Helpers.swift */,
 				97F089792971EDF90032501F /* MockData.swift */,
 			);
@@ -190,7 +174,6 @@
 			children = (
 				97F8F1D72948F3C100F3B9CB /* Main.swift */,
 				97103FDD2960E8FA001ED964 /* AppFeature */,
-				977394E7295F841C00A8311F /* AuthFeature */,
 				97F27B1B295F7662008FB09B /* HomeFeature */,
 				97F27B1A295F7641008FB09B /* FolderFeature */,
 				97F27B19295F7633008FB09B /* NoteFeature */,
@@ -309,7 +292,6 @@
 				97F0897A2971EDF90032501F /* MockData.swift in Sources */,
 				97F27B18295F6FB7008FB09B /* Home+View.swift in Sources */,
 				97F27B14295F43BF008FB09B /* Folder+View.swift in Sources */,
-				977394EB295F842E00A8311F /* Auth+View.swift in Sources */,
 				97F27B21295F76CA008FB09B /* Folder+Model.swift in Sources */,
 				97F27B1F295F7690008FB09B /* Note+Model.swift in Sources */,
 				97F27B23295F7771008FB09B /* Home+Model.swift in Sources */,
@@ -319,9 +301,7 @@
 				9752E1A42976DFE60031EE4E /* Search+Model.swift in Sources */,
 				9776E62C297B036C006C4439 /* RenameSelectedSheet+Model.swift in Sources */,
 				97FA60CC297DAA5F0027ED3B /* FolderEditSheet+Model.swift in Sources */,
-				977394EF295F874D00A8311F /* UserSheet.swift in Sources */,
 				9776E62F297B2521006C4439 /* RenameSelectSheet+View.swift in Sources */,
-				977394E9295F842700A8311F /* Auth+Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

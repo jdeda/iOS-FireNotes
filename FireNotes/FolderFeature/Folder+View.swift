@@ -14,11 +14,11 @@ struct FolderView: View {
         NoteRow(note: note)
           .padding(1)
           .swipeActions(edge: .trailing) {
-            Button(role: .destructive, action: { vm.deleteNote(note) } ) {
+            Button(role: .destructive, action: { vm.deleteNoteButtonTapped(note) } ) {
               Label("Delete", systemImage: "trash")
             }
           }
-          .onTapGesture { vm.noteTapped(note) }
+          .onTapGesture { vm.noteRowTapped(note) }
           .tag(note.id)
       }
       .deleteDisabled(true)
@@ -32,14 +32,12 @@ struct FolderView: View {
       get: { editMode?.wrappedValue ?? .inactive },
       set: { editMode?.animation().wrappedValue = $0 }
     ))
-    .onChange(of: isSearching, perform: { newValue in
-      if newValue { vm.clearSearchedNotes() }
-    })
+    .onSubmit(of: .search, { vm.performSearch() })
+    .onChange(of: vm.search, perform: { _ in vm.performSearch() })
+    .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
       Search(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
     }
-    .onSubmit(of: .search, { vm.performSearch() })
-    .onChange(of: vm.search, perform: { _ in vm.performSearch() })
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)
     .navigationDestination(
@@ -47,12 +45,6 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.note
     ) { $noteVM in
       NoteView(vm: noteVM)
-    }
-    .sheet(
-      unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.userOptionsSheet
-    ) { _ in
-      UserSheet()
     }
     .sheet(
       unwrapping: $vm.destination,
@@ -72,12 +64,6 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.renameSelectedSheet
     ) { $sheetVM in
       RenameSelectedSheet(vm: sheetVM)
-    }
-    .alert(
-      unwrapping: $vm.destination,
-      case: /FolderViewModel.Destination.alert
-    ) { action in
-      vm.alertButtonTapped(action)
     }
     .alert(
       title: { Text("Rename Folder") },

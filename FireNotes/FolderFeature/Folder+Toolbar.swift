@@ -69,7 +69,7 @@ extension FolderView {
   private func nonEditingToolbar() -> some ToolbarContent {
     ToolbarItemGroup(placement: .primaryAction) {
       Button {
-        vm.editSheetAppearButtonTapped()
+        vm.toolbarAppearEditSheetButtonTapped()
       } label: {
         Image(systemName: "ellipsis.circle")
       }
@@ -81,7 +81,7 @@ extension FolderView {
         .font(.caption)
       Spacer()
       Button {
-        vm.addNoteButtonTappped()
+        vm.toolbarAddNoteButtonTappped()
       } label: {
         Image(systemName: "square.and.pencil")
       }

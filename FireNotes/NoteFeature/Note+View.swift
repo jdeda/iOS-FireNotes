@@ -9,8 +9,9 @@ struct NoteView: View {
     ScrollView {
       VStack(alignment: .leading) {
         TextField("", text: $vm.note.title, axis: .vertical)
+          .onSubmit(vm.titleSubmitKeyTapped)
           .font(.system(size: 34, weight: .bold))
-          .focused(self.$focus, equals: .title)
+          .focused($focus, equals: .title)
           .scrollDisabled(true)
         
         Text(vm.note.formattedDateVerbose)
@@ -19,7 +20,7 @@ struct NoteView: View {
           .scrollDisabled(true)
         
         TextEditor(text: $vm.note.body)
-          .focused(self.$focus, equals: .body)
+          .focused($focus, equals: .body)
           .scrollDisabled(true)
         Spacer()
       }
@@ -28,22 +29,14 @@ struct NoteView: View {
     .navigationTitle("")
     .navigationBarTitleDisplayMode(NavigationBarItem.TitleDisplayMode.inline)
     .toolbar {
-      // TODO: This is not the ideal way of hiding a keyboard :(
-      ToolbarItemGroup(placement: .keyboard) {
+      ToolbarItemGroup(placement: .keyboard) { // MARK: Not ideal way of hiding a keyboard :(
         Spacer()
         Button {
-          vm.focus = nil
+          vm.keyboardDismissButtonTapped()
         } label: {
           Image(systemName: "xmark")
         }
         .buttonStyle(.plain)
-      }
-      ToolbarItemGroup(placement: .primaryAction) {
-        Button {
-          vm.tappedUserOptionsButton()
-        } label: {
-          Image(systemName: "ellipsis.circle")
-        }
       }
       ToolbarItemGroup(placement: .bottomBar) {
         Spacer()
@@ -54,12 +47,6 @@ struct NoteView: View {
         }
       }
     }
-    .sheet(
-      unwrapping: $vm.destination,
-      case: /NoteViewModel.Destination.UserOptionsSheet
-    ) { _ in
-      UserSheet()
-    }
     .bind(self.$vm.focus, to: self.$focus)
   }
 }
@@ -68,21 +55,6 @@ struct NoteView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
       NoteView(vm: .init(note: mockNote))
-    }
-  }
-}
-
-// MARK :- Markdown Formatting!
-extension String {
-  var attributedString: AttributedString {
-    do {
-      let attributedString = try AttributedString(
-        markdown: self,
-        options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-      )
-      return attributedString
-    } catch {
-      return AttributedString(self)
     }
   }
 }

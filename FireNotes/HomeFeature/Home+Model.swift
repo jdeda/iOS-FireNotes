@@ -21,7 +21,7 @@ final class HomeViewModel: ObservableObject {
   
   func bind() {
     switch destination {
-    case let .folder(folderVM):
+    case let .folder(_):
       break
     case .none:
       break
