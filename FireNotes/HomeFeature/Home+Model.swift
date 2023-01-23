@@ -15,11 +15,10 @@ final class HomeViewModel: ObservableObject {
   @Published var selectedFolders: Set<Folder.ID>
   @Published var searchedFolders: IdentifiedArrayOf<Folder>
   @Published var search: String
+  @Published var destinationCancellable: AnyCancellable?
   @Published var destination: Destination? {
     didSet { destinationBind() }
   }
-  
-  @Published var destinationCancellable: AnyCancellable?
   
   var hasSelectedAll: Bool {
     selectedFolders.count == folders.count
@@ -87,6 +86,10 @@ final class HomeViewModel: ObservableObject {
       }
       break
     case let .folder(folderVM):
+      self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
+        guard let self else { return }
+        self.folders[id: newFolder.id] = newFolder
+      }
       break
     }
   }

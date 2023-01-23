@@ -16,11 +16,10 @@ final class FolderViewModel: ObservableObject {
   @Published var selectedNotes: Set<Note.ID>
   @Published var searchedNotes: IdentifiedArrayOf<Note>
   @Published var search: String
+  @Published var destinationCancellable: AnyCancellable?
   @Published var destination: Destination? {
     didSet { destinationBind() }
   }
-  
-  @Published var destinationCancellable: AnyCancellable?
   
   var hasSelectedAll: Bool {
     selectedNotes.count == folder.notes.count

@@ -14,13 +14,14 @@ struct HomeView: View {
       ForEach(vm.folders) { folder in
         RowView(folder: folder)
           .padding(1)
+          .tag(folder.id)
           .swipeActions(edge: .trailing) {
             Button(role: .destructive, action: { vm.deleteFolderButtonTapped(folder) } ) {
               Label("Delete", systemImage: "trash")
             }
           }
           .onTapGesture { vm.folderRowTapped(folder) }
-          .tag(folder.id)
+          
       }
       .deleteDisabled(true)
     }
@@ -36,6 +37,12 @@ struct HomeView: View {
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /HomeViewModel.Destination.folder
+    ) { $folderVM in
+        FolderView(vm: folderVM)
+    }
     //    .navigationDestination(
     //      unwrapping: $vm.destination,
     //      case: /FolderViewModel.Destination.note
