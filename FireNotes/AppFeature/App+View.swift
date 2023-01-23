@@ -1,21 +1,12 @@
 import SwiftUI
 
 struct AppView: View {
-  @FocusState var focus: Bool
-  @State var text: String = "Nice"
+  @ObservedObject var vm: AppViewModel
+  
   var body: some View {
     NavigationStack {
-      HomeView(vm: HomeViewModel(
-        folders: mockFolders,
-        destination: HomeViewModel.Destination.folder(
-          FolderViewModel(
-            folder: mockFolders.first! // MARK: This can lead to invalid states! linking looks weird now...
-//            destination: FolderViewModel.Destination.editSheet(
-//              FolderEditSheetViewModel(folderName: mockFolders.first!.name)
-//            )
-          )
-        )
-      ))
+      HomeView(vm: .init(folders: .init(uniqueElements: mockFolders)))
+//      FolderView(vm: .init(folder: mockFolder))
     }
     .accentColor(.yellow)
   }
@@ -23,6 +14,6 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
   static var previews: some View {
-    AppView()
+    AppView(vm: .init())
   }
 }

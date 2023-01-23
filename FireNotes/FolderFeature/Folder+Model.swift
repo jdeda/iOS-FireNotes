@@ -45,6 +45,7 @@ final class FolderViewModel: ObservableObject {
     self.isEditing = isEditing
     self.sort = sort
     self.searchedNotes = []
+    performSort()
     destinationBind()
   }
   
@@ -173,7 +174,10 @@ final class FolderViewModel: ObservableObject {
   }
   
   func toolbarAppearEditSheetButtonTapped() {
-    destination = .editFolderSheet(.init(folderName: folder.name))
+    destination = .editFolderSheet(.init(
+      folderName: folder.name,
+      sort: sort
+    ))
   }
   
   func toolbarAddNoteButtonTappped() {
