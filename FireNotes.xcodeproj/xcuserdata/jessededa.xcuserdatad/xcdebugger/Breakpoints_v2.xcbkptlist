@@ -95,22 +95,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F100FDEA-D6FA-4CCB-B3C3-6E59D1867F78"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FireNotes/FolderFeature/Folder+View.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9409FFA6-2E46-47B6-B859-F1C9DE3CE38D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -198,8 +182,8 @@
             filePath = "FireNotes/HomeFeature/Home+Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "toolbarDoneButtonTapped()"
             landmarkType = "7">
          </BreakpointContent>
@@ -214,8 +198,8 @@
             filePath = "FireNotes/HomeFeature/Home+Model.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "editSheetSelectButtonTapped()"
             landmarkType = "7">
          </BreakpointContent>

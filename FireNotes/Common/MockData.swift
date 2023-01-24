@@ -281,3 +281,17 @@ let mockFolderC: Folder = .init(
 )
 
 let mockFolders: [Folder] = [mockFolder, mockFolderB, mockFolderC]
+
+let mockFoldersBig = (0...50).map { int -> Folder in
+    .init(
+      id: .init(),
+      name: "F\(int)",
+      notes: .init(uniqueElements: (0...int).map({ int2 -> Note in
+          .init(
+            id: .init(),
+            title: "F\(int)-N\(int2)",
+            body: "Reporting in from F\(int)-N\(int2)"
+          )
+      }))
+    )
+}

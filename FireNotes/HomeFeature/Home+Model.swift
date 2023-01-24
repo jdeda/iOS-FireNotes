@@ -10,7 +10,9 @@ import XCTestDynamicOverlay
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
   @Published var folders: IdentifiedArrayOf<Folder>
-  @Published var sort: Sort // TODO: Move?
+  @Published var allFolder: Folder
+  @Published var recentlyDeletedFolder: Folder
+  @Published var sort: Sort
   @Published var isEditing: Bool
   @Published var selectedFolders: Set<Folder.ID>
   @Published var searchedFolders: IdentifiedArrayOf<Folder>
@@ -37,6 +39,8 @@ final class HomeViewModel: ObservableObject {
     sort: Sort = .alphabetical
   ) {
     self.folders = folders
+    self.allFolder = .init(id: .init(), name: "All Firebase", notes: [])
+    self.recentlyDeletedFolder = .init(id: .init(), name: "Recently Deleted", notes: [])
     self.selectedFolders = selectedFolders
     self.search = search
     self.destination = destination

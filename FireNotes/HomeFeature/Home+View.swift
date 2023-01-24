@@ -11,19 +11,38 @@ struct HomeView: View {
   
   var body: some View {
     List(selection: $vm.selectedFolders) {
-      ForEach(vm.folders) { folder in
-        RowView(folder: folder)
+      Section {
+        RowView(folder: vm.allFolder)
           .padding(1)
-          .tag(folder.id)
-          .swipeActions(edge: .trailing) {
-            Button(role: .destructive, action: { vm.deleteFolderButtonTapped(folder) } ) {
-              Label("Delete", systemImage: "trash")
-            }
-          }
-          .onTapGesture { vm.folderRowTapped(folder) }
-          
+          .tag(vm.allFolder.id)
+          .buttonStyle(PlainButtonStyle())
+      } header: {
+        Text("All Firebase")
       }
-      .deleteDisabled(true)
+      Section {
+        ForEach(vm.folders) { folder in
+          RowView(folder: folder)
+            .padding(1)
+            .tag(folder.id)
+            .swipeActions(edge: .trailing) {
+              Button(role: .destructive, action: { vm.deleteFolderButtonTapped(folder) } ) {
+                Label("Delete", systemImage: "trash")
+              }
+            }
+            .onTapGesture { vm.folderRowTapped(folder) }
+        }
+        .deleteDisabled(true)
+      } header: {
+        Text("Folders")
+        
+      }
+      Section {
+        RowView(folder: vm.recentlyDeletedFolder, imageName: "trash")
+          .padding(1)
+          .tag(vm.recentlyDeletedFolder.id)
+      } header: {
+        Text("Recently Deleted")
+      }
     }
     .accentColor(.yellow)
     .environment(\.editMode, .constant(vm.isEditing ? .active : .inactive))
@@ -41,7 +60,7 @@ struct HomeView: View {
       unwrapping: $vm.destination,
       case: /HomeViewModel.Destination.folder
     ) { $folderVM in
-        FolderView(vm: folderVM)
+      FolderView(vm: folderVM)
     }
     //    .navigationDestination(
     //      unwrapping: $vm.destination,
@@ -88,9 +107,16 @@ struct HomeView: View {
 extension HomeView {
   private struct RowView: View {
     let folder: Folder
+    let imageName: String
+    
+    init(folder: Folder, imageName: String = "folder") {
+      self.folder = folder
+      self.imageName = imageName
+    }
+    
     var body: some View {
       HStack(alignment: .center) {
-        Image(systemName: "folder")
+        Image(systemName: imageName)
           .foregroundColor(Color.yellow)
         Text(folder.name)
           .foregroundColor(.black)

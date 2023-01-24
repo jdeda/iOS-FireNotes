@@ -5,7 +5,6 @@ import CasePaths
 // MARK: - View
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
-  @Environment(\.editMode) var editMode
   @Environment(\.isSearching) var isSearching
 
   var body: some View {
@@ -23,15 +22,9 @@ struct FolderView: View {
       }
       .deleteDisabled(true)
     }
-    .toolbar { toolbar() } 
-    .bind(Binding<EditMode>(
-      get: { vm.isEditing ? .active : .inactive },
-      set: { vm.isEditing = $0 == .active }
-    ),
-    to: Binding<EditMode>(
-      get: { editMode?.wrappedValue ?? .inactive },
-      set: { editMode?.animation().wrappedValue = $0 }
-    ))
+    .toolbar { toolbar() }
+    .environment(\.editMode, .constant(vm.isEditing ? .active : .inactive))
+    .animation(.default, value: vm.isEditing)
     .onSubmit(of: .search, { vm.performSearch() })
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
     .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
