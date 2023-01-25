@@ -16,6 +16,10 @@ final class HomeEditSheetViewModel: ObservableObject {
     "HomeEditSheetViewModel.sortPickerOptionTapped"
   )
   
+  var renameButtonTapped: () -> Void = unimplemented(
+    "HomeEditSheetViewModel.renameButtonTapped"
+  )
+
   var dismissButtonTapped: () -> Void = unimplemented(
     "HomeEditSheetViewModel.dismissButtonTapped"
   )

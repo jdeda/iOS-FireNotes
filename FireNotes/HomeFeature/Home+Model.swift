@@ -74,8 +74,7 @@ final class HomeViewModel: ObservableObject {
       }
       editSheetVM.dismissButtonTapped = { [weak self] in
         guard let self else { return }
-        self.destination = nil
-//        self.editSheetDismissButtonTapped()
+        self.editSheetDismissButtonTapped()
       }
     case .some(.deleteSelectedAlert):
       break
@@ -192,11 +191,10 @@ final class HomeViewModel: ObservableObject {
     destination = nil
   }
   
-  private func editSheetSortPickerOptionTapped(_ newSort: Sort) -> Void {
+  private func editSheetSortPickerOptionTapped(_ newSort: Sort) {
     sort = newSort
     performSort()
   }
-  
   
   private func editSheetDismissButtonTapped() {
     destination = nil
