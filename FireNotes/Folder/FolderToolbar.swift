@@ -4,86 +4,180 @@ import SwiftUI
 extension FolderView {
   @ToolbarContentBuilder
   func toolbar()  -> some ToolbarContent {
-    if vm.isEditing {
-      editingToolbar()
-    }
-    else {
-      nonEditingToolbar()
+    switch vm.folder.variant {
+    case .all:
+      allFolderToolbar()
+    case .standard:
+      standardFolderToolbar()
+    case .recentlyDeleted:
+      recentlyDeletedFolderToolbar()
+    case .user:
+      userFolderToolbar()
     }
   }
 }
 
 // MARK: - Helper Views
-extension FolderView {
-  
+fileprivate extension FolderView {
   @ToolbarContentBuilder
-  private func editingToolbar() -> some ToolbarContent {
-    ToolbarItemGroup(placement: .navigationBarLeading) {
-      Button {
-        vm.selectAllButtonTapped()
-      } label: {
-        Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
-      }
-      .foregroundColor(.yellow)
-    }
-    
+  func allFolderToolbar() -> some ToolbarContent {
     ToolbarItemGroup(placement: .primaryAction) {
-      Button {
-        vm.toolbarDoneButtonTapped()
-      } label: {
-        Text("Done")
-      }
-      .foregroundColor(.yellow)
+      editSheetButton()
     }
-    
     ToolbarItemGroup(placement: .bottomBar) {
-      Button {
-        vm.toolbarRenameSelectedButtonTapped()
-      } label: {
-        Image(systemName: "rectangle.and.pencil.and.ellipsis")
-      }
-      .disabled(vm.selectedNotes.count == 0)
-      
-      Spacer()
-      
-      Button {
-        vm.toolbarMoveSelectedButtonTapped()
-      } label: {
-        Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
-      }
-      .disabled(vm.selectedNotes.count == 0)
-      
-      Spacer()
-      
-      Button {
-        vm.toolbarDeleteSelectedButtonTapped()
-      } label: {
-        Image(systemName: "trash")
-      }
-      .disabled(vm.selectedNotes.count == 0)
+      addNoteButton()
     }
   }
-
+  
   @ToolbarContentBuilder
-  private func nonEditingToolbar() -> some ToolbarContent {
-    ToolbarItemGroup(placement: .primaryAction) {
-      Button {
-        vm.toolbarAppearEditSheetButtonTapped()
-      } label: {
-        Image(systemName: "ellipsis.circle")
+  func standardFolderToolbar() -> some ToolbarContent {
+    if vm.isEditing {
+      ToolbarItemGroup(placement: .navigationBarLeading) {
+        selectAllButton()
       }
-      .foregroundColor(.yellow)
+      ToolbarItemGroup(placement: .primaryAction) {
+        doneButton()
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        renameSelectedButton()
+        Spacer()
+        moveSelectedButton()
+        Spacer()
+        deleteSelectedButton()
+      }
     }
-    ToolbarItemGroup(placement: .bottomBar) {
-      Spacer()
-      Text("\(vm.folder.notes.count) Notes")
-        .font(.caption)
-      Spacer()
-      Button {
-        vm.toolbarAddNoteButtonTappped()
-      } label: {
-        Image(systemName: "square.and.pencil")
+    else {
+      ToolbarItemGroup(placement: .primaryAction) {
+        editSheetButton()
       }
+      ToolbarItemGroup(placement: .bottomBar) {
+        addNoteButton()
+      }
+    }
+  }
+  
+  @ToolbarContentBuilder
+  func recentlyDeletedFolderToolbar() -> some ToolbarContent {
+    if vm.isEditing {
+      ToolbarItemGroup(placement: .navigationBarLeading) {
+        selectAllButton()
+      }
+      ToolbarItemGroup(placement: .primaryAction) {
+        doneButton()
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        moveSelectedButton()
+        Spacer()
+        deleteSelectedButton()
+      }
+    }
+    else {
+      ToolbarItemGroup(placement: .primaryAction) {
+        editSheetButton()
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        addNoteButton()
+      }
+    }
+  }
+  
+  @ToolbarContentBuilder
+  func userFolderToolbar() -> some ToolbarContent {
+    if vm.isEditing {
+      ToolbarItemGroup(placement: .navigationBarLeading) {
+        selectAllButton()
+      }
+      ToolbarItemGroup(placement: .primaryAction) {
+        doneButton()
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        renameSelectedButton()
+        Spacer()
+        moveSelectedButton()
+        Spacer()
+        deleteSelectedButton()
+      }
+    }
+    else {
+      ToolbarItemGroup(placement: .primaryAction) {
+        editSheetButton()
+      }
+      ToolbarItemGroup(placement: .bottomBar) {
+        addNoteButton()
+      }
+    }
+  }
+  
+  @ViewBuilder
+  private func selectAllButton() -> some View {
+    Button {
+      vm.selectAllButtonTapped()
+    } label: {
+      Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
+    }
+    .foregroundColor(.yellow)
+  }
+  
+  @ViewBuilder
+  private func doneButton() -> some View {
+    Button {
+      vm.toolbarDoneButtonTapped()
+    } label: {
+      Text("Done")
+    }
+    .foregroundColor(.yellow)
+  }
+  
+  @ViewBuilder
+  private func renameSelectedButton() -> some View {
+    Button {
+      vm.toolbarRenameSelectedButtonTapped()
+    } label: {
+      Image(systemName: "rectangle.and.pencil.and.ellipsis")
+    }
+    .disabled(vm.selectedNotes.count == 0)
+  }
+  
+  @ViewBuilder
+  private func moveSelectedButton() -> some View {
+    Button {
+      vm.toolbarMoveSelectedButtonTapped()
+    } label: {
+      Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
+    }
+    .disabled(vm.selectedNotes.count == 0)
+  }
+  
+  @ViewBuilder
+  private func deleteSelectedButton() -> some View {
+    Button {
+      vm.toolbarDeleteSelectedButtonTapped()
+    } label: {
+      Image(systemName: "trash")
+    }
+    .disabled(vm.selectedNotes.count == 0)
+  }
+  
+  @ViewBuilder
+  private func editSheetButton() -> some View {
+    Button {
+      vm.toolbarAppearEditSheetButtonTapped()
+    } label: {
+      Image(systemName: "ellipsis.circle")
+    }
+    .foregroundColor(.yellow)
+  }
+  
+  @ViewBuilder
+  private func addNoteButton() -> some View {
+    Spacer()
+    Text("\(vm.folder.notes.count) Notes")
+      .font(.caption)
+    Spacer()
+    Button {
+      vm.toolbarAddNoteButtonTappped()
+    } label: {
+      Image(systemName: "square.and.pencil")
     }
   }
 }

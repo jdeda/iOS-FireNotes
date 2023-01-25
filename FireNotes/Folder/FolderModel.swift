@@ -80,10 +80,10 @@ final class FolderViewModel: ObservableObject {
       //        guard let self else { return }
       //        self.editSheetAddSubfolderButtonTapped()
       //      }
-      //      editSheetVM.moveButtonTapped = { [weak self] in
-      //        guard let self else { return }
-      //        self.editSheetMoveButtonTapped()
-      //      }
+      editSheetVM.moveButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.editSheetMoveButtonTapped()
+      }
       editSheetVM.renameButtonTapped = { [weak self] in
         guard let self else { return }
         self.editSheetRenameButtonTapped()
@@ -172,6 +172,7 @@ final class FolderViewModel: ObservableObject {
   
   func toolbarAppearEditSheetButtonTapped() {
     destination = .editFolderSheet(.init(
+      folderVariant: folder.variant,
       folderName: folder.name,
       sort: sort
     ))
@@ -206,7 +207,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   private func editSheetMoveButtonTapped() {
-    
+    destination = .moveSheet
   }
   
   private func editSheetRenameButtonTapped() {
@@ -326,16 +327,16 @@ struct Folder: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
 
   let id: ID
-//  let variant: Variant
+  let variant: Variant
   var name: String
   var notes: IdentifiedArrayOf<Note>
-//
-//  enum Variant: Codable {
-//    case all
-//    case standard
-//    case user
-//    case recentlyDeleted
-//  }
+  
+  enum Variant: Codable {
+    case all
+    case standard
+    case user
+    case recentlyDeleted
+  }
 }
 
 //struct Folder: Identifiable {

@@ -2,13 +2,16 @@ import Foundation
 import XCTestDynamicOverlay
 
 final class FolderEditSheetViewModel: ObservableObject {
+  let folderVariant: Folder.Variant
   let folderName: String
   @Published var sort: FolderViewModel.Sort
   
   init(
+    folderVariant: Folder.Variant,
     folderName: String,
-    sort: FolderViewModel.Sort = .editDate
+    sort: FolderViewModel.Sort
   ) {
+    self.folderVariant = folderVariant
     self.folderName = folderName
     self.sort = sort
   }

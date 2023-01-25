@@ -12,8 +12,13 @@ struct HomeView: View {
     List(selection: $vm.selectedFolders) {
       Section {
         RowView(folder: vm.allFolder)
+          .onTapGesture { vm.folderRowTapped(vm.allFolder) }
+        
         RowView(folder: vm.standardFolder)
+          .onTapGesture { vm.folderRowTapped(vm.standardFolder) }
+        
         RowView(folder: vm.recentlyDeletedFolder, imageName: "trash")
+          .onTapGesture { vm.folderRowTapped(vm.recentlyDeletedFolder) }
       } header: {
         Text("System")
       }
@@ -134,7 +139,11 @@ extension HomeView {
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      HomeView(vm: .init(folders: .init(uniqueElements: mockFolders)))
+      HomeView(vm: .init(
+        userFolders: .init(uniqueElements: [mockFolderA, mockFolderB, mockFolderC]),
+        standardFolderNotes: mockFolderD.notes,
+        recentlyDeletedNotes: .init(uniqueElements: mockNotes)
+      ))
     }
   }
 }

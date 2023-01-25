@@ -6,7 +6,11 @@ struct AppView: View {
   
   var body: some View {
     NavigationStack {
-      HomeView(vm: .init(folders: .init(uniqueElements: mockFolders)))
+      HomeView(vm: .init(
+        userFolders: .init(uniqueElements: [mockFolderA, mockFolderB, mockFolderC]),
+        standardFolderNotes: mockFolderD.notes,
+        recentlyDeletedNotes: .init(uniqueElements: mockNotes)
+      ))
     }
     .accentColor(.yellow)
   }

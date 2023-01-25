@@ -4,10 +4,9 @@ import CasePaths
 
 /**
  There are several different Folder types, each with their own functionality
- 
   - user
     - rename folder
-    - delete folder
+     - delete folder
     - move folder
     - sort notes
     - select notes

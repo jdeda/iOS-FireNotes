@@ -3,6 +3,12 @@ import SwiftUINavigation
 import CasePaths
 import XCTestDynamicOverlay
 
+enum FolderType: CaseIterable {
+  case all
+  case standard
+  case recentlyDeleted
+  case user
+}
 // MARK: - View
 struct FolderEditSheet: View {
   @ObservedObject var vm: FolderEditSheetViewModel
@@ -10,11 +16,22 @@ struct FolderEditSheet: View {
   var body: some View {
     NavigationStack {
       Form {
+        switch vm.folderVariant {
+        case .all:
+          sortPicker()
+        case .standard:
+          selectButton()
+          sortPicker()
+        case .recentlyDeleted:
+          selectButton()
+          sortPicker()
+        case .user:
           selectButton()
           sortPicker()
           addButton()
           moveButton()
           renameButton()
+        }
       }
       .foregroundColor(.black)
       .toolbar {
@@ -92,8 +109,9 @@ extension FolderEditSheet {
   }
 }
 
-struct FolderMenuSheet_Previews: PreviewProvider {
+// MARK: - Previews
+struct FolderEditSheet_Previews: PreviewProvider {
   static var previews: some View {
-    FolderEditSheet(vm: .init(folderName: "Foo"))
+    FolderEditSheet(vm: .init(folderVariant: .user, folderName: "Foo", sort: .title))
   }
 }

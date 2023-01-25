@@ -49,18 +49,19 @@ final class HomeViewModel: ObservableObject {
   }
   
   init(
-    folders: IdentifiedArrayOf<Folder>,
+    userFolders: IdentifiedArrayOf<Folder>,
+    standardFolderNotes: IdentifiedArrayOf<Note>,
+    recentlyDeletedNotes: IdentifiedArrayOf<Note>,
     selectedFolders: Set<Folder.ID> = [],
     search: String = "",
     destination: Destination? = nil,
     isEditing: Bool = false,
     sort: Sort = .alphabetical
   ) {
-    self.allFolder = .init(id: .init(), name: "All Notes", notes: .init(uniqueElements: folders.flatMap(\.notes)))
-    self.standardFolder = .init(id: .init(), name: "Notes", notes: [])
-    self.recentlyDeletedFolder = .init(id: .init(), name: "Notes", notes: [])
-    self.userFolders = folders
-    self.recentlyDeletedFolder = .init(id: .init(), name: "Recently Deleted", notes: [])
+    self.allFolder = .init(id: .init(), variant: .all, name: "All Notes", notes: .init(uniqueElements: userFolders.flatMap(\.notes)))
+    self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
+    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: recentlyDeletedNotes)
+    self.userFolders = userFolders
     self.selectedFolders = selectedFolders
     self.search = search
     self.destination = destination
@@ -109,9 +110,19 @@ final class HomeViewModel: ObservableObject {
       }
       break
     case let .folder(folderVM):
+      // TODO: This code looks very pernicious...how do we trust the variant property is being used right? 
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
-        self.userFolders[id: newFolder.id] = newFolder
+        switch newFolder.variant {
+        case .all:
+          self.allFolder = newFolder
+        case .standard:
+          self.standardFolder = newFolder
+        case .user:
+          self.userFolders[id: newFolder.id] = newFolder
+        case .recentlyDeleted:
+          self.recentlyDeletedFolder = newFolder
+        }
       }
       break
     }
@@ -183,6 +194,7 @@ final class HomeViewModel: ObservableObject {
   func toolbarAddFolderButtonTappped() {
     let newFolder = Folder(
       id: .init(),
+      variant: .user,
       name: "Untitled Folder",
       notes: .init()
     )

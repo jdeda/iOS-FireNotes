@@ -9,23 +9,38 @@ fileprivate let dateFormatter: DateFormatter = {
 let mockNote: Note = .init(
   id: .init(),
   title: "Sushi Combo",
-  body: "And My favorite class is the spy.And My favorite class is the spy.And My favorite class is the spy.\n",
-//  body: """
-//  And My favorite class is the spy.And My favorite class is the spy.And My favorite class is the spy.
-//
-//  """,
-//  body: """
-//    And My favorite class is the spy. \n
-//    And My favorite class is the spy. \n
-//    And My favorite class is the spy. \n
-//    Hmmmm, good question.
-//  """,
+  body: "And My favorite class is the spy\n",
   creationDate: dateFormatter.date(from: "1/1/2018 6:59AM")!,
   lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
 )
 
+let mockNotes: [Note] = [
+  .init(
+    id: .init(),
+    title: "Sushi Combo",
+    body: "And My favorite class is the spy\n",
+    creationDate: dateFormatter.date(from: "1/1/2018 6:59AM")!,
+    lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
+  ),
+  .init(
+    id: .init(),
+    title: "Sushi Combo",
+    body: "And My favorite class is the spy\n",
+    creationDate: dateFormatter.date(from: "1/1/2018 6:59AM")!,
+    lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
+  ),
+  .init(
+    id: .init(),
+    title: "Sushi Combo",
+    body: "And My favorite class is the spy\n",
+    creationDate: dateFormatter.date(from: "1/1/2018 6:59AM")!,
+    lastEditDate: dateFormatter.date(from: "1/2/2018 7:59AM")!
+  )
+]
+
 let mockFolder: Folder = .init(
   id: .init(),
+  variant: .user,
   name: "Machine Learning",
   notes: [
     .init(
@@ -70,6 +85,7 @@ let mockFolder: Folder = .init(
 
 let mockFolderA: Folder = .init(
   id: .init(),
+  variant: .user,
   name: "Machine Learning",
   notes: [
     .init(
@@ -156,6 +172,7 @@ let mockFolderA: Folder = .init(
 
 let mockFolderB: Folder = .init(
   id: .init(),
+  variant: .user,
   name: "Baking",
   notes: [
     .init(
@@ -249,6 +266,7 @@ let mockFolderB: Folder = .init(
 
 let mockFolderC: Folder = .init(
   id: .init(),
+  variant: .user,
   name: "Meal Prep",
   notes: [
     .init(
@@ -279,12 +297,74 @@ let mockFolderC: Folder = .init(
     )
   ]
 )
+let mockFolderD: Folder = .init(
+  id: .init(),
+  variant: .user,
+  name: "Gym",
+  notes: [
+    .init(
+      id: .init(),
+      title: "PPL",
+      body: """
+      My regiment:
+      
+      MO: Push
+      TU: Pull
+      WE: Leg
+      TH: Push
+      SA: Pull
+      SU: Shoulders
+      
+      
+      This is the split. I do abs on push and pull days. I deadlift on Tuesday and Tbar row on Thursday.
+      Get massive.
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2020 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2020 7:20PM")!
+    ),
+    .init(
+      id: .init(),
+      title: "Stats + Diet + Gear + Program",
+      body: """
+      My stats:
+        M
+        6"0
+        234 lbs
+        20% bf
+        
+      My diet:
+        OMAD
+        100-150g protein/day
+        bone-in skin-on chicken thighs (3x)
+        premier protein shakes (2x)
+        carb/fat backfill
+        generally 40%-ish fat cals
+        water, plain tea, plain coffee only
+        saturday cheat meal (sometimes nasty, sometimes not)
+      
+      My stack:
+        - Turmeric-Curcumin Concentrate | skin/inflamation
+        - Collagen                      | skin/health
+        - Magnesium                     | energy/health
+        - Creatine                      | energy/size
+        - Turkestrone                   | energy/growth
+      
+      My regiment:
+        - push-pull-leg-push-pull-shoulder
+        - see my note about it
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2020 7:20PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2020 8:00PM")!
+    )
+  ]
+)
 
 let mockFolders: [Folder] = [mockFolder, mockFolderB, mockFolderC]
 
 let mockFoldersBig = (0...50).map { int -> Folder in
     .init(
       id: .init(),
+      variant: .user,
       name: "F\(int)",
       notes: .init(uniqueElements: (0...int).map({ int2 -> Note in
           .init(
