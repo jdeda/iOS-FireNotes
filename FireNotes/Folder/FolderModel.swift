@@ -308,11 +308,55 @@ extension FolderViewModel {
   }
 }
 
+struct FolderRow: Identifiable {
+  var id: Folder.ID { folder.id }
+  var folder: Folder
+  
+  enum FolderVariant {
+    case all
+    case standard
+    case user
+    case recentlyDeleted
+  }
+}
+
+
 //MARK: - Model
 struct Folder: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
-  
+
   let id: ID
+//  let variant: Variant
   var name: String
   var notes: IdentifiedArrayOf<Note>
+//
+//  enum Variant: Codable {
+//    case all
+//    case standard
+//    case user
+//    case recentlyDeleted
+//  }
 }
+
+//struct Folder: Identifiable {
+//  typealias ID = Tagged<Self, UUID>
+//
+//  let id: ID
+//  var variant: Variant
+//  var folder: FolderData
+//
+//    enum Variant: Codable {
+//      case all
+//      case standard
+//      case user
+//      case recentlyDeleted
+//    }
+//}
+//
+//struct FolderData: Identifiable, Codable {
+//  typealias ID = Tagged<Self, UUID>
+//
+//  let id: ID
+//  var name: String
+//  var notes: IdentifiedArrayOf<Note>
+//}

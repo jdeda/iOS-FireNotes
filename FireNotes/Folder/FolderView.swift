@@ -2,6 +2,43 @@ import SwiftUI
 import SwiftUINavigation
 import CasePaths
 
+/**
+ There are several different Folder types, each with their own functionality
+ 
+  - user
+    - rename folder
+    - delete folder
+    - move folder
+    - sort notes
+    - select notes
+      - rename notes
+      - delete notes
+      - move notes
+    - edit note
+ 
+ - standard
+  - sort notes
+  - select notes
+    - rename notes
+    - delete notes
+    - move notes
+  - edit note
+ 
+ - recentlyDeleted (restore means move note to standard)
+   - sort notes
+   - select notes
+     - delete notes
+     - move notes
+ - restore note
+    * note: when restoring a single note, you should already be in the nav for the note, but the back button should change to the standard folder
+ 
+ - all (mutating notes must pullback to mutate specific folder)
+  - sort notes
+  - edit note
+     - navigate to folder button
+
+ */
+
 // MARK: - View
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
@@ -29,7 +66,7 @@ struct FolderView: View {
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
     .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-      SearchView(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
+      SearchView(vm: .init(query: vm.search, notes: vm.searchedNotes))
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)

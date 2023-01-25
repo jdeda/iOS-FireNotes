@@ -4,6 +4,7 @@ import XCTestDynamicOverlay
 
 // MARK: - ViewModel
 final class SearchViewModel: ObservableObject {
+  let query: String
   @Published var notes: IdentifiedArrayOf<Note>
   
   var topHits: IdentifiedArrayOf<Note> {
@@ -12,9 +13,11 @@ final class SearchViewModel: ObservableObject {
   
   var noteTapped: (Note) -> Void = unimplemented("SearchViewModel.noteTapped")
   
-  init(notes: IdentifiedArrayOf<Note>) {
+  init(query: String, notes: IdentifiedArrayOf<Note>) {
+    self.query = query
     self.notes = notes
   }
+  
 }
 
 // MARK: - Search Result Functionality

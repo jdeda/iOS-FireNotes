@@ -6,47 +6,47 @@ import XCTestDynamicOverlay
 // MARK: - View
 struct SearchView: View {
   @ObservedObject var vm: SearchViewModel
-  let query: String
+//  let query: String
   
   var body: some View {
-    Section {
-      ForEach(vm.topHits) { note in
-        Row(note: note, query: query)
-          .onTapGesture {
-            vm.noteTapped(note)
-          }
+      Section {
+        ForEach(vm.topHits) { note in
+          Row(note: note, query: vm.query)
+            .onTapGesture {
+              vm.noteTapped(note)
+            }
+        }
+      } header: {
+        HStack {
+          Text("Top Hits")
+            .font(.title2)
+            .fontWeight(.medium)
+            .foregroundColor(.black)
+            . textCase(nil)
+          
+          Spacer()
+          Text("\(vm.topHits.count) Found")
+            .font(.body)
+            .foregroundColor(.secondary)
+            .textCase(nil)
+        }
       }
-    } header: {
-      HStack {
-        Text("Top Hits")
-          .font(.title2)
-          .fontWeight(.medium)
-          .foregroundColor(.black)
-          . textCase(nil)
-        
-        Spacer()
-        Text("\(vm.topHits.count) Found")
-          .font(.body)
-          .foregroundColor(.secondary)
-          .textCase(nil)
-      }
-    }
-    Section {
-      ForEach(vm.notes) { note in
-        Row(note: note, query: query)
-      }
-    } header: {
-      HStack {
-        Text("Notes")
-          .font(.title2)
-          .fontWeight(.medium)
-          .foregroundColor(.black)
-          . textCase(nil)
-        Spacer()
-        Text("\(vm.notes.count) Found")
-          .font(.body)
-          .foregroundColor(.secondary)
-          .textCase(nil)
+      Section {
+        ForEach(vm.notes) { note in
+          Row(note: note, query: vm.query)
+        }
+      } header: {
+        HStack {
+          Text("Notes")
+            .font(.title2)
+            .fontWeight(.medium)
+            .foregroundColor(.black)
+            . textCase(nil)
+          Spacer()
+          Text("\(vm.notes.count) Found")
+            .font(.body)
+            .foregroundColor(.secondary)
+            .textCase(nil)
       }
     }
   }
@@ -124,6 +124,7 @@ struct HighlightedText: View {
 // MARK: - Previews
 struct SearchViewSearchPreviews: PreviewProvider {
   static var previews: some View {
-    SearchView(vm: .init(notes: mockFolder.notes), query: "")
+    SearchView(vm: .init(query: "", notes: mockFolder.notes))
+//    SearchView(vm: .init(notes: mockFolder.notes), query: "")
   }
 }

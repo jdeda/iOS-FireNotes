@@ -6,11 +6,30 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
+//enum FolderType {
+//  case all
+//  case standard
+//  case user
+//  case recentlyDeleted
+//}
+
+
+//struct AllFolder {
+//  var base: [Folder]
+//  var owned: Folder
+//}
+//
+//struct NoteWithFolderName {
+//  let folderName: String
+//  let note: Note
+//}
+
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
-  @Published var folders: IdentifiedArrayOf<Folder>
   @Published var allFolder: Folder
+  @Published var standardFolder: Folder
   @Published var recentlyDeletedFolder: Folder
+  @Published var userFolders: IdentifiedArrayOf<Folder>
   @Published var sort: Sort
   @Published var isEditing: Bool
   @Published var selectedFolders: Set<Folder.ID>
@@ -22,7 +41,7 @@ final class HomeViewModel: ObservableObject {
   }
   
   var hasSelectedAll: Bool {
-    selectedFolders.count == folders.count
+    selectedFolders.count == userFolders.count
   }
   
   var navigationBarTitle: String {
@@ -37,8 +56,10 @@ final class HomeViewModel: ObservableObject {
     isEditing: Bool = false,
     sort: Sort = .alphabetical
   ) {
-    self.folders = folders
-    self.allFolder = .init(id: .init(), name: "All Firebase", notes: [])
+    self.allFolder = .init(id: .init(), name: "All Notes", notes: .init(uniqueElements: folders.flatMap(\.notes)))
+    self.standardFolder = .init(id: .init(), name: "Notes", notes: [])
+    self.recentlyDeletedFolder = .init(id: .init(), name: "Notes", notes: [])
+    self.userFolders = folders
     self.recentlyDeletedFolder = .init(id: .init(), name: "Recently Deleted", notes: [])
     self.selectedFolders = selectedFolders
     self.search = search
@@ -90,7 +111,7 @@ final class HomeViewModel: ObservableObject {
     case let .folder(folderVM):
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
-        self.folders[id: newFolder.id] = newFolder
+        self.userFolders[id: newFolder.id] = newFolder
       }
       break
     }
@@ -105,14 +126,14 @@ final class HomeViewModel: ObservableObject {
         let newFolders: [Folder] = {
           switch sort {
           case .alphabetical:
-            return folders.sorted { $0.name < $1.name }
+            return userFolders.sorted { $0.name < $1.name }
           case .alphabeticalR:
-            return folders.sorted { $0.name > $1.name }
+            return userFolders.sorted { $0.name > $1.name }
           }
         }()
         destination = nil
         withAnimation {
-          folders = .init(uniqueElements: newFolders)
+          userFolders = .init(uniqueElements: newFolders)
         }
   }
   
@@ -133,7 +154,7 @@ final class HomeViewModel: ObservableObject {
   }
   
   func selectAllButtonTapped() {
-    selectedFolders = hasSelectedAll ? [] : .init(folders.map(\.id))
+    selectedFolders = hasSelectedAll ? [] : .init(userFolders.map(\.id))
   }
   
   func toolbarRenameSelectedButtonTapped() {
@@ -166,7 +187,7 @@ final class HomeViewModel: ObservableObject {
       notes: .init()
     )
     _ = withAnimation {
-      self.folders.append(newFolder)
+      self.userFolders.append(newFolder)
     }
     self.destination = .folder(.init(folder: newFolder))
   }
@@ -200,7 +221,7 @@ final class HomeViewModel: ObservableObject {
   }
   
   private func renameSelectedSheetConfirmButtonTapped(renameValues: RenameValues) {
-    let orderedSelectedFolders = folders.filter { selectedFolders.contains($0.id) }.elements
+    let orderedSelectedFolders = userFolders.filter { selectedFolders.contains($0.id) }.elements
     let updatedNames = renameValues.rename(orderedSelectedFolders.map(\.name))
     let zipped = zip(orderedSelectedFolders, updatedNames)
     let updatedOrderedSelectedFolders = zipped.map { (folder, newName) -> Folder in
@@ -209,7 +230,7 @@ final class HomeViewModel: ObservableObject {
       return newFolder
     }
     withAnimation {
-      folders = .init(uniqueElements: folders.map { folder in
+      userFolders = .init(uniqueElements: userFolders.map { folder in
         updatedOrderedSelectedFolders.first(where: { $0.id == folder.id }) ?? folder
       })
       destination = nil
@@ -239,13 +260,13 @@ final class HomeViewModel: ObservableObject {
   
   func deleteFolderButtonTapped(_ folder: Folder) {
     _ = withAnimation {
-      folders.remove(id: folder.id)
+      userFolders.remove(id: folder.id)
     }
   }
   
   private func confirmDeleteSelected() {
     withAnimation {
-      folders = folders.filter { !selectedFolders.contains($0.id) }
+      userFolders = userFolders.filter { !selectedFolders.contains($0.id) }
       destination = nil
       isEditing = false
     }

@@ -85,7 +85,7 @@ extension HomeView {
       }
       .foregroundColor(.yellow)
       Spacer()
-      Text("\(vm.folders.count) Folders")
+      Text("\(vm.userFolders.count) Folders")
         .font(.caption)
       Spacer()
       Button {
