@@ -4,7 +4,7 @@ import IdentifiedCollections
 import XCTestDynamicOverlay
 
 // MARK: - View
-struct Search: View {
+struct SearchView: View {
   @ObservedObject var vm: SearchViewModel
   let query: String
   
@@ -53,7 +53,7 @@ struct Search: View {
 }
 
 // MARK: - Helper Views
-extension Search {
+extension SearchView {
   struct Row: View {
     let note: Note
     let query: String
@@ -90,14 +90,6 @@ extension Search {
   }
 }
 
-// MARK: - Previews
-struct SearchPreviews: PreviewProvider {
-  static var previews: some View {
-    Search(vm: .init(notes: mockFolder.notes), query: "")
-  }
-}
-
-
 // MARK: - HighlightedText View
 struct HighlightedText: View {
   let text: String
@@ -125,5 +117,13 @@ struct HighlightedText: View {
       .reduce(Text("")) { (a, b) -> Text in
         return a + b
       }
+  }
+}
+
+
+// MARK: - Previews
+struct SearchViewSearchPreviews: PreviewProvider {
+  static var previews: some View {
+    SearchView(vm: .init(notes: mockFolder.notes), query: "")
   }
 }

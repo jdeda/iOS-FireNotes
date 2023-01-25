@@ -1,4 +1,23 @@
 import Foundation
+import IdentifiedCollections
+import XCTestDynamicOverlay
+
+// MARK: - ViewModel
+final class SearchViewModel: ObservableObject {
+  @Published var notes: IdentifiedArrayOf<Note>
+  
+  var topHits: IdentifiedArrayOf<Note> {
+    .init(notes.prefix(2))
+  }
+  
+  var noteTapped: (Note) -> Void = unimplemented("SearchViewModel.noteTapped")
+  
+  init(notes: IdentifiedArrayOf<Note>) {
+    self.notes = notes
+  }
+}
+
+// MARK: - Search Result Functionality
 
 /// Returns a string containing as many words containing the query in the source, up to a given length,
 /// case insensitively or not.

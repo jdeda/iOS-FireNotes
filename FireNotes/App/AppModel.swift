@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - ViewModel
 final class AppViewModel: ObservableObject {
   @Published var destination: Destination? {
     didSet { bindDestinaton() }

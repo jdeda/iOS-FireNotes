@@ -1,7 +1,6 @@
 import SwiftUI
 
 // MARK: - View
-
 extension FolderView {
   @ToolbarContentBuilder
   func toolbar()  -> some ToolbarContent {

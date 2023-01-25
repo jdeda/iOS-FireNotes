@@ -29,7 +29,7 @@ struct FolderView: View {
     .onChange(of: vm.search, perform: { _ in vm.performSearch() })
     .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
     .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-      Search(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
+      SearchView(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)

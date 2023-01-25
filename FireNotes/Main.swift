@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct FireNotesApp: App {
+struct Main: App {
   var body: some Scene {
     WindowGroup {
       AppView(vm: .init())

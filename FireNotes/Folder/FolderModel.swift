@@ -6,8 +6,6 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
-// TODO: Selection highlight not appearing
-
 //MARK: - ViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
@@ -310,7 +308,7 @@ extension FolderViewModel {
   }
 }
 
-//MARK: - Folder
+//MARK: - Model
 struct Folder: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
   

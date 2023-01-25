@@ -6,7 +6,6 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
-
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
   @Published var folders: IdentifiedArrayOf<Folder>

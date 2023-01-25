@@ -3,6 +3,7 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
+// MARK: - ViewModel
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
   @Published var focus: Focus?
@@ -43,6 +44,8 @@ extension NoteViewModel {
   }
 }
 
+
+// MARK: - Model
 struct Note: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
 
