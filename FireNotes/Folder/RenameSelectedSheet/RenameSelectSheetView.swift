@@ -1,6 +1,7 @@
 import SwiftUI
 import XCTestDynamicOverlay
 
+// MARK: - View
 struct RenameSelectedSheet: View {
   @ObservedObject var vm: RenameSelectedSheetViewModel
   var body: some View {
@@ -27,6 +28,7 @@ struct RenameSelectedSheet: View {
   }
 }
 
+// MARK: - Helper Views
 extension RenameSelectedSheet {
   func prefixRenameField() -> some View {
     HStack {
@@ -113,6 +115,7 @@ extension RenameSelectedSheet {
   }
 }
 
+// MARK: - Previews
 struct RenameSelectedSheet_Previews: PreviewProvider {
   static var previews: some View {
     RenameSelectedSheet(vm: .init())
