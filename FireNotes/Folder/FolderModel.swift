@@ -160,14 +160,28 @@ final class FolderViewModel: ObservableObject {
   }
   
   func toolbarDeleteSelectedButtonTapped() {
-    destination = .alert(.init(
-      title: TextState("Delete Selected"),
-      message: TextState("Are you sure you want to delete the selected notes?"),
-      buttons: [
-        .default(TextState("Nevermind")),
-        .default(TextState("Yes"), action: .send(.confirmDelete)),
-      ]
-    ))
+    if folder.variant == .recentlyDeleted {
+      destination = .alert(.init(
+        title: TextState("Delete Selected Permanently"),
+        message: TextState("Are you sure you want to delete the selected notes? These notes will be permanently deleted."),
+        buttons: [
+          .default(TextState("Nevermind")),
+          .default(TextState("Yes"), action: .send(.confirmDelete)),
+        ]
+      ))
+
+    }
+    else {
+      destination = .alert(.init(
+        title: TextState("Delete Selected"),
+        message: TextState("Are you sure you want to delete the selected notes?"),
+        buttons: [
+          .default(TextState("Nevermind")),
+          .default(TextState("Yes"), action: .send(.confirmDelete)),
+        ]
+      ))
+
+    }
   }
   
   func toolbarAppearEditSheetButtonTapped() {
@@ -248,6 +262,9 @@ final class FolderViewModel: ObservableObject {
     case .confirmDelete:
       confirmDeleteSelected()
       break
+    case let .confirmDeleteSingle(noteID):
+      confirmDeleteSingle(noteID)
+      break
     }
   }
   
@@ -263,8 +280,20 @@ final class FolderViewModel: ObservableObject {
   }
   
   func deleteNoteButtonTapped(_ note: Note) {
-    _ = withAnimation {
-      self.folder.notes.remove(id: note.id)
+    if folder.variant == .recentlyDeleted {
+      destination = .alert(.init(
+        title: TextState("Delete Permanently"),
+        message: TextState("Are you sure you want to delete the selected note? This note will be permanently deleted."),
+        buttons: [
+          .default(TextState("Nevermind")),
+          .default(TextState("Yes"), action: .send(.confirmDeleteSingle(note.id))),
+        ]
+      ))
+    }
+    else {
+      _ = withAnimation {
+        self.folder.notes.remove(id: note.id)
+      }
     }
   }
   
@@ -273,6 +302,12 @@ final class FolderViewModel: ObservableObject {
       folder.notes = folder.notes.filter { !selectedNotes.contains($0.id) }
       destination = nil
       isEditing = false
+    }
+  }
+  
+  private func confirmDeleteSingle(_ noteID: Note.ID) {
+    _ = withAnimation {
+      folder.notes.remove(id: noteID)
     }
   }
 }
@@ -290,6 +325,7 @@ extension FolderViewModel {
   
   enum AlertAction {
     case confirmDelete
+    case confirmDeleteSingle(Note.ID)
   }
 }
 

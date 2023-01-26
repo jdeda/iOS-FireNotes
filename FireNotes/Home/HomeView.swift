@@ -27,9 +27,9 @@ struct HomeView: View {
           RowView(folder: folder)
             .tag(folder.id)
             .swipeActions(edge: .trailing) {
-              Button(role: .destructive, action: { vm.deleteFolderButtonTapped(folder) } ) {
-                Label("Delete", systemImage: "trash")
-              }
+                Button { vm.deleteFolderButtonTapped(folder) } label: {
+                  Label("Delete", systemImage: "trash")
+                }.tint(.red)
             }
             .onTapGesture { vm.folderRowTapped(folder) }
         }

@@ -179,7 +179,7 @@ final class HomeViewModel: ObservableObject {
   func toolbarDeleteSelectedButtonTapped() {
     destination = .alert(.init(
       title: TextState("Delete Selected"),
-      message: TextState("Are you sure you want to delete the selected notes?"),
+      message: TextState("Are you sure you want to delete the selected folders?"),
       buttons: [
         .default(TextState("Nevermind")),
         .default(TextState("Yes"), action: .send(.confirmDelete)),
@@ -259,6 +259,9 @@ final class HomeViewModel: ObservableObject {
     case .confirmDelete:
       confirmDeleteSelected()
       break
+    case let .confirmDeleteSingle(folderID):
+      confirmDeleteSingle(folderID)
+      break
     }
   }
   
@@ -271,16 +274,25 @@ final class HomeViewModel: ObservableObject {
   }
   
   func deleteFolderButtonTapped(_ folder: Folder) {
-    _ = withAnimation {
-      userFolders.remove(id: folder.id)
-    }
-  }
+    destination = .alert(.init(
+      title: TextState("Delete"),
+      message: TextState("Are you sure you want to delete the selected folder?"),
+      buttons: [
+        .default(TextState("Nevermind")),
+        .default(TextState("Yes"), action: .send(.confirmDeleteSingle(folder.id))),
+      ]
+    ))  }
   
   private func confirmDeleteSelected() {
     withAnimation {
       userFolders = userFolders.filter { !selectedFolders.contains($0.id) }
       destination = nil
       isEditing = false
+    }
+  }
+  private func confirmDeleteSingle(_ folderID: Folder.ID) {
+    _ = withAnimation {
+      userFolders.remove(id: folderID)
     }
   }
 }
@@ -299,6 +311,7 @@ extension HomeViewModel {
   
   enum AlertAction {
     case confirmDelete
+    case confirmDeleteSingle(Folder.ID)
   }
 }
 

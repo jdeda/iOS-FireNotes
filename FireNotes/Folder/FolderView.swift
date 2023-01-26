@@ -6,7 +6,7 @@ import CasePaths
  There are several different Folder types, each with their own functionality
   - user
     - rename folder
-     - delete folder
+    - delete folder
     - move folder
     - sort notes
     - select notes
@@ -35,7 +35,6 @@ import CasePaths
   - sort notes
   - edit note
      - navigate to folder button
-
  */
 
 // MARK: - View
@@ -49,8 +48,11 @@ struct FolderView: View {
         NoteRow(note: note)
           .padding(1)
           .swipeActions(edge: .trailing) {
-            Button(role: .destructive, action: { vm.deleteNoteButtonTapped(note) } ) {
-              Label("Delete", systemImage: "trash")
+//            Button("", role: .destructive, action: {})
+            if vm.folder.variant != .all {
+              Button { vm.deleteNoteButtonTapped(note) } label: {
+                Label("Delete", systemImage: "trash")
+              }.tint(.red)
             }
           }
           .onTapGesture { vm.noteRowTapped(note) }
@@ -93,6 +95,12 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.renameSelectedSheet
     ) { $sheetVM in
       RenameSelectedSheet(vm: sheetVM)
+    }
+    .alert(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.alert
+    ) { alertAction in
+      vm.alertButtonTapped(alertAction)
     }
     .alert(
       title: { Text("Rename Folder") },
