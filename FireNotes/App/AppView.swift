@@ -6,11 +6,20 @@ struct AppView: View {
   
   var body: some View {
     NavigationStack {
-      HomeView(vm: .init(
-        userFolders: .init(uniqueElements: [mockFolderA, mockFolderB, mockFolderC]),
-        standardFolderNotes: mockFolderD.notes,
-        recentlyDeletedNotes: .init(uniqueElements: mockNotes)
-      ))
+      HomeView.init(vm: {
+        let homeVM: HomeViewModel = .init(
+          userFolders: .init(uniqueElements: [mockFolderA, mockFolderB, mockFolderC]),
+          standardFolderNotes: mockFolderD.notes,
+          recentlyDeletedNotes: .init(uniqueElements: mockNotes)
+        )
+        homeVM.destination = .folder(.init(folder: homeVM.allFolder))
+        return homeVM
+      }())
+//      HomeView(vm: .init(
+//        userFolders: .init(uniqueElements: [mockFolderA, mockFolderB, mockFolderC]),
+//        standardFolderNotes: mockFolderD.notes,
+//        recentlyDeletedNotes: .init(uniqueElements: mockNotes)
+//      ))
     }
     .accentColor(.yellow)
   }

@@ -50,23 +50,26 @@ struct Note: Identifiable, Codable {
   typealias ID = Tagged<Self, UUID>
 
   let id: ID
-  var title: String
-  var body: String
   let creationDate: Date
   var lastEditDate: Date
+  var title: String
+  var body: String
+  var folderName: String?
   
   init(
     id: ID,
     title: String,
     body: String = "",
     creationDate: Date = Date(),
-    lastEditDate: Date = Date()
+    lastEditDate: Date = Date(),
+    folderName: String? = nil
   ) {
     self.id = id
     self.title = title
     self.body = body
     self.creationDate = creationDate
     self.lastEditDate = lastEditDate
+    self.folderName = folderName
   }
   
   // String representation of a date in "YY/MM/dd" format

@@ -58,7 +58,13 @@ final class HomeViewModel: ObservableObject {
     isEditing: Bool = false,
     sort: Sort = .alphabetical
   ) {
-    self.allFolder = .init(id: .init(), variant: .all, name: "All Notes", notes: .init(uniqueElements: userFolders.flatMap(\.notes)))
+    self.allFolder = .init(id: .init(), variant: .all, name: "All Notes", notes: .init(uniqueElements: userFolders.flatMap { folder in
+      folder.notes.map { note in
+        var newNote = note
+        newNote.folderName = folder.name
+        return newNote
+      }
+    }))
     self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
     self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: recentlyDeletedNotes)
     self.userFolders = userFolders
@@ -135,12 +141,11 @@ final class HomeViewModel: ObservableObject {
         let newFolders: [Folder] = {
           switch sort {
           case .alphabetical:
-            return userFolders.sorted { $0.name < $1.name }
+            return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .forward))
           case .alphabeticalR:
-            return userFolders.sorted { $0.name > $1.name }
+            return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .reverse))
           }
         }()
-        destination = nil
         withAnimation {
           userFolders = .init(uniqueElements: newFolders)
         }
@@ -227,6 +232,7 @@ final class HomeViewModel: ObservableObject {
   private func editSheetSortPickerOptionTapped(_ newSort: Sort) {
     sort = newSort
     performSort()
+    destination = nil
   }
   
   private func editSheetDismissButtonTapped() {

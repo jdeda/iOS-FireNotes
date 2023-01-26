@@ -120,7 +120,7 @@ final class FolderViewModel: ObservableObject {
       case .editDate:
         return notes.sorted(using: KeyPathComparator(\.lastEditDate))
       case .creationDate:
-        return notes.sorted(using: KeyPathComparator(\.lastEditDate))
+        return notes.sorted(using: KeyPathComparator(\.creationDate))
       case .title:
         return notes.sorted(using: KeyPathComparator(\.title, comparator: .localizedStandard))
       }

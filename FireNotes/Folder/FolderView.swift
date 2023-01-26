@@ -48,14 +48,24 @@ struct FolderView: View {
       ForEach(vm.folder.notes) { note in
         VStack(alignment: .leading) {
           Text(note.title)
+            .lineLimit(1)
             .fontWeight(.medium)
           HStack {
             Text(note.formattedDate)
               .font(.caption)
               .foregroundColor(.secondary)
             Text(note.subTitle)
+              .lineLimit(1)
               .font(.caption)
               .foregroundColor(.secondary)
+          }
+          if vm.folder.variant == .all {
+            HStack(spacing: 4)  {
+              Image(systemName: "folder")
+              Text(note.folderName ?? "")
+            }
+            .font(.caption)
+            .foregroundColor(.secondary)
           }
         }
         .padding(1)
