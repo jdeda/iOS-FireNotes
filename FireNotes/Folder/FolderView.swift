@@ -4,55 +4,63 @@ import CasePaths
 
 /**
  There are several different Folder types, each with their own functionality
-  - user
-    - rename folder
-    - delete folder
-    - move folder
-    - sort notes
-    - select notes
-      - rename notes
-      - delete notes
-      - move notes
-    - edit note
+ - user
+ - rename folder
+ - delete folder
+ - move folder
+ - sort notes
+ - select notes
+ - rename notes
+ - delete notes
+ - move notes
+ - edit note
  
  - standard
-  - sort notes
-  - select notes
-    - rename notes
-    - delete notes
-    - move notes
-  - edit note
+ - sort notes
+ - select notes
+ - rename notes
+ - delete notes
+ - move notes
+ - edit note
  
  - recentlyDeleted (restore means move note to standard)
-   - sort notes
-   - select notes
-     - delete notes
-     - move notes
+ - sort notes
+ - select notes
+ - delete notes
+ - move notes
  - restore note
-    * note: when restoring a single note, you should already be in the nav for the note, but the back button should change to the standard folder
+ * note: when restoring a single note, you should already be in the nav for the note, but the back button should change to the standard folder
  
  - all (mutating notes must pullback to mutate specific folder)
-  - sort notes
-  - edit note
-     - navigate to folder button
+ - sort notes
+ - edit note
+ - navigate to folder button
  */
 
 // MARK: - View
 struct FolderView: View {
   @ObservedObject var vm: FolderViewModel
   @Environment(\.isSearching) var isSearching
-
+  
   var body: some View {
     List(selection: $vm.selectedNotes) {
       ForEach(vm.folder.notes) { note in
         NoteRow(note: note)
           .padding(1)
           .swipeActions(edge: .trailing) {
-//            Button("", role: .destructive, action: {})
-            if vm.folder.variant != .all {
+            switch vm.folder.variant {
+            case .all:
+              EmptyView()
+            case .recentlyDeleted:
               Button { vm.deleteNoteButtonTapped(note) } label: {
                 Label("Delete", systemImage: "trash")
               }.tint(.red)
+            default:
+              Button(role: .destructive) {
+                vm.deleteNoteButtonTapped(note)
+              } label: {
+                Label("Delete", systemImage: "trash")
+              }
             }
           }
           .onTapGesture { vm.noteRowTapped(note) }
@@ -63,10 +71,10 @@ struct FolderView: View {
     .toolbar { toolbar() }
     .environment(\.editMode, .constant(vm.isEditing ? .active : .inactive))
     .animation(.default, value: vm.isEditing)
-    .onSubmit(of: .search, { vm.performSearch() })
-    .onChange(of: vm.search, perform: { _ in vm.performSearch() })
-    .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
-    .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
+    .searchable(
+      text: .init(get: { vm.search }, set: { vm.setSearch($0) }),
+      placement: .navigationBarDrawer(displayMode: .always)
+    ) {
       SearchView(vm: .init(query: vm.search, notes: vm.searchedNotes))
     }
     .navigationBarTitle(vm.navigationBarTitle)
@@ -88,7 +96,7 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.editFolderSheet
     ) { $sheetVM in
       FolderEditSheet(vm: sheetVM)
-      .presentationDetents([.fraction(0.55)])
+        .presentationDetents([.fraction(0.55)])
     }
     .sheet(
       unwrapping: $vm.destination,

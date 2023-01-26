@@ -131,6 +131,10 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
+  func setSearch(_ newSearch: String) {
+    self.search = newSearch
+    performSearch()
+  }
   func performSearch() {
     searchedNotes = .init(uniqueElements: folder.notes.filter {
       $0.title.lowercased().contains(search.lowercased()) ||
