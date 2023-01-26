@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftUINavigation
 import CasePaths
+import XCTestDynamicOverlay
 
 /**
  There are several different Folder types, each with their own functionality
@@ -45,26 +46,37 @@ struct FolderView: View {
   var body: some View {
     List(selection: $vm.selectedNotes) {
       ForEach(vm.folder.notes) { note in
-        NoteRow(note: note)
-          .padding(1)
-          .swipeActions(edge: .trailing) {
-            switch vm.folder.variant {
-            case .all:
-              EmptyView()
-            case .recentlyDeleted:
-              Button { vm.deleteNoteButtonTapped(note) } label: {
-                Label("Delete", systemImage: "trash")
-              }.tint(.red)
-            default:
-              Button(role: .destructive) {
-                vm.deleteNoteButtonTapped(note)
-              } label: {
-                Label("Delete", systemImage: "trash")
-              }
+        VStack(alignment: .leading) {
+          Text(note.title)
+            .fontWeight(.medium)
+          HStack {
+            Text(note.formattedDate)
+              .font(.caption)
+              .foregroundColor(.secondary)
+            Text(note.subTitle)
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+        }
+        .padding(1)
+        .tag(note.id)
+        .swipeActions(edge: .trailing) {
+          switch vm.folder.variant {
+          case .all:
+            EmptyView()
+          case .recentlyDeleted:
+            Button { vm.deleteNoteButtonTapped(note) } label: {
+              Label("Delete", systemImage: "trash")
+            }.tint(.red)
+          default:
+            Button(role: .destructive) {
+              vm.deleteNoteButtonTapped(note)
+            } label: {
+              Label("Delete", systemImage: "trash")
             }
           }
-          .onTapGesture { vm.noteRowTapped(note) }
-          .tag(note.id)
+        }
+        .onTapGesture { vm.noteRowTapped(note) }
       }
       .deleteDisabled(true)
     }
@@ -124,8 +136,33 @@ struct FolderView: View {
 
 // MARK: - Helper Views
 extension FolderView {
+  
+  //        NoteRow(
+  //          note: note,
+  //          folderVariant: vm.folder.variant,
+  //          deleteButtonTapped: vm.deleteNoteButtonTapped,
+  //          rowTapped: vm.noteRowTapped
+  //        )
+  //          .padding(1)
+  //          .tag(note.id)
+
   private struct NoteRow: View {
     let note: Note
+    let folderVariant: Folder.Variant
+    var deleteButtonTapped: (_ note: Note) -> Void = unimplemented("FolderView.NoteRow.deleteButtonTapped")
+    var rowTapped: (_ note: Note) -> Void = unimplemented("FolderView.NoteRow.rowTapped")
+    
+    init(
+      note: Note,
+      folderVariant: Folder.Variant,
+      deleteButtonTapped: @escaping (_ note: Note) -> Void,
+      rowTapped: @escaping (_ note: Note) -> Void
+    ) {
+      self.note = note
+      self.folderVariant = folderVariant
+      self.deleteButtonTapped = deleteButtonTapped
+      self.rowTapped = rowTapped
+    }
     var body: some View {
       VStack(alignment: .leading) {
         Text(note.title)
@@ -139,6 +176,23 @@ extension FolderView {
             .foregroundColor(.secondary)
         }
       }
+      .swipeActions(edge: .trailing) {
+        switch folderVariant {
+        case .all:
+          EmptyView()
+        case .recentlyDeleted:
+          Button { deleteButtonTapped(note) } label: {
+            Label("Delete", systemImage: "trash")
+          }.tint(.red)
+        default:
+          Button(role: .destructive) {
+            deleteButtonTapped(note)
+          } label: {
+            Label("Delete", systemImage: "trash")
+          }
+        }
+      }
+      .onTapGesture { rowTapped(note) }
     }
   }
 }
