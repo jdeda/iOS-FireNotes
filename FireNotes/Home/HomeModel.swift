@@ -6,24 +6,6 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
-//enum FolderType {
-//  case all
-//  case standard
-//  case user
-//  case recentlyDeleted
-//}
-
-
-//struct AllFolder {
-//  var base: [Folder]
-//  var owned: Folder
-//}
-//
-//struct NoteWithFolderName {
-//  let folderName: String
-//  let note: Note
-//}
-
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
   @Published var allFolder: Folder

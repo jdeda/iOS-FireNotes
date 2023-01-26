@@ -6,7 +6,6 @@ import XCTestDynamicOverlay
 // MARK: - View
 struct SearchView: View {
   @ObservedObject var vm: SearchViewModel
-//  let query: String
   
   var body: some View {
       Section {
@@ -18,7 +17,7 @@ struct SearchView: View {
         }
       } header: {
         HStack {
-          Text("Top Hits")
+          Text("Top Results")
             .font(.title2)
             .fontWeight(.medium)
             .foregroundColor(.black)
@@ -37,7 +36,7 @@ struct SearchView: View {
         }
       } header: {
         HStack {
-          Text("Notes")
+          Text("All Results")
             .font(.title2)
             .fontWeight(.medium)
             .foregroundColor(.black)
@@ -69,22 +68,25 @@ extension SearchView {
     var body: some View {
       VStack(alignment: .leading) {
         HighlightedText(note.title, matching: query, caseInsensitive: true)
+          .lineLimit(1)
           .fontWeight(.medium)
         HStack {
           Text(note.formattedDate)
             .font(.caption)
             .foregroundColor(.secondary)
           HighlightedText(noteBodyQueryDescription, matching: query, caseInsensitive: true)
+            .lineLimit(1)
             .font(.caption)
             .foregroundColor(.secondary)
         }
-        HStack(alignment: .center) {
+        HStack(spacing: 4)  {
           Image(systemName: "folder")
-            .foregroundColor(.secondary)
-          Text("folder")
-            .foregroundColor(.black)
-          Spacer()
+          Text(note.folderName ?? "folder")
         }
+        .font(.caption)
+        .foregroundColor(.secondary)
+        .font(.caption)
+        .foregroundColor(.secondary)
       }
     }
   }
@@ -124,7 +126,8 @@ struct HighlightedText: View {
 // MARK: - Previews
 struct SearchViewSearchPreviews: PreviewProvider {
   static var previews: some View {
-    SearchView(vm: .init(query: "", notes: mockFolder.notes))
-//    SearchView(vm: .init(notes: mockFolder.notes), query: "")
+    Form {
+      SearchView(vm: .init(query: "", notes: mockFolder.notes))
+    }
   }
 }

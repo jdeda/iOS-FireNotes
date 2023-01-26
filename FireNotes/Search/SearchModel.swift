@@ -18,6 +18,13 @@ final class SearchViewModel: ObservableObject {
     self.notes = notes
   }
   
+  func sortNotes() {
+    notes = .init(uniqueElements: notes.sorted { n1, n2 in
+      guard let l1 = stringSearchResultRangeCount(source: n1.title + n1.body, query: query, length: 25) else { return true }
+      guard let l2 = stringSearchResultRangeCount(source: n2.title + n2.body, query: query, length: 25) else { return false }
+      return l1 > l2
+    })
+  }
 }
 
 // MARK: - Search Result Functionality
@@ -124,6 +131,26 @@ func stringSearchResult(
   }
   finalResult = String(finalResult[finalResult.startIndex..<finalResult.endIndex])
   return finalResult
+}
+
+func stringSearchResultRangeCount(
+  source sourceRaw: String,
+  query queryRaw: String,
+  length: Int,
+  caseInsensitive: Bool = true
+) -> Int? {
+  
+  let source: String = { caseInsensitive ? sourceRaw.lowercased() : sourceRaw }()
+  let query: String = { caseInsensitive ? queryRaw.lowercased() : queryRaw }()
+  
+  guard let regex: Regex<AnyRegexOutput> = {
+    guard let reg = nsRegex(query: query, caseInsensitive: caseInsensitive)
+    else { return nil }
+    return try? Regex(reg.pattern)
+  }()
+  else { return nil }
+  
+  return source.ranges(of: regex).reduce(0, { $0 + source.distance(from: $1.lowerBound, to: $1.upperBound) })
 }
 
 func nsRegex(query: String, caseInsensitive: Bool = true) -> NSRegularExpression? {
