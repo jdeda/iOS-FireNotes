@@ -25,35 +25,29 @@ struct HomeView: View {
       Section {
         ForEach(vm.userFolders) { folder in
           RowView(folder: folder)
+            .onTapGesture { vm.folderRowTapped(folder) }
             .tag(folder.id)
             .swipeActions(edge: .trailing) {
                 Button { vm.deleteFolderButtonTapped(folder) } label: {
                   Label("Delete", systemImage: "trash")
                 }.tint(.red)
             }
-            .onTapGesture { vm.folderRowTapped(folder) }
         }
         .deleteDisabled(true)
       } header: {
         Text("User")
         
       }
-//      Section {
-//        RowView(folder: vm.recentlyDeletedFolder, imageName: "trash")
-//      } header: {
-//        Text("Recently Deleted")
-//      }
     }
     .listStyle(SidebarListStyle())
-    .accentColor(.yellow)
     .environment(\.editMode, .constant(vm.isEditing ? .active : .inactive))
     .animation(Animation.spring(), value: vm.isEditing)
     .toolbar { toolbar() }
-    .onSubmit(of: .search, { vm.performSearch() })
-    .onChange(of: vm.search, perform: { _ in vm.performSearch() })
-    .onChange(of: isSearching, perform: { if $0 { vm.clearSearchedNotes() } })
-    .searchable(text: $vm.search, placement: .navigationBarDrawer(displayMode: .always)) {
-      //      Search(vm: SearchViewModel(notes: vm.searchedNotes), query: vm.search)
+    .searchable(
+      text: .init(get: { vm.search }, set: { vm.setSearch($0) }),
+      placement: .navigationBarDrawer(displayMode: .always)
+    ) {
+//      SearchView(vm: .init(query: vm.search, notes: vm.searchedFolders))
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)

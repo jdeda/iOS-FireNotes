@@ -76,8 +76,6 @@ final class HomeViewModel: ObservableObject {
     switch destination {
     case .none:
       break
-    case let .note(noteVM):
-      break
     case .some(.alert(_)):
       break
     case .some(.moveSheet):
@@ -148,6 +146,11 @@ final class HomeViewModel: ObservableObject {
         }
   }
   
+  func setSearch(_ newSearch: String) {
+    self.search = newSearch
+    performSearch()
+  }
+  
   func performSearch() {
 //        searchedFolders = .init(uniqueElements: folders.filter {
 //          $0.name.lowercased().contains(search.lowercased()) ||
@@ -205,17 +208,15 @@ final class HomeViewModel: ObservableObject {
   }
   
   func toolbarAddNoteButtonTappped() {
-    //    let newNote = Note(
-    //      id: .init(),
-    //      title: "New Untitled Note",
-    //      body: "",
-    //      creationDate: Date(),
-    //      lastEditDate: Date()
-    //    )
-    //    _ = withAnimation {
-    //      self.folder.notes.append(newNote)
-    //    }
-    //    self.destination = .note(.init(note: newNote))
+    let newNote = Note(
+          id: .init(),
+          title: "New Untitled Note",
+          body: "",
+          creationDate: Date(),
+          lastEditDate: Date()
+    )
+    standardFolder.notes.append(newNote)
+    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: newNote))))
   }
   
   private func editSheetSelectButtonTapped() {
@@ -302,7 +303,6 @@ extension HomeViewModel {
     case editHomeSheet(HomeEditSheetViewModel)
     case renameSelectedSheet(RenameSelectedSheetViewModel)
     case folder(FolderViewModel)
-    case note(NoteViewModel)
     case alert(AlertState<AlertAction>)
     case renameAlert
     case deleteSelectedAlert

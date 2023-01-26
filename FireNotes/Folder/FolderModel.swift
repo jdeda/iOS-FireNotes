@@ -42,8 +42,8 @@ final class FolderViewModel: ObservableObject {
     self.isEditing = isEditing
     self.sort = sort
     self.searchedNotes = []
-    performSort()
-    destinationBind()
+    self.performSort()
+    self.destinationBind()
   }
   
   private func destinationBind() {
@@ -125,7 +125,6 @@ final class FolderViewModel: ObservableObject {
         return notes.sorted(using: KeyPathComparator(\.title, comparator: .localizedStandard))
       }
     }()
-    destination = nil
     withAnimation {
       folder.notes = .init(uniqueElements: newNotes)
     }
@@ -135,6 +134,7 @@ final class FolderViewModel: ObservableObject {
     self.search = newSearch
     performSearch()
   }
+  
   func performSearch() {
     searchedNotes = .init(uniqueElements: folder.notes.filter {
       $0.title.lowercased().contains(search.lowercased()) ||
@@ -218,6 +218,7 @@ final class FolderViewModel: ObservableObject {
   private func editSheetSortPickerOptionTapped(_ newSort: Sort) -> Void {
     sort = newSort
     performSort()
+    destination = nil
   }
   
   private func editSheetAddSubfolderButtonTapped() {
