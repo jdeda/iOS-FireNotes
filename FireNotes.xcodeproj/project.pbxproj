@@ -15,6 +15,7 @@
 		9776E62F297B2521006C4439 /* RenameSelectSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9776E62E297B2521006C4439 /* RenameSelectSheetView.swift */; };
 		97775084297855120072EB0D /* RenameAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97775083297855120072EB0D /* RenameAlert.swift */; };
 		97EA6ED22981ABA30039D660 /* FolderEditSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EA6ED12981ABA30039D660 /* FolderEditSheetView.swift */; };
+		97EAAD4829849190001C35B1 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EAAD4729849190001C35B1 /* Collections+Extensions.swift */; };
 		97EB457D2965F4AA00018ADF /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457C2965F4AA00018ADF /* IdentifiedCollections */; };
 		97EB45802966064200018ADF /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 97EB457F2966064200018ADF /* Tagged */; };
 		97F0897A2971EDF90032501F /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F089792971EDF90032501F /* MockData.swift */; };
@@ -46,6 +47,7 @@
 		9776E62E297B2521006C4439 /* RenameSelectSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameSelectSheetView.swift; sourceTree = "<group>"; };
 		97775083297855120072EB0D /* RenameAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameAlert.swift; sourceTree = "<group>"; };
 		97EA6ED12981ABA30039D660 /* FolderEditSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderEditSheetView.swift; sourceTree = "<group>"; };
+		97EAAD4729849190001C35B1 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		97F089792971EDF90032501F /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		97F27B13295F43BF008FB09B /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		97F27B17295F6FB7008FB09B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				976D696B296E0BC3001879CA /* SwiftUIHelpers.swift */,
 				97F089792971EDF90032501F /* MockData.swift */,
+				97EAAD4729849190001C35B1 /* Collections+Extensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				976D696C296E0BC3001879CA /* SwiftUIHelpers.swift in Sources */,
 				9752E1A42976DFE60031EE4E /* SearchModel.swift in Sources */,
 				9776E62C297B036C006C4439 /* RenameSelectedSheetModel.swift in Sources */,
+				97EAAD4829849190001C35B1 /* Collections+Extensions.swift in Sources */,
 				97FA60CC297DAA5F0027ED3B /* FolderEditSheetModel.swift in Sources */,
 				9776E62F297B2521006C4439 /* RenameSelectSheetView.swift in Sources */,
 			);

@@ -18,13 +18,7 @@ import XCTestDynamicOverlay
 final class HomeViewModel: ObservableObject {
   var allFolder: Folder {
     let folders = userFolders.elements + [standardFolder, recentlyDeletedFolder]
-    let notes = folders.flatMap { folder in
-      folder.notes.map { note in
-        var newNote = note
-        newNote.folderName = folder.name
-        return newNote
-      }
-    }
+    let notes = folders.flatMap { $0.notes.set(\.folderName, to: $0.name) }
     return .init(id: .init(), variant: .all, name: "All Folder", notes: .init(uniqueElements: notes))
   }
   @Published var standardFolder: Folder
@@ -59,9 +53,7 @@ final class HomeViewModel: ObservableObject {
     sort: Sort = .alphabetical
   ) {
     self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
-    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: .init(uniqueElements: recentlyDeletedNotes.map {
-      Note(id: $0.id, title: $0.title, body: $0.body, creationDate: $0.creationDate, lastEditDate: $0.lastEditDate, folderName: $0.folderName, recentlyDeleted: true)
-    }))
+    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: .init(uniqueElements: recentlyDeletedNotes.set(\.recentlyDeleted, to: true)))
     self.userFolders = userFolders
     self.selectedFolders = selectedFolders
     self.search = search
@@ -188,23 +180,13 @@ final class HomeViewModel: ObservableObject {
   
   private func restoreNotes(_ notes: IdentifiedArrayOf<Note>) {
     recentlyDeletedFolder.notes = recentlyDeletedFolder.notes.filter { notes[id: $0.id] == nil }
-    var restoredNotes = notes.map {
-      var restoredNote = $0
-      restoredNote.recentlyDeleted = false
-      return restoredNote
-    }
-    standardFolder.notes.append(contentsOf: restoredNotes)
+    standardFolder.notes.append(contentsOf: notes.set(\.recentlyDeleted, to: false))
     destination = .folder(.init(folder: standardFolder))
   }
   
   private func moveDeletedToRecentlyDeleted(folderID: Folder.ID, _ notes: IdentifiedArrayOf<Note>) {
     if folderID == recentlyDeletedFolder.id { return }
-    var recentlyDeleted = notes.map {
-      var deleted = $0
-      deleted.recentlyDeleted = true
-      return deleted
-    }
-    recentlyDeletedFolder.notes.append(contentsOf: recentlyDeleted)
+    recentlyDeletedFolder.notes.append(contentsOf: notes.set(\.recentlyDeleted, to: true))
   }
   
   private func updateFolder(note: Note) {
@@ -220,6 +202,7 @@ final class HomeViewModel: ObservableObject {
     }
   }
   
+  // MARK: - This logic is quite long and ugly...
   private func updateFolder(folder: Folder) {
     switch folder.variant {
     case .all:
