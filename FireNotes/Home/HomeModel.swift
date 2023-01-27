@@ -6,6 +6,14 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
+//// Array of enums
+//enum Folder {
+//  case all(AllFolder)
+//  case standard(StandardFolder)
+//  case user(UserFolder)
+//  case recentlyDeleted(RecentlyDeletedFolder)
+//}
+
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
   var allFolder: Folder {
@@ -181,10 +189,10 @@ final class HomeViewModel: ObservableObject {
     standardFolder.notes.append(contentsOf: notes)
     destination = .folder(.init(folder: standardFolder))
   }
+  
   private func moveDeletedToRecentlyDeleted(folderID: Folder.ID, _ notes: IdentifiedArrayOf<Note>) {
     if folderID == recentlyDeletedFolder.id { return }
     recentlyDeletedFolder.notes.append(contentsOf: notes)
-    
   }
   
   
@@ -227,8 +235,8 @@ final class HomeViewModel: ObservableObject {
         else if second != nil { return second }
         else { return nil}
       }() else {
-        return
         print("not found")
+        return
       }
 
       if standardFolder.name == changedNote.folderName {
@@ -250,35 +258,6 @@ final class HomeViewModel: ObservableObject {
       self.recentlyDeletedFolder = folder
     }
   }
-  
-//  func searchButtonTapped(_ note: Note) {
-//    var foundNote = standardFolder.notes[id: note.id]
-//    if foundNote != nil {
-//      destination = .folder(.init(
-//        folder: standardFolder,
-//        destination: .note(.init(note: foundNote!))
-//      ))
-//      return
-//    }
-//    foundNote = recentlyDeletedFolder.notes[id: note.id]
-//    if foundNote != nil {
-//      destination = .folder(.init(
-//        folder: recentlyDeletedFolder,
-//        destination: .note(.init(note: foundNote!))
-//      ))
-//      return
-//    }
-//    for folder in userFolders {
-//      foundNote = folder.notes[id: note.id]
-//      if foundNote != nil {
-//        destination = .folder(.init(
-//          folder: folder,
-//          destination: .note(.init(note: foundNote!))
-//        ))
-//        return
-//      }
-//    }
-//  }
   
   func toolbarDoneButtonTapped() {
     isEditing = false
@@ -334,7 +313,7 @@ final class HomeViewModel: ObservableObject {
       lastEditDate: Date()
     )
     standardFolder.notes.append(newNote)
-    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: newNote))))
+    destination = .note(.init(note: newNote))
   }
   
   private func editSheetSelectButtonTapped() {
@@ -402,6 +381,8 @@ final class HomeViewModel: ObservableObject {
   
   private func confirmDeleteSelected() {
     withAnimation {
+      let deleting: IdentifiedArrayOf<Note> = .init(uniqueElements: userFolders.filter({selectedFolders.contains($0.id)}).flatMap(\.notes))
+      moveDeletedToRecentlyDeleted(folderID: .init(), deleting)
       userFolders = userFolders.filter { !selectedFolders.contains($0.id) }
       destination = nil
       isEditing = false
@@ -410,6 +391,7 @@ final class HomeViewModel: ObservableObject {
   
   private func confirmDeleteSingle(_ folderID: Folder.ID) {
     _ = withAnimation {
+      moveDeletedToRecentlyDeleted(folderID: folderID, userFolders[id: folderID]?.notes ?? [])
       userFolders.remove(id: folderID)
     }
   }

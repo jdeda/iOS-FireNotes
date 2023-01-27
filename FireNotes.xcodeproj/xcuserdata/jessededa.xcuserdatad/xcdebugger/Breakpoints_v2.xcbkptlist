@@ -271,22 +271,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AC548CFA-B055-4D00-82D5-37DEABE438DA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FireNotes/Home/HomeModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "HomeViewModel"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1B5CCD83-285D-4806-91D2-51C4DCE04042"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -294,8 +278,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -310,8 +294,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -326,8 +310,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "destinationBind()"
             landmarkType = "7">
             <Locations>
@@ -374,8 +358,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -390,8 +374,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "updateFolder(folder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -422,8 +406,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -438,8 +422,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -470,8 +454,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -486,8 +470,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "destinationBind()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,6 +522,54 @@
                   offsetFromSymbolStart = "94">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C0F129F9-507F-4C20-9F59-5BC715E6A206"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FireNotes/Home/HomeModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
+            landmarkName = "confirmDeleteSingle(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "356B712E-7D2F-4944-96EB-74600CCD21B1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FireNotes/Home/HomeModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "confirmDeleteSingle(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B08BB2D6-4010-44BC-B3F0-B9B8B2F9F360"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FireNotes/Home/HomeModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "moveDeletedToRecentlyDeleted(folderID:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
