@@ -8,14 +8,24 @@ import XCTestDynamicOverlay
 
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
-  @Published var allFolder: Folder
+  var allFolder: Folder {
+    let folders = userFolders.elements + [standardFolder, recentlyDeletedFolder]
+    let notes = folders.flatMap { folder in
+      folder.notes.map { note in
+        var newNote = note
+        newNote.folderName = folder.name
+        return newNote
+      }
+    }
+    return .init(id: .init(), variant: .all, name: "All Folder", notes: .init(uniqueElements: notes))
+  }
   @Published var standardFolder: Folder
   @Published var recentlyDeletedFolder: Folder
   @Published var userFolders: IdentifiedArrayOf<Folder>
   @Published var sort: Sort
   @Published var isEditing: Bool
   @Published var selectedFolders: Set<Folder.ID>
-  @Published var searchedFolders: IdentifiedArrayOf<Folder>
+  @Published var searchedNotes: IdentifiedArrayOf<Note>
   @Published var search: String
   @Published var destinationCancellable: AnyCancellable?
   @Published var destination: Destination? {
@@ -40,13 +50,6 @@ final class HomeViewModel: ObservableObject {
     isEditing: Bool = false,
     sort: Sort = .alphabetical
   ) {
-    self.allFolder = .init(id: .init(), variant: .all, name: "All Notes", notes: .init(uniqueElements: userFolders.flatMap { folder in
-      folder.notes.map { note in
-        var newNote = note
-        newNote.folderName = folder.name
-        return newNote
-      }
-    }))
     self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
     self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: recentlyDeletedNotes)
     self.userFolders = userFolders
@@ -55,7 +58,7 @@ final class HomeViewModel: ObservableObject {
     self.destination = destination
     self.isEditing = isEditing
     self.sort = sort
-    self.searchedFolders = []
+    self.searchedNotes = []
     performSort()
     destinationBind()
   }
@@ -96,41 +99,38 @@ final class HomeViewModel: ObservableObject {
       }
       break
     case let .folder(folderVM):
-      // TODO: This code looks very pernicious...how do we trust the variant property is being used right? 
+      // TODO: This code looks very pernicious...how do we trust the variant property is being used right?
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
-        switch newFolder.variant {
-        case .all:
-          self.allFolder = newFolder
-        case .standard:
-          self.standardFolder = newFolder
-        case .user:
-          self.userFolders[id: newFolder.id] = newFolder
-        case .recentlyDeleted:
-          self.recentlyDeletedFolder = newFolder
-        }
+        self.updateFolder(folder: newFolder)
+      }
+      break
+    case let .note(noteVM):
+      noteVM.newNoteButtonTapped = { [weak self] newNote in
+        guard let self else { return }
+        self.newNoteButtonTapped(newNote: newNote)
+      }
+      // Listen for changes in the note when we are navigated in.
+      self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
+        guard let self else { return }
+        self.updateFolder(note: newNote)
       }
       break
     }
   }
   
-  //  private func newNoteButtonTapped(newNote: Note) {
-  //    self.folder.notes.append(newNote)
-  //    self.destination = .note(.init(note: newNote, focus: .body))
-  //  }
-  
   private func performSort() {
-        let newFolders: [Folder] = {
-          switch sort {
-          case .alphabetical:
-            return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .forward))
-          case .alphabeticalR:
-            return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .reverse))
-          }
-        }()
-        withAnimation {
-          userFolders = .init(uniqueElements: newFolders)
-        }
+    let newFolders: [Folder] = {
+      switch sort {
+      case .alphabetical:
+        return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .forward))
+      case .alphabeticalR:
+        return userFolders.sorted(using: KeyPathComparator(\.name, comparator: .localizedStandard, order: .reverse))
+      }
+    }()
+    withAnimation {
+      userFolders = .init(uniqueElements: newFolders)
+    }
   }
   
   func setSearch(_ newSearch: String) {
@@ -138,16 +138,91 @@ final class HomeViewModel: ObservableObject {
     performSearch()
   }
   
-  func performSearch() {
-//        searchedFolders = .init(uniqueElements: folders.filter {
-//          $0.name.lowercased().contains(search.lowercased()) ||
-//          $0.body.lowercased().contains(search.lowercased())
-//        })
+  private func performSearch() {
+    searchedNotes = .init(uniqueElements: allFolder.notes
+      .filter { $0.folderName != nil }
+      .filter {
+        $0.title.lowercased().contains(search.lowercased()) ||
+        $0.body.lowercased().contains(search.lowercased())
+      }
+    )
   }
   
-  func clearSearchedNotes() {
-    self.searchedFolders = []
+  func searchButtonTapped(_ note: Note) {
+    destination = .note(.init(note: note))
   }
+  
+  private func newNoteButtonTapped(newNote: Note) {
+    updateFolder(note: newNote)
+    destination = .note(.init(note: newNote))
+  }
+  
+  private func updateFolder(note: Note) {
+    var foundNote = standardFolder.notes[id: note.id]
+    if foundNote != nil {
+      standardFolder.notes[id: note.id] = note
+    }
+    foundNote = recentlyDeletedFolder.notes[id: note.id]
+    if foundNote != nil {
+      recentlyDeletedFolder.notes[id: note.id] = note
+    }
+    for folder in userFolders {
+      foundNote = folder.notes[id: note.id]
+      if foundNote != nil {
+        userFolders[id: folder.id]!.notes[id: note.id] = note
+      }
+    }
+  }
+  
+  private func updateFolder(folder: Folder) {
+    switch folder.variant {
+    case .all:
+      if standardFolder.id == folder.id {
+        standardFolder = folder
+      }
+      if recentlyDeletedFolder.id == folder.id {
+        standardFolder = folder
+      }
+      if userFolders[id: folder.id] != nil {
+        userFolders[id: folder.id] = folder
+      }
+    case .standard:
+      self.standardFolder = folder
+    case .user:
+      self.userFolders[id: folder.id] = folder
+    case .recentlyDeleted:
+      self.recentlyDeletedFolder = folder
+    }
+  }
+  
+//  func searchButtonTapped(_ note: Note) {
+//    var foundNote = standardFolder.notes[id: note.id]
+//    if foundNote != nil {
+//      destination = .folder(.init(
+//        folder: standardFolder,
+//        destination: .note(.init(note: foundNote!))
+//      ))
+//      return
+//    }
+//    foundNote = recentlyDeletedFolder.notes[id: note.id]
+//    if foundNote != nil {
+//      destination = .folder(.init(
+//        folder: recentlyDeletedFolder,
+//        destination: .note(.init(note: foundNote!))
+//      ))
+//      return
+//    }
+//    for folder in userFolders {
+//      foundNote = folder.notes[id: note.id]
+//      if foundNote != nil {
+//        destination = .folder(.init(
+//          folder: folder,
+//          destination: .note(.init(note: foundNote!))
+//        ))
+//        return
+//      }
+//    }
+//  }
   
   func toolbarDoneButtonTapped() {
     isEditing = false
@@ -196,11 +271,11 @@ final class HomeViewModel: ObservableObject {
   
   func toolbarAddNoteButtonTappped() {
     let newNote = Note(
-          id: .init(),
-          title: "New Untitled Note",
-          body: "",
-          creationDate: Date(),
-          lastEditDate: Date()
+      id: .init(),
+      title: "New Untitled Note",
+      body: "",
+      creationDate: Date(),
+      lastEditDate: Date()
     )
     standardFolder.notes.append(newNote)
     destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: newNote))))
@@ -254,10 +329,6 @@ final class HomeViewModel: ObservableObject {
     }
   }
   
-  //  func renameAlertConfirmButtonTapped(_ newName: String) {
-  //    folder.name = newName
-  //  }
-  
   func folderRowTapped(_ folder: Folder) {
     destination = .folder(FolderViewModel(folder: folder))
   }
@@ -270,7 +341,8 @@ final class HomeViewModel: ObservableObject {
         .default(TextState("Nevermind")),
         .default(TextState("Yes"), action: .send(.confirmDeleteSingle(folder.id))),
       ]
-    ))  }
+    ))
+  }
   
   private func confirmDeleteSelected() {
     withAnimation {
@@ -279,6 +351,7 @@ final class HomeViewModel: ObservableObject {
       isEditing = false
     }
   }
+  
   private func confirmDeleteSingle(_ folderID: Folder.ID) {
     _ = withAnimation {
       userFolders.remove(id: folderID)
@@ -291,6 +364,7 @@ extension HomeViewModel {
     case editHomeSheet(HomeEditSheetViewModel)
     case renameSelectedSheet(RenameSelectedSheetViewModel)
     case folder(FolderViewModel)
+    case note(NoteViewModel)
     case alert(AlertState<AlertAction>)
     case renameAlert
     case deleteSelectedAlert

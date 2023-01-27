@@ -28,7 +28,7 @@ struct FolderEditSheet: View {
         case .user:
           selectButton()
           sortPicker()
-          addButton()
+//          addButton()
           moveButton()
           renameButton()
         }

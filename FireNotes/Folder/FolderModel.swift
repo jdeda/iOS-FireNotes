@@ -63,8 +63,6 @@ final class FolderViewModel: ObservableObject {
       break
     case .some(.alert(_)):
       break
-    case .some(.moveSheet):
-      break
     case .some(.renameAlert):
       break
     case let .editFolderSheet(editSheetVM):
@@ -76,10 +74,10 @@ final class FolderViewModel: ObservableObject {
         guard let self else { return }
         self.editSheetSortPickerOptionTapped(newSort)
       }
-      //      editSheetVM.addSubfolderButtonTapped = { [weak self] in
-      //        guard let self else { return }
-      //        self.editSheetAddSubfolderButtonTapped()
-      //      }
+      editSheetVM.addSubfolderButtonTapped = { [weak self] in
+        guard let self else { return }
+        self.editSheetAddSubfolderButtonTapped()
+      }
       editSheetVM.moveButtonTapped = { [weak self] in
         guard let self else { return }
         self.editSheetMoveButtonTapped()
@@ -93,7 +91,9 @@ final class FolderViewModel: ObservableObject {
         self.editSheetDismissButtonTapped()
       }
       break
-    case .some(.deleteSelectedAlert):
+    case .some(.addSubfolderSheet):
+      break
+    case .some(.moveSheet):
       break
     case let .renameSelectedSheet(renameSheetVM):
       renameSheetVM.submitButtonTapped = { [weak self] renameValues in
@@ -104,6 +104,8 @@ final class FolderViewModel: ObservableObject {
         guard let self else { return }
         self.renameSelectedSheetCancelButtonTapped()
       }
+      break
+    case .some(.deleteSelectedAlert):
       break
     }
   }
@@ -142,8 +144,8 @@ final class FolderViewModel: ObservableObject {
     })
   }
   
-  func clearSearchedNotes() {
-    self.searchedNotes = []
+  func searchButtonTapped(_ note: Note) {
+    destination = .note(.init(note: note))
   }
   
   func toolbarDoneButtonTapped() {
@@ -217,16 +219,22 @@ final class FolderViewModel: ObservableObject {
   
   private func editSheetSortPickerOptionTapped(_ newSort: Sort) -> Void {
     sort = newSort
-    performSort()
     destination = nil
+    performSort()
   }
   
   private func editSheetAddSubfolderButtonTapped() {
-    
+    destination = nil
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // MARK: - Temp fix...?
+      self.destination = .addSubfolderSheet
+    }
   }
   
   private func editSheetMoveButtonTapped() {
-    destination = .moveSheet
+    destination = nil
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // MARK: - Temp fix...?
+      self.destination = .moveSheet
+    }
   }
   
   private func editSheetRenameButtonTapped() {
@@ -278,10 +286,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func noteRowTapped(_ note: Note) {
-    destination = .note(NoteViewModel(
-      note: note,
-      focus: .body
-    ))
+    destination = .note(.init(note: note, focus: .body))
   }
   
   func deleteNoteButtonTapped(_ note: Note) {
@@ -320,12 +325,13 @@ final class FolderViewModel: ObservableObject {
 extension FolderViewModel {
   enum Destination {
     case editFolderSheet(FolderEditSheetViewModel)
+    case addSubfolderSheet
+    case moveSheet
     case renameSelectedSheet(RenameSelectedSheetViewModel)
     case note(NoteViewModel)
     case alert(AlertState<AlertAction>)
     case renameAlert
     case deleteSelectedAlert
-    case moveSheet
   }
   
   enum AlertAction {
@@ -364,13 +370,14 @@ struct FolderRow: Identifiable {
 
 
 //MARK: - Model
-struct Folder: Identifiable, Codable {
+struct Folder: Identifiable, Equatable, Codable {
   typealias ID = Tagged<Self, UUID>
 
   let id: ID
   let variant: Variant
   var name: String
   var notes: IdentifiedArrayOf<Note>
+  var folders: IdentifiedArrayOf<Folder>? = nil
   
   enum Variant: Codable {
     case all

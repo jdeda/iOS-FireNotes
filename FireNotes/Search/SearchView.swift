@@ -33,6 +33,9 @@ struct SearchView: View {
       Section {
         ForEach(vm.notes) { note in
           Row(note: note, query: vm.query)
+            .onTapGesture {
+              vm.noteTapped(note)
+            }
         }
       } header: {
         HStack {
@@ -70,7 +73,7 @@ extension SearchView {
         HighlightedText(note.title, matching: query, caseInsensitive: true)
           .lineLimit(1)
           .fontWeight(.medium)
-        HStack {
+        HStack(spacing: 4) {
           Text(note.formattedDate)
             .font(.caption)
             .foregroundColor(.secondary)
@@ -79,14 +82,16 @@ extension SearchView {
             .font(.caption)
             .foregroundColor(.secondary)
         }
-        HStack(spacing: 4)  {
-          Image(systemName: "folder")
-          Text(note.folderName ?? "folder")
+        .font(.caption)
+        .foregroundColor(.secondary)
+        if note.folderName != nil {
+          HStack(spacing: 4)  {
+            Image(systemName: "folder")
+            Text(note.folderName!)
+          }
+          .font(.caption)
+          .foregroundColor(.secondary)
         }
-        .font(.caption)
-        .foregroundColor(.secondary)
-        .font(.caption)
-        .foregroundColor(.secondary)
       }
     }
   }

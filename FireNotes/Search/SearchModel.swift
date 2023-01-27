@@ -18,6 +18,17 @@ final class SearchViewModel: ObservableObject {
     self.notes = notes
   }
   
+  init(
+    query: String,
+    notes: IdentifiedArrayOf<Note>,
+    noteTapped: @escaping (Note) -> Void = unimplemented("SearchViewModel.noteTapped")
+  ) {
+    self.query = query
+    self.notes = notes
+    self.noteTapped = noteTapped
+    sortNotes()
+  }
+  
   func sortNotes() {
     notes = .init(uniqueElements: notes.sorted { n1, n2 in
       guard let l1 = stringSearchResultRangeCount(source: n1.title + n1.body, query: query, length: 25) else { return true }

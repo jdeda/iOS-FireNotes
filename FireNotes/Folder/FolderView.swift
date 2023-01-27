@@ -50,7 +50,7 @@ struct FolderView: View {
           Text(note.title)
             .lineLimit(1)
             .fontWeight(.medium)
-          HStack {
+          HStack(spacing: 4)  {
             Text(note.formattedDate)
               .font(.caption)
               .foregroundColor(.secondary)
@@ -97,7 +97,7 @@ struct FolderView: View {
       text: .init(get: { vm.search }, set: { vm.setSearch($0) }),
       placement: .navigationBarDrawer(displayMode: .always)
     ) {
-      SearchView(vm: .init(query: vm.search, notes: vm.searchedNotes))
+      SearchView(vm: .init(query: vm.search, notes: vm.searchedNotes, noteTapped: vm.searchButtonTapped))
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)
@@ -112,6 +112,12 @@ struct FolderView: View {
       case: /FolderViewModel.Destination.moveSheet
     ) { _ in
       Text("Move Sheet")
+    }
+    .sheet(
+      unwrapping: $vm.destination,
+      case: /FolderViewModel.Destination.addSubfolderSheet
+    ) { _ in
+      Text("Add Subfolder Sheet")
     }
     .sheet(
       unwrapping: $vm.destination,

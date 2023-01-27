@@ -5,7 +5,6 @@ import CasePaths
 // MARK: - View
 struct HomeView: View {
   @ObservedObject var vm: HomeViewModel
-  @State var isEditable = false
   @Environment(\.isSearching) var isSearching
   
   var body: some View {
@@ -28,9 +27,9 @@ struct HomeView: View {
             .onTapGesture { vm.folderRowTapped(folder) }
             .tag(folder.id)
             .swipeActions(edge: .trailing) {
-                Button { vm.deleteFolderButtonTapped(folder) } label: {
-                  Label("Delete", systemImage: "trash")
-                }.tint(.red)
+              Button { vm.deleteFolderButtonTapped(folder) } label: {
+                Label("Delete", systemImage: "trash")
+              }.tint(.red)
             }
         }
         .deleteDisabled(true)
@@ -47,7 +46,7 @@ struct HomeView: View {
       text: .init(get: { vm.search }, set: { vm.setSearch($0) }),
       placement: .navigationBarDrawer(displayMode: .always)
     ) {
-//      SearchView(vm: .init(query: vm.search, notes: vm.searchedFolders))
+      SearchView(vm: .init(query: vm.search, notes: vm.searchedNotes, noteTapped: vm.searchButtonTapped))
     }
     .navigationBarTitle(vm.navigationBarTitle)
     .navigationBarBackButtonHidden(vm.isEditing)
@@ -57,12 +56,12 @@ struct HomeView: View {
     ) { $folderVM in
       FolderView(vm: folderVM)
     }
-    //    .navigationDestination(
-    //      unwrapping: $vm.destination,
-    //      case: /FolderViewModel.Destination.note
-    //    ) { $noteVM in
-    //      NoteView(vm: noteVM)
-    //    }
+    .navigationDestination(
+      unwrapping: $vm.destination,
+      case: /HomeViewModel.Destination.note
+    ) { $noteVM in
+      NoteView(vm: noteVM)
+    }
     //    .sheet(
     //      unwrapping: $vm.destination,
     //      case: /FolderViewModel.Destination.moveSheet
