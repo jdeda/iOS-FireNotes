@@ -51,7 +51,9 @@ final class HomeViewModel: ObservableObject {
     sort: Sort = .alphabetical
   ) {
     self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
-    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: recentlyDeletedNotes)
+    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: .init(uniqueElements: recentlyDeletedNotes.map {
+      Note(id: $0.id, title: $0.title, body: $0.body, creationDate: $0.creationDate, lastEditDate: $0.lastEditDate, folderName: $0.folderName, recentlyDeleted: true)
+    }))
     self.userFolders = userFolders
     self.selectedFolders = selectedFolders
     self.search = search
@@ -99,6 +101,10 @@ final class HomeViewModel: ObservableObject {
       }
       break
     case let .folder(folderVM):
+      folderVM.restoreNote = { [weak self] note in
+        guard let self else { return }
+        self.restoreNote(note)
+      }
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
         self.updateFolder(folder: newFolder)
@@ -154,6 +160,12 @@ final class HomeViewModel: ObservableObject {
   private func newNoteButtonTapped(newNote: Note) {
     updateFolder(note: newNote)
     destination = .note(.init(note: newNote))
+  }
+  
+  private func restoreNote(_ note: Note) {
+    recentlyDeletedFolder.notes.remove(id: note.id)
+    standardFolder.notes.append(note)
+    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: note))))
   }
   
   private func updateFolder(note: Note) {

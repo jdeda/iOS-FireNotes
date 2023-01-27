@@ -27,24 +27,37 @@ struct NoteView: View {
       }
       .padding([.leading, .trailing], 14)
     }
+    .disabled(vm.note.recentlyDeleted)
+    .onTapGesture {
+      vm.tappedView()
+    }
+    .alert(
+      unwrapping: $vm.destination,
+      case: /NoteViewModel.Destination.restoreAlert,
+      action: { alertAction in
+        vm.alertButtonTapped(alertAction)
+      }
+    )
     .navigationTitle("")
     .navigationBarTitleDisplayMode(NavigationBarItem.TitleDisplayMode.inline)
     .toolbar {
-      ToolbarItemGroup(placement: .keyboard) { // MARK: Not ideal way of hiding a keyboard :(
-        Spacer()
-        Button {
-          vm.keyboardDismissButtonTapped()
-        } label: {
-          Image(systemName: "xmark")
+      if !vm.note.recentlyDeleted {
+        ToolbarItemGroup(placement: .keyboard) { // MARK: Not ideal way of hiding a keyboard :(
+          Spacer()
+          Button {
+            vm.keyboardDismissButtonTapped()
+          } label: {
+            Image(systemName: "xmark")
+          }
+          .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
-      }
-      ToolbarItemGroup(placement: .bottomBar) {
-        Spacer()
-        Button {
-          vm.addNoteButtonTappped()
-        } label: {
-          Image(systemName: "square.and.pencil")
+        ToolbarItemGroup(placement: .bottomBar) {
+          Spacer()
+          Button {
+            vm.addNoteButtonTappped()
+          } label: {
+            Image(systemName: "square.and.pencil")
+          }
         }
       }
     }

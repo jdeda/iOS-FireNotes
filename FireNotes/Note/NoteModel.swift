@@ -2,20 +2,26 @@ import Foundation
 import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
+import SwiftUINavigation
 
 // MARK: - ViewModel
 final class NoteViewModel: ObservableObject {
   @Published var note: Note
   @Published var focus: Focus?
+  @Published var destination: Destination?
   
   var newNoteButtonTapped: (_ newNote: Note) -> Void = unimplemented("NoteViewModel.newNoteButtonTapped")
+  var restoreButtonTapped: (_ note: Note) -> Void = unimplemented("NoteViewModel.restoreButtonTapped")
   
   init(
     note: Note,
     focus: Focus? = .title
   ) {
     self.note = note
-    self.focus = focus
+    if !note.recentlyDeleted {
+      self.focus = focus
+    }
+    self.destination = nil
   }
   
   func titleSubmitKeyTapped() {
@@ -35,9 +41,36 @@ final class NoteViewModel: ObservableObject {
     )
     newNoteButtonTapped(newNote)
   }
+  
+  func tappedView() {
+    if !note.recentlyDeleted { return }
+    destination = .restoreAlert(.init(
+      title: TextState("Restore"),
+      message: TextState("Recently deleted notes must be restored to edit. Would you like to restore this note?"),
+      buttons: [
+        .default(TextState("Nevermind")),
+        .default(TextState("Yes"), action: .send(.confirmRestoreNote)),
+      ]
+    ))
+  }
+  
+  func alertButtonTapped(_ action: AlertAction) {
+    switch action {
+    case .confirmRestoreNote:
+      restoreButtonTapped(note)
+      break
+    }
+  }
 }
 
 extension NoteViewModel {
+  enum Destination {
+    case restoreAlert(AlertState<AlertAction>)
+  }
+  
+  enum AlertAction {
+    case confirmRestoreNote
+  }
   enum Focus: Hashable {
     case title
     case body
@@ -55,6 +88,7 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
   var title: String
   var body: String
   var folderName: String?
+  var recentlyDeleted: Bool
   
   init(
     id: ID,
@@ -62,7 +96,8 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
     body: String = "",
     creationDate: Date = Date(),
     lastEditDate: Date = Date(),
-    folderName: String? = nil
+    folderName: String? = nil,
+    recentlyDeleted: Bool = false
   ) {
     self.id = id
     self.title = title
@@ -70,6 +105,7 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
     self.creationDate = creationDate
     self.lastEditDate = lastEditDate
     self.folderName = folderName
+    self.recentlyDeleted = recentlyDeleted
   }
   
   // String representation of a date in "YY/MM/dd" format

@@ -27,6 +27,8 @@ final class FolderViewModel: ObservableObject {
     isEditing && selectedNotes.count > 0 ? "\(selectedNotes.count) Selected": folder.name
   }
   
+  var restoreNote: (_ note: Note) -> Void = unimplemented("FolderViewModel.restoreNote")
+  
   init(
     folder: Folder,
     select: Set<Note.ID> = [],
@@ -54,6 +56,10 @@ final class FolderViewModel: ObservableObject {
       noteVM.newNoteButtonTapped = { [weak self] newNote in
         guard let self else { return }
         self.newNoteButtonTapped(newNote: newNote)
+      }
+      noteVM.restoreButtonTapped = { [weak self] note in
+        guard let self else { return }
+        self.restoreNote(note)
       }
       // Listen for changes in the note when we are navigated in.
       self.destinationCancellable = noteVM.$note.sink { [weak self] newNote in
@@ -111,8 +117,8 @@ final class FolderViewModel: ObservableObject {
   }
   
   private func newNoteButtonTapped(newNote: Note) {
-    self.folder.notes.append(newNote)
-    self.destination = .note(.init(note: newNote, focus: .body))
+    folder.notes.append(newNote)
+    destination = .note(.init(note: newNote, focus: .body))
   }
   
   private func performSort() {
