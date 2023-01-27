@@ -105,6 +105,14 @@ final class HomeViewModel: ObservableObject {
         guard let self else { return }
         self.restoreNote(note)
       }
+      folderVM.restoreNotes = { [weak self] notes in
+        guard let self else { return }
+        self.restoreNotes(notes)
+      }
+      folderVM.deleteNotes = { [weak self] notes in
+        guard let self else { return }
+        self.moveDeletedToRecentlyDeleted(folderID: folderVM.folder.id, notes)
+      }
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
         self.updateFolder(folder: newFolder)
@@ -167,6 +175,19 @@ final class HomeViewModel: ObservableObject {
     standardFolder.notes.append(note)
     destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: note))))
   }
+  
+  private func restoreNotes(_ notes: IdentifiedArrayOf<Note>) {
+    recentlyDeletedFolder.notes = recentlyDeletedFolder.notes.filter { notes[id: $0.id] == nil }
+    standardFolder.notes.append(contentsOf: notes)
+    destination = .folder(.init(folder: standardFolder))
+  }
+  private func moveDeletedToRecentlyDeleted(folderID: Folder.ID, _ notes: IdentifiedArrayOf<Note>) {
+    if folderID == recentlyDeletedFolder.id { return }
+    recentlyDeletedFolder.notes.append(contentsOf: notes)
+    
+  }
+  
+  
   
   private func updateFolder(note: Note) {
     var foundNote = standardFolder.notes[id: note.id]
@@ -420,7 +441,7 @@ extension HomeViewModel {
     var string: String {
       switch self {
       case .alphabetical: return "Alphabetical (A -> Z)"
-      case .alphabeticalR: return "Reverse Alphabetical (Z -> A)"
+      case .alphabeticalR: return "Reverse Alphabetical \n(Z -> A)"
       }
     }
   }

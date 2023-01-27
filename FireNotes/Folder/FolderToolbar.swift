@@ -66,6 +66,8 @@ fileprivate extension FolderView {
         doneButton()
       }
       ToolbarItemGroup(placement: .bottomBar) {
+        restoreSelectedButton()
+        Spacer()
         moveSelectedButton()
         Spacer()
         deleteSelectedButton()
@@ -74,9 +76,6 @@ fileprivate extension FolderView {
     else {
       ToolbarItemGroup(placement: .primaryAction) {
         editSheetButton()
-      }
-      ToolbarItemGroup(placement: .bottomBar) {
-        addNoteButton()
       }
     }
   }
@@ -154,6 +153,16 @@ fileprivate extension FolderView {
       vm.toolbarDeleteSelectedButtonTapped()
     } label: {
       Image(systemName: "trash")
+    }
+    .disabled(vm.selectedNotes.count == 0)
+  }
+  
+  @ViewBuilder
+  private func restoreSelectedButton() -> some View {
+    Button {
+      vm.toolbarRestoreSelectedButtonTapped()
+    } label: {
+      Image(systemName: "arrow.uturn.down")
     }
     .disabled(vm.selectedNotes.count == 0)
   }

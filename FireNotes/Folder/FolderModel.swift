@@ -28,6 +28,8 @@ final class FolderViewModel: ObservableObject {
   }
   
   var restoreNote: (_ note: Note) -> Void = unimplemented("FolderViewModel.restoreNote")
+  var restoreNotes: (_ notes: IdentifiedArrayOf<Note>) -> Void = unimplemented("FolderViewModel.restoreNotes")
+  var deleteNotes: (_ notes: IdentifiedArrayOf<Note>) -> Void = unimplemented("FolderViewModel.deleteNotes")
   
   init(
     folder: Folder,
@@ -196,6 +198,17 @@ final class FolderViewModel: ObservableObject {
     }
   }
   
+  func toolbarRestoreSelectedButtonTapped() {
+    destination = .alert(.init(
+      title: TextState("Restore Selected"),
+      message: TextState("Are you sure you want to restore the selected notes?"),
+      buttons: [
+        .default(TextState("Nevermind")),
+        .default(TextState("Yes"), action: .send(.confirmRestoreSelected)),
+      ]
+    ))
+  }
+  
   func toolbarAppearEditSheetButtonTapped() {
     destination = .editFolderSheet(.init(
       folderVariant: folder.variant,
@@ -284,6 +297,9 @@ final class FolderViewModel: ObservableObject {
     case let .confirmDeleteSingle(noteID):
       confirmDeleteSingle(noteID)
       break
+    case .confirmRestoreSelected:
+      confirmRestoreSelected()
+      break
     }
   }
   
@@ -310,21 +326,33 @@ final class FolderViewModel: ObservableObject {
       _ = withAnimation {
         self.folder.notes.remove(id: note.id)
       }
+      deleteNotes([note])
+
     }
   }
   
+  private func confirmRestoreSelected() {
+    restoreNotes(folder.notes.filter({ selectedNotes.contains($0.id) }))
+  }
+  
+  // MARK: - Order of execution matters!
   private func confirmDeleteSelected() {
+    let notesToDelete = folder.notes.filter({selectedNotes.contains($0.id)})
     withAnimation {
       folder.notes = folder.notes.filter { !selectedNotes.contains($0.id) }
       destination = nil
       isEditing = false
     }
+    deleteNotes(notesToDelete)
   }
   
+  // MARK: - Order of execution matters!
   private func confirmDeleteSingle(_ noteID: Note.ID) {
+    let noteToDelete = folder.notes[id: noteID]!
     _ = withAnimation {
       folder.notes.remove(id: noteID)
     }
+    deleteNotes([noteToDelete])
   }
 }
 
@@ -343,6 +371,7 @@ extension FolderViewModel {
   enum AlertAction {
     case confirmDelete
     case confirmDeleteSingle(Note.ID)
+    case confirmRestoreSelected
   }
 }
 
