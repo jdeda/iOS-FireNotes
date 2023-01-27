@@ -46,7 +46,7 @@ extension NoteViewModel {
 
 
 // MARK: - Model
-struct Note: Identifiable, Equatable, Codable {
+struct Note: Identifiable, Equatable, Hashable, Codable {
   typealias ID = Tagged<Self, UUID>
 
   let id: ID

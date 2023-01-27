@@ -99,7 +99,6 @@ final class HomeViewModel: ObservableObject {
       }
       break
     case let .folder(folderVM):
-      // TODO: This code looks very pernicious...how do we trust the variant property is being used right?
       self.destinationCancellable = folderVM.$folder.sink { [weak self] newFolder in
         guard let self else { return }
         self.updateFolder(folder: newFolder)
@@ -177,14 +176,38 @@ final class HomeViewModel: ObservableObject {
   private func updateFolder(folder: Folder) {
     switch folder.variant {
     case .all:
-      if standardFolder.id == folder.id {
-        standardFolder = folder
+      // Find what elements changed O(n)
+      // Group by folder O(n)?
+      // Mutate O(n)
+      let changed = Array(Set(allFolder.notes).symmetricDifference(Set(folder.notes)))
+      if changed.count > 2 {
+        print("All Folder mutated more than one note element at a time!: ", changed.count)
+        dump(changed)
+        return
       }
-      if recentlyDeletedFolder.id == folder.id {
-        standardFolder = folder
+      if changed.count != 2 { return }
+      
+      guard let changedNote: Note = {
+        let first = folder.notes[id: changed[0].id]
+        let second = folder.notes[id: changed[1].id]
+        if first != nil { return first }
+        else if second != nil { return second }
+        else { return nil}
+      }() else {
+        return
+        print("not found")
       }
-      if userFolders[id: folder.id] != nil {
-        userFolders[id: folder.id] = folder
+
+      if standardFolder.name == changedNote.folderName {
+        standardFolder.notes[id: changedNote.id] = changedNote
+      }
+      if recentlyDeletedFolder.name == changedNote.folderName {
+        standardFolder.notes[id: changedNote.id] = changedNote
+      }
+      for folder in userFolders {
+        if folder.name == changedNote.folderName {
+          userFolders[id: folder.id]?.notes[id: changedNote.id] = changedNote
+        }
       }
     case .standard:
       self.standardFolder = folder
