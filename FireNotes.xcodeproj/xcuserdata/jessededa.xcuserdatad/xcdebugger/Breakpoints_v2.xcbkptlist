@@ -374,8 +374,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "updateFolder(folder:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -534,8 +534,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "confirmDeleteSingle(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -550,8 +550,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "confirmDeleteSingle(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -566,8 +566,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "moveDeletedToRecentlyDeleted(folderID:_:)"
             landmarkType = "7">
          </BreakpointContent>

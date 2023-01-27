@@ -180,37 +180,43 @@ final class HomeViewModel: ObservableObject {
   
   private func restoreNote(_ note: Note) {
     recentlyDeletedFolder.notes.remove(id: note.id)
-    standardFolder.notes.append(note)
-    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: note))))
+    var restoredNote = note
+    restoredNote.recentlyDeleted = false
+    standardFolder.notes.append(restoredNote)
+    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: restoredNote))))
   }
   
   private func restoreNotes(_ notes: IdentifiedArrayOf<Note>) {
     recentlyDeletedFolder.notes = recentlyDeletedFolder.notes.filter { notes[id: $0.id] == nil }
-    standardFolder.notes.append(contentsOf: notes)
+    var restoredNotes = notes.map {
+      var restoredNote = $0
+      restoredNote.recentlyDeleted = false
+      return restoredNote
+    }
+    standardFolder.notes.append(contentsOf: restoredNotes)
     destination = .folder(.init(folder: standardFolder))
   }
   
   private func moveDeletedToRecentlyDeleted(folderID: Folder.ID, _ notes: IdentifiedArrayOf<Note>) {
     if folderID == recentlyDeletedFolder.id { return }
-    recentlyDeletedFolder.notes.append(contentsOf: notes)
+    var recentlyDeleted = notes.map {
+      var deleted = $0
+      deleted.recentlyDeleted = true
+      return deleted
+    }
+    recentlyDeletedFolder.notes.append(contentsOf: recentlyDeleted)
   }
-  
-  
   
   private func updateFolder(note: Note) {
     var foundNote = standardFolder.notes[id: note.id]
-    if foundNote != nil {
-      standardFolder.notes[id: note.id] = note
-    }
+    if foundNote != nil { standardFolder.notes[id: note.id] = note }
+    
     foundNote = recentlyDeletedFolder.notes[id: note.id]
-    if foundNote != nil {
-      recentlyDeletedFolder.notes[id: note.id] = note
-    }
+    if foundNote != nil { recentlyDeletedFolder.notes[id: note.id] = note }
+    
     for folder in userFolders {
       foundNote = folder.notes[id: note.id]
-      if foundNote != nil {
-        userFolders[id: folder.id]!.notes[id: note.id] = note
-      }
+      if foundNote != nil { userFolders[id: folder.id]!.notes[id: note.id] = note }
     }
   }
   
@@ -390,7 +396,7 @@ final class HomeViewModel: ObservableObject {
   }
   
   private func confirmDeleteSingle(_ folderID: Folder.ID) {
-    _ = withAnimation {
+     withAnimation {
       moveDeletedToRecentlyDeleted(folderID: folderID, userFolders[id: folderID]?.notes ?? [])
       userFolders.remove(id: folderID)
     }
