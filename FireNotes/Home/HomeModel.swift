@@ -6,6 +6,7 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
+
 //// Array of enums
 //enum Folder {
 //  case all(AllFolder)
@@ -210,19 +211,28 @@ final class HomeViewModel: ObservableObject {
       // Group by folder O(n)?
       // Mutate O(n)
       let changed = Array(Set(allFolder.notes).symmetricDifference(Set(folder.notes)))
+      if changed.count == 0 {
+        return
+      }
       if changed.count > 2 {
         print("All Folder mutated more than one note element at a time!: ", changed.count)
         dump(changed)
         return
       }
-      if changed.count != 2 { return }
-      
+    
       guard let changedNote: Note = {
-        let first = folder.notes[id: changed[0].id]
-        let second = folder.notes[id: changed[1].id]
-        if first != nil { return first }
-        else if second != nil { return second }
-        else { return nil}
+        if changed.count == 2 {
+          let first = folder.notes[id: changed[0].id]
+          let second = folder.notes[id: changed[1].id]
+          if first != nil { return first }
+          else if second != nil { return second }
+          else { return nil}
+        }
+        if changed.count == 1 {
+          let first = folder.notes[id: changed[0].id]
+          return first
+        }
+        return nil
       }() else {
         print("not found")
         return

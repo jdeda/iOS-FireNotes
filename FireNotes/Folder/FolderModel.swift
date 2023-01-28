@@ -119,8 +119,10 @@ final class FolderViewModel: ObservableObject {
   }
   
   private func newNoteButtonTapped(newNote: Note) {
-    folder.notes.append(newNote)
-    destination = .note(.init(note: newNote, focus: .body))
+    var updated = newNote
+    updated.folderName = folder.variant == .all ? "Notes" : nil
+    folder.notes.append(updated)
+    destination = .note(.init(note: updated, focus: .body))
   }
   
   private func performSort() {
@@ -223,7 +225,8 @@ final class FolderViewModel: ObservableObject {
       title: "New Untitled Note",
       body: "",
       creationDate: Date(),
-      lastEditDate: Date()
+      lastEditDate: Date(),
+      folderName: folder.variant == .all ? "Notes" : nil
     )
     _ = withAnimation {
       self.folder.notes.append(newNote)
