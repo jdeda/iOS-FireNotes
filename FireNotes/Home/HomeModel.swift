@@ -6,15 +6,6 @@ import SwiftUI
 import Tagged
 import XCTestDynamicOverlay
 
-
-//// Array of enums
-//enum Folder {
-//  case all(AllFolder)
-//  case standard(StandardFolder)
-//  case user(UserFolder)
-//  case recentlyDeleted(RecentlyDeletedFolder)
-//}
-
 //MARK: - ViewModel
 final class HomeViewModel: ObservableObject {
   var allFolder: Folder {
@@ -215,7 +206,6 @@ final class HomeViewModel: ObservableObject {
     }
   }
   
-  // MARK: - This logic is quite long and ugly...
   private func updateFolder(folder: Folder) {
     switch folder.variant {
     case .all:
@@ -227,8 +217,6 @@ final class HomeViewModel: ObservableObject {
         return
       }
       if changed.count > 2 {
-        print("All Folder mutated more than one note element at a time!: ", changed.count)
-        dump(changed)
         return
       }
     
@@ -246,7 +234,6 @@ final class HomeViewModel: ObservableObject {
         }
         return nil
       }() else {
-        print("not found")
         return
       }
 
