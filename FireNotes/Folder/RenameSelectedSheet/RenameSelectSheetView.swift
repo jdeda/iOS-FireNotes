@@ -101,7 +101,6 @@ extension RenameSelectedSheet {
         vm.submitButtonTapped(vm.values)
       } label: {
         Text("Submit")
-          .foregroundColor(.yellow)
       }
     }
     ToolbarItem(placement: .confirmationAction) {
@@ -110,7 +109,6 @@ extension RenameSelectedSheet {
       } label: {
         Text("Cancel")
       }
-      .foregroundColor(.yellow)
     }
   }
 }

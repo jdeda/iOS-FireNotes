@@ -24,7 +24,6 @@ extension HomeView {
       } label: {
         Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
       }
-      .foregroundColor(.yellow)
     }
     
     ToolbarItemGroup(placement: .primaryAction) {
@@ -33,7 +32,6 @@ extension HomeView {
       } label: {
         Text("Done")
       }
-      .foregroundColor(.yellow)
     }
     
     ToolbarItemGroup(placement: .bottomBar) {
@@ -42,7 +40,6 @@ extension HomeView {
       } label: {
         Image(systemName: "rectangle.and.pencil.and.ellipsis")
       }
-      .foregroundColor(.yellow)
       .disabled(vm.selectedFolders.count == 0)
       
       Spacer()
@@ -52,7 +49,6 @@ extension HomeView {
       } label: {
         Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
       }
-      .foregroundColor(.yellow)
       .disabled(vm.selectedFolders.count == 0)
       
       Spacer()
@@ -62,7 +58,6 @@ extension HomeView {
       } label: {
         Image(systemName: "trash")
       }
-      .foregroundColor(.yellow)
       .disabled(vm.selectedFolders.count == 0)
     }
   }
@@ -75,7 +70,6 @@ extension HomeView {
       } label: {
         Image(systemName: "ellipsis.circle")
       }
-      .foregroundColor(.yellow)
     }
     ToolbarItemGroup(placement: .bottomBar) {
       Button {
@@ -83,7 +77,6 @@ extension HomeView {
       } label: {
         Image(systemName: "folder.badge.plus")
       }
-      .foregroundColor(.yellow)
       Spacer()
       Text("\(vm.userFolders.count) Folders")
         .font(.caption)
@@ -93,7 +86,6 @@ extension HomeView {
       } label: {
         Image(systemName: "square.and.pencil")
       }
-      .foregroundColor(.yellow)
     }
   }
 }

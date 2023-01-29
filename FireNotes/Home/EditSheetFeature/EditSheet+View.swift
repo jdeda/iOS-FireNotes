@@ -13,7 +13,7 @@ struct HomeEditSheet: View {
         selectButton()
         sortPicker()
       }
-      .foregroundColor(.black)
+      .foregroundColor(light: .black, dark: .white)
       .toolbar {
         toolbar()
       }

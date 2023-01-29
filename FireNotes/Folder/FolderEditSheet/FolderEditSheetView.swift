@@ -33,7 +33,7 @@ struct FolderEditSheet: View {
           renameButton()
         }
       }
-      .foregroundColor(.black)
+      .foregroundColor(light: .black, dark: .white)
       .toolbar {
         toolbar()
       }

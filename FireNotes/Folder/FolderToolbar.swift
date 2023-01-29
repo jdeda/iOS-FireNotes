@@ -114,7 +114,6 @@ fileprivate extension FolderView {
     } label: {
       Text(vm.hasSelectedAll ? "Deselect All" : "Select All")
     }
-    .foregroundColor(.yellow)
   }
   
   @ViewBuilder
@@ -124,7 +123,6 @@ fileprivate extension FolderView {
     } label: {
       Text("Done")
     }
-    .foregroundColor(.yellow)
   }
   
   @ViewBuilder
@@ -174,7 +172,6 @@ fileprivate extension FolderView {
     } label: {
       Image(systemName: "ellipsis.circle")
     }
-    .foregroundColor(.yellow)
   }
   
   @ViewBuilder
