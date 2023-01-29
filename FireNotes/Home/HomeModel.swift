@@ -54,7 +54,12 @@ final class HomeViewModel: ObservableObject {
     sort: Sort = .alphabetical
   ) {
     self.standardFolder = .init(id: .init(), variant: .standard, name: "Notes", notes: standardFolderNotes)
-    self.recentlyDeletedFolder = .init(id: .init(), variant: .recentlyDeleted, name: "Recently Deleted", notes: .init(uniqueElements: recentlyDeletedNotes.set(\.recentlyDeleted, to: true)))
+    self.recentlyDeletedFolder = .init(
+      id: .init(),
+      variant: .recentlyDeleted,
+      name: "Recently Deleted",
+      notes: .init(uniqueElements: recentlyDeletedNotes.set(\.recentlyDeleted, to: true))
+    )
     self.userFolders = userFolders
     self.selectedFolders = selectedFolders
     self.search = search
@@ -163,12 +168,20 @@ final class HomeViewModel: ObservableObject {
   }
   
   func searchButtonTapped(_ note: Note) {
-    destination = .note(.init(note: note))
+    destination = .note(.init(note: note, focus: .body))
   }
   
   private func newNoteButtonTapped(newNote: Note) {
-    updateFolder(note: newNote)
-    destination = .note(.init(note: newNote))
+//    toolbarAddNoteButtonTappped
+    let newNote = Note(
+      id: .init(),
+      title: "New Untitled Note",
+      body: "",
+      creationDate: Date(),
+      lastEditDate: Date()
+    )
+    standardFolder.notes.append(newNote)
+    destination = .note(.init(note: newNote, focus: .title))
   }
   
   private func restoreNote(_ note: Note) {
@@ -176,7 +189,7 @@ final class HomeViewModel: ObservableObject {
     var restoredNote = note
     restoredNote.recentlyDeleted = false
     standardFolder.notes.append(restoredNote)
-    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: restoredNote))))
+    destination = .folder(.init(folder: standardFolder, destination: .note(.init(note: restoredNote, focus: .body))))
   }
   
   private func restoreNotes(_ notes: IdentifiedArrayOf<Note>) {
@@ -312,7 +325,7 @@ final class HomeViewModel: ObservableObject {
       lastEditDate: Date()
     )
     standardFolder.notes.append(newNote)
-    destination = .note(.init(note: newNote))
+    destination = .note(.init(note: newNote, focus: .title))
   }
   
   private func editSheetSelectButtonTapped() {

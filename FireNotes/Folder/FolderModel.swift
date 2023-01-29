@@ -122,7 +122,7 @@ final class FolderViewModel: ObservableObject {
     var updated = newNote
     updated.folderName = folder.variant == .all ? "Notes" : nil
     folder.notes.append(updated)
-    destination = .note(.init(note: updated, focus: .body))
+    destination = .note(.init(note: updated, focus: .title))
   }
   
   private func performSort() {
@@ -155,7 +155,7 @@ final class FolderViewModel: ObservableObject {
   }
   
   func searchButtonTapped(_ note: Note) {
-    destination = .note(.init(note: note))
+    destination = .note(.init(note: note, focus: .body))
   }
   
   func toolbarDoneButtonTapped() {
@@ -231,7 +231,7 @@ final class FolderViewModel: ObservableObject {
     _ = withAnimation {
       self.folder.notes.append(newNote)
     }
-    self.destination = .note(.init(note: newNote))
+    self.destination = .note(.init(note: newNote, focus: .title))
   }
   
   private func editSheetSelectButtonTapped() {

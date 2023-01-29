@@ -3,7 +3,6 @@ import SwiftUI
 // MARK: - View
 struct AppView: View {
   @ObservedObject var vm: AppViewModel
-  
   var body: some View {
     NavigationStack {
       HomeView.init(vm: .init(

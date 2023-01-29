@@ -39,7 +39,7 @@ struct HomeView: View {
     }
     .listStyle(SidebarListStyle())
     .environment(\.editMode, .constant(vm.isEditing ? .active : .inactive))
-    .animation(Animation.spring(), value: vm.isEditing)
+    .animation(.default, value: vm.isEditing)
     .toolbar { toolbar() }
     .searchable(
       text: .init(get: { vm.search }, set: { vm.setSearch($0) }),

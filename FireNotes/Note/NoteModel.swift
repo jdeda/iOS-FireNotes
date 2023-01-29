@@ -131,3 +131,9 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
     })
   }
 }
+
+//extension Note {
+//  func makeDefaultNote() -> Note {
+//    .init(id: .init(), title: "New Untitled Note", body: "", creationDate: Date(), lastEditDate: Date())
+//  }
+//}
