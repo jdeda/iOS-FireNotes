@@ -78,8 +78,8 @@
             filePath = "FireNotes/Home/HomeModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "updateFolder(note:)"
             landmarkType = "7">
          </BreakpointContent>

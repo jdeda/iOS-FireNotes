@@ -108,10 +108,10 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
     self.recentlyDeleted = recentlyDeleted
   }
   
-  // String representation of a date in "YY/MM/dd" format
+  // String representation of a date in "MM/dd/YY" format
   var formattedDate: String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "YY/MM/dd"
+    dateFormatter.dateFormat = "MM/dd/YY"
     return dateFormatter.string(from: lastEditDate)
   }
   
@@ -131,9 +131,3 @@ struct Note: Identifiable, Equatable, Hashable, Codable {
     })
   }
 }
-
-//extension Note {
-//  func makeDefaultNote() -> Note {
-//    .init(id: .init(), title: "New Untitled Note", body: "", creationDate: Date(), lastEditDate: Date())
-//  }
-//}

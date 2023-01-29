@@ -172,7 +172,6 @@ final class HomeViewModel: ObservableObject {
   }
   
   private func newNoteButtonTapped(newNote: Note) {
-//    toolbarAddNoteButtonTappped
     let newNote = Note(
       id: .init(),
       title: "New Untitled Note",
