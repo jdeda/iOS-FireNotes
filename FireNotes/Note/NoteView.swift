@@ -5,6 +5,7 @@ import SwiftUINavigation
 struct NoteView: View {
   @ObservedObject var vm: NoteViewModel
   @FocusState var focus: NoteViewModel.Focus?
+  @State var textEditorHeight : CGFloat = 20
   
   var body: some View {
     ScrollView {
@@ -21,14 +22,12 @@ struct NoteView: View {
           .foregroundColor(.secondary)
           .scrollDisabled(true)
           .padding([.leading, .trailing], 18)
-
         
         TextEditor(text: $vm.note.body)
           .focused($focus, equals: .body)
           .scrollDisabled(true)
           .padding([.leading, .trailing], 14)
-
-        Spacer()
+          .frame(height: max(40, textEditorHeight))
       }
     }
     .disabled(vm.note.recentlyDeleted)
@@ -65,8 +64,24 @@ struct NoteView: View {
         }
       }
     }
+    .background(GeometryReader {
+      Color.clear.preference(
+        key: ViewHeightKey.self,
+        value: $0.frame(in: .local).size.height
+      )
+    })
+    .onPreferenceChange(ViewHeightKey.self) {
+      textEditorHeight = $0
+    }
     .bind(self.$vm.focus, to: self.$focus)
   }
+}
+
+fileprivate struct ViewHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat { 0 }
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = value + nextValue()
+    }
 }
 
 // MARK: - Previews
