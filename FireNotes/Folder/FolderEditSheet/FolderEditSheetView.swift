@@ -29,7 +29,7 @@ struct FolderEditSheet: View {
           selectButton()
           sortPicker()
 //          addButton()
-          moveButton()
+//          moveButton()
           renameButton()
         }
       }

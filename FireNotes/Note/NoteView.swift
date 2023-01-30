@@ -11,21 +11,25 @@ struct NoteView: View {
       VStack(alignment: .leading) {
         TextField("", text: $vm.note.title, axis: .vertical)
           .onSubmit(vm.titleSubmitKeyTapped)
-          .font(.system(size: 34, weight: .bold))
+          .font(.system(size: 28, weight: .bold))
           .focused($focus, equals: .title)
+          .padding([.leading, .trailing], 18)
           .scrollDisabled(true)
         
         Text(vm.note.formattedDateVerbose)
           .font(.caption)
           .foregroundColor(.secondary)
           .scrollDisabled(true)
+          .padding([.leading, .trailing], 18)
+
         
         TextEditor(text: $vm.note.body)
           .focused($focus, equals: .body)
           .scrollDisabled(true)
+          .padding([.leading, .trailing], 14)
+
         Spacer()
       }
-      .padding([.leading, .trailing], 14)
     }
     .disabled(vm.note.recentlyDeleted)
     .onTapGesture {
@@ -69,7 +73,7 @@ struct NoteView: View {
 struct NoteView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      NoteView(vm: .init(note: mockNote))
+      NoteView(vm: .init(note: mockFolderD.notes.first!))
     }
   }
 }
