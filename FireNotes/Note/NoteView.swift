@@ -45,7 +45,7 @@ struct NoteView: View {
     .navigationBarTitleDisplayMode(NavigationBarItem.TitleDisplayMode.inline)
     .toolbar {
       if !vm.note.recentlyDeleted {
-        ToolbarItemGroup(placement: .keyboard) { // MARK: Not ideal way of hiding a keyboard :(
+        ToolbarItemGroup(placement: .keyboard) {
           Spacer()
           Button {
             vm.keyboardDismissButtonTapped()
