@@ -9,7 +9,7 @@ import XCTestDynamicOverlay
 //MARK: - ViewModel
 final class FolderViewModel: ObservableObject {
   @Published var folder: Folder
-  @Published var sort: Sort // TODO: Move?
+  @Published var sort: Sort
   @Published var isEditing: Bool
   @Published var selectedNotes: Set<Note.ID>
   @Published var searchedNotes: IdentifiedArrayOf<Note>
@@ -393,19 +393,6 @@ extension FolderViewModel {
     }
   }
 }
-
-struct FolderRow: Identifiable {
-  var id: Folder.ID { folder.id }
-  var folder: Folder
-  
-  enum FolderVariant {
-    case all
-    case standard
-    case user
-    case recentlyDeleted
-  }
-}
-
 
 //MARK: - Model
 struct Folder: Identifiable, Equatable, Codable {
