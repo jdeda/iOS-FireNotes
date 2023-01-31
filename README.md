@@ -3,7 +3,7 @@
 <img src="GitAssets/banner_01.png" alt="drawing" width="650"/>
 
 ## 📕 About
-`FireNotes` is a simple note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app, certainly not all, and has some of its own unique features for a better user experience. Written under iOS16.2.
+`FireNotes` is a simple native iOS note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app, certainly not all, and has some of its own unique features for a better user experience. Written under iOS16.2.
 
 ## 🕹 Features
 
