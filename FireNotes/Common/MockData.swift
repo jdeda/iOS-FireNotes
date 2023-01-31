@@ -358,8 +358,112 @@ let mockFolderD: Folder = .init(
     )
   ]
 )
+let mockFolderE: Folder = .init(
+  id: .init(),
+  variant: .user,
+  name: "Data Structures",
+  notes: [
+    .init(
+      id: .init(),
+      title: "Red-Black Trees",
+      body: """
+      High performance tree data structure.
+      You don't want to look into how it works. It's too complicated.
+      However, we know operations can be very fast:
+      - lookup: O(log(n))
+      - insert: O(log(n))
+      - delete: O(log(n))
+      
+      These operations are O(log(n)), but under the hood it is really O(h),
+      where h represents the height of tree, which happens to be log(n) due
+      to balancing the tree. Neat!
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2018 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2018 7:15PM")!
+    ),
+    .init(
+      id: .init(),
+      title: "Hash Tables",
+      body: """
+      Super performant data structure for getting and setting data into a collection.
+      All operations are O(1). Store elements as a key-value pair, where the key is
+      "hashed", meaning a generic is transformed into a number. Must minimize hash
+      collisions as this could lead to many disatrous events.
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2018 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2018 7:15PM")!
+    ),
+    .init(
+      id: .init(),
+      title: "Disjoint Sets",
+      body: """
+      An unordered collection of elements that does not contain duplicates, and can
+      perform operations seen in Set Theory. Possibly implemented with trees, but
+      most commonly implemented using hash tables for maximal performance.
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2018 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2018 7:15PM")!
+    ),
+    .init(
+      id: .init(),
+      title: "Transitive Closure",
+      body: """
+      Property stating that given edges u -> v, v -> w, then u -> w. This theory
+      was used to address reachability in graph theory.
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2018 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2018 7:15PM")!
+    ),
+  ]
+)
+let mockFolderF: Folder = .init(
+  id: .init(),
+  variant: .user,
+  name: "Rust",
+  notes: [
+    .init(
+      id: .init(),
+      title: "Rust & Pointers",
+      body: """
+      Systems programming language with memory saftey. You get to handle memory, but the compiler
+      prevents situations where invalid memory may be accessed or shared in a manner in which it
+      shouldn't. Rust has many different data types representing pointers. References are versions of
+      pointers that come in several very useful flavors that prevent chaos:
+        - Shared References
+          - when you create a shared reference (which you may create any number of) to a value,
+            the value becomes immutable until all shared references are deleted
+              - i.e. the references are "borrowers" and the initial variable that holds the value is the
+                "owner"...the borrowers cannot change the what the owner owns underneath him
+              - however, if the value has internal mutability, then this is not guarenteed (i.e. a method?)
+          - written as: &type, or &'a type when you need to specify an explicit lifetime
+          - copying a reference is a "shallow" operation
+              - it involves only copying the pointer itself, that is, pointers are Copy
+          - releasing a reference has no effect on the value it points to
+          - referencing of a temporary value will keep it alive during the scope of the reference itself
+
+        - Mutable References
+          - written as: &mut type or &'a mut type
+          - a mutable reference (that hasn't been borrowed) is the only way to access the value it points to, so is not Copy.
+              
+          - creating:
+              - if any reference exists to the value you want to mut ref, compile error
+              - as soon as you create mutable reference to a value, you cannot create any other reference to that value
+                (it is impossible) until that mutable reference falls out of scope (dropped?)
+              - scope can allow the latter to actually occur, but it is still safe, this is because of a compiler logic
+                called `Non-Lexical Lifetimes `, that is, the ability to tell that a reference is no longer being
+                used at a point before the end of the scope
+              - or in other words: reference’s scope starts from where it is introduced and continues
+                through the last time that reference is used.
+      """,
+      creationDate: dateFormatter.date(from: "1/1/2019 7:00PM")!,
+      lastEditDate: dateFormatter.date(from: "1/1/2019 7:15PM")!
+    )
+  ]
+)
 
 let mockFolders: [Folder] = [mockFolder, mockFolderB, mockFolderC]
+let mockFoldersV2: [Folder] = [mockFolderA, mockFolderE, mockFolderF]
+
 
 let mockFoldersBig = (0...50).map { int -> Folder in
     .init(

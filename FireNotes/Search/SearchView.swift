@@ -118,7 +118,7 @@ struct HighlightedText: View {
     return text.enumerated()
       .map { (char) -> Text in
         guard matches.filter({$0.range.contains(char.offset)}).count == 0
-        else { return Text(String(char.element)).foregroundColor(.yellow) }
+        else { return Text(String(char.element)).foregroundColor(.accentColor) }
         return Text(String(char.element))
       }
       .reduce(Text("")) { (a, b) -> Text in

@@ -110,7 +110,7 @@ extension HomeView {
     var body: some View {
       HStack(alignment: .center) {
         Image(systemName: imageName)
-          .foregroundColor(Color.yellow)
+          .foregroundColor(.accentColor)
         Text(folder.name)
           .foregroundColor(light: .black, dark: .white)
         Spacer()
