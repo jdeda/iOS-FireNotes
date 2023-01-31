@@ -1,11 +1,13 @@
 # 🔥 FireNotes
 
 ### About
-`FireNotes` is a simple note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app , certainly not all, and has some of its own unique features for a better user experience.
+`FireNotes` is a simple note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app, certainly not all, and has some of its own unique features for a better user experience.
 
 
-### MVVM
-This app is built using the MVVM architecture. Every feature has a view and view model. The view reaches into the view model for state such that it can render itself, contains zero mutation logic, and only mutates the view model by calling methods on the view model. A simplified version of the folder feature would look like this:
+###
+
+### 🔨 MVVM
+This app is built using the MVVM architecture. Every feature has a view and view model. The view reaches into the view model for state such that it can render itself, contains zero mutation logic, and only mutates the view model by calling methods on it. A simplified version of the folder feature would look like this:
 ```swift
 struct Note: Identifiable {
   let id: UUID
@@ -39,10 +41,10 @@ struct FolderView: View {
     }
 }
 ```
-### Deep Linking 
+### 🔗 Deep Linking 
 One would like the ability to navigate into deeper and deeper nested views, simply by writing the state to get there. Deep linking is simply composing navigation.
 
-To achieve navigation combined MVVM, each feature uses an enum, called destination, and the view logic representing a `navigationDestination`, or when to popup a sheet, or display an alert, is as simple as binding to the view model's destination, checking for a matching case, then rendering the view you'd like. Even better, if that view needs its own view model, we could add that model as an associated value to the destination enum. Then, when we set our destination, we can link up any callbacks or sinks to the child view model. Our simplified Folder feature would could look as follows:
+To achieve navigation combined with MVVM, feature that use navigation use an enum, called destination. Then, the view logic representing a `navigationDestination`, or when to popup a sheet, or display an alert, is as simple as binding to the view model's destination, checking for a matching case, then rendering the view you'd like. Even better, if that view needs its own view model, we could add that model as an associated value to the destination enum. Then, when we set our destination, link up any callbacks or sinks to the child view model. Our simplified Folder feature would could look as follows:
 ```swift
 // MARK: -  ViewModel
 final class FolderViewModel: ObservableObject {
@@ -186,6 +188,6 @@ struct FolderView: View {
 }
 ```
 
-This pattern for navigation is highly inspired by PointFree's SwiftUI Navigation and Modern SwiftUI video series. To achieve this pattern, PointFree's SwiftUINavigation library is used, which implements the navigation APIs above and much more. 
+By modeling navigation this way, navigation logic in our view is very consistent and similar, our state can be modeled much safer than the combination of multiple pairs of boolean and optional values as seen with SwiftUI's vanilla navigation APIs. But most importantly, if designed properly, we can virtually model all navigation in a feature with a single source of truth.
 
-By modeling navigation this way, navigation logic in our view is very consistent and similar, our state can be modeled much safer than the combination of multiple pairs of boolean and optional values, and more importantly, if designed properly, we can virtually model navigation in our features with a single source of truth.
+This pattern for navigation is highly inspired by PointFree's SwiftUI Navigation and Modern SwiftUI video series. To achieve this pattern, PointFree's SwiftUINavigation library is used, which implements the navigation APIs above and much more. 
