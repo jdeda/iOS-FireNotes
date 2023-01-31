@@ -1,10 +1,27 @@
 # 🔥 FireNotes
 
-### About
-`FireNotes` is a simple note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app, certainly not all, and has some of its own unique features for a better user experience.
+<img src="GitAssets/banner_01.png" alt="drawing" width="650"/>
 
+## About
+`FireNotes` is a simple note taking app heavily based on Apple's `Notes` app. This app shares many features with Apple's app, certainly not all, and has some of its own unique features for a better user experience. 
 
-###
+## Features
+
+### Select, Rename, Delete
+Notes and folders can be selected, renamed, and deleted. Changes are persisted through the app.
+<div>
+<img src="GitAssets/03_select_AdobeExpress.gif" alt="drawing" width="250"/>
+<img src="GitAssets/04_rename_AdobeExpress.gif" width="250"/>
+<img src="GitAssets/05_delete_AdobeExpress.gif" width="250"/>
+</div>
+
+### Add, Search, Persist
+Notes and folders can be added, searched, and persisted through the app.
+<div>
+<img src="GitAssets/01_note_nav_edit_AdobeExpress.gif" alt="drawing" width="250"/>
+<img src="GitAssets/02_search_edit_AdobeExpress.gif" width="250"/>
+<img src="GitAssets/09_persistence_AdobeExpress.gif" width="250"/>
+</div>
 
 ### 🔨 MVVM
 This app is built using the MVVM architecture. Every feature has a view and view model. The view reaches into the view model for state such that it can render itself, contains zero mutation logic, and only mutates the view model by calling methods on it. A simplified version of the folder feature would look like this:
@@ -191,3 +208,7 @@ struct FolderView: View {
 By modeling navigation this way, navigation logic in our view is very consistent and similar, our state can be modeled much safer than the combination of multiple pairs of boolean and optional values as seen with SwiftUI's vanilla navigation APIs. But most importantly, if designed properly, we can virtually model all navigation in a feature with a single source of truth.
 
 This pattern for navigation is highly inspired by PointFree's SwiftUI Navigation and Modern SwiftUI video series. To achieve this pattern, PointFree's SwiftUINavigation library is used, which implements the navigation APIs above and much more. 
+
+### 🧰 Future State of the App
+- Possible persistence of data with both local device storage and cloud, supporting offline and online functionality
+- Possible implementation using `CoreData`
