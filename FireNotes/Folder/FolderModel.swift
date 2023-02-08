@@ -330,7 +330,6 @@ final class FolderViewModel: ObservableObject {
         self.folder.notes.remove(id: note.id)
       }
       deleteNotes([note])
-
     }
   }
   

@@ -9,7 +9,7 @@ struct FolderView: View {
   @Environment(\.isSearching) var isSearching
   
   var body: some View {
-    List(selection: $vm.selectedNotes) {
+    List(selection: vm.isEditing ? $vm.selectedNotes : .constant([])) {
       ForEach(vm.folder.notes) { note in
         NoteRow(
           note: note,

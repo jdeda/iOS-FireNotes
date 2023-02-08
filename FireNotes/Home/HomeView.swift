@@ -8,7 +8,7 @@ struct HomeView: View {
   @Environment(\.isSearching) var isSearching
   
   var body: some View {
-    List(selection: $vm.selectedFolders) {
+    List(selection: vm.isEditing ? $vm.selectedFolders : .constant([])) {
       Section {
         RowView(folder: vm.allFolder)
           .onTapGesture { vm.folderRowTapped(vm.allFolder) }
