@@ -20,7 +20,7 @@ struct SearchView: View {
           Text("Top Results")
             .font(.title2)
             .fontWeight(.medium)
-            .foregroundColor(light: .black, dark: .white)
+            .foregroundColor(Color(light: .black, dark: .white))
             . textCase(nil)
           
           Spacer()
@@ -42,7 +42,7 @@ struct SearchView: View {
           Text("All Results")
             .font(.title2)
             .fontWeight(.medium)
-            .foregroundColor(light: .black, dark: .white)
+            .foregroundColor(Color(light: .black, dark: .white))
             .textCase(nil)
           Spacer()
           Text("\(vm.notes.count) Found")

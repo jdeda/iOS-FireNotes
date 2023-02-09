@@ -24,37 +24,34 @@ struct CustomLabel: View {
   }
 }
 
-// Custom color mode view modifier
-fileprivate struct AdaptiveForegroundColorModifier: ViewModifier {
-    var lightModeColor: Color
-    var darkModeColor: Color
-    
-    @Environment(\.colorScheme) private var colorScheme
-    
-    func body(content: Content) -> some View {
-        content.foregroundColor(resolvedColor)
+extension UIColor {
+  convenience init(
+    light lightModeColor: UIColor,
+    dark darkModeColor: UIColor
+  ) {
+    self.init { traitCollection in
+      switch traitCollection.userInterfaceStyle {
+      case .light:
+        return lightModeColor
+      case .dark:
+        return darkModeColor
+      case .unspecified:
+        return lightModeColor
+      @unknown default:
+        return lightModeColor
+      }
     }
-    
-    private var resolvedColor: Color {
-        switch colorScheme {
-        case .light:
-            return lightModeColor
-        case .dark:
-            return darkModeColor
-        @unknown default:
-            return lightModeColor
-        }
-    }
+  }
 }
 
-extension View {
-    func foregroundColor(
-        light lightModeColor: Color,
-        dark darkModeColor: Color
-    ) -> some View {
-        modifier(AdaptiveForegroundColorModifier(
-            lightModeColor: lightModeColor,
-            darkModeColor: darkModeColor
-        ))
-    }
+extension Color {
+  init(
+    light lightModeColor: Color,
+    dark darkModeColor: Color
+  ) {
+    self.init(uiColor: .init(
+      light: .init(lightModeColor),
+      dark: .init(darkModeColor)
+    ))
+  }
 }

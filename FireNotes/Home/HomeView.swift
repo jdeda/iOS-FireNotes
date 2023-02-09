@@ -112,7 +112,7 @@ extension HomeView {
         Image(systemName: imageName)
           .foregroundColor(.accentColor)
         Text(folder.name)
-          .foregroundColor(light: .black, dark: .white)
+          .foregroundColor(Color(light: .black, dark: .white))
         Spacer()
         Text("\(folder.notes.count)")
           .foregroundColor(Color(UIColor.systemGray))
